@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Smart planner</string>
+    <string name="activity1_name">Задачи на сегодня</string>
+
 </resources>
