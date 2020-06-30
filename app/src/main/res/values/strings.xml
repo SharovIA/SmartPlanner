@@ -1,5 +1,32 @@
 <resources>
     <string name="app_name">Smart planner</string>
-    <string name="activity1_name">Задачи на сегодня</string>
 
+    <string name="tab_1_current_day">Current day</string>
+    <string name="tab_2_free_time">Free time</string>
+    <string name="tab_3_planning">Planning</string>
+    <string name="tab_4_info">Info</string>
+
+    <string name="fragment_1_name">Tasks for today</string>
+
+    <string name="activity_add_task">Add task</string>
+    <string name="activity_add_task_name">Name</string>
+    <string name="activity_add_task_date">Date</string>
+    <string name="activity_add_task_time_from">From</string>
+    <string name="activity_add_task_time_to">To</string>
+    <string name="activity_add_task_description">Description</string>
+    <string name="activity_add_task_location">Location</string>
+    <string name="activity_add_task_show_map">To show on the map</string>
+    <string name="activity_add_task_Importance">Importance:</string>
+    <string name="activity_add_task_snap">Snap contact</string>
+    <string name="activity_add_task_name_contact">Contact name</string>
+    <string name="activity_add_task_add_to_calendar">Add to calendar</string>
+    <string name="activity_add_task_save">Save</string>
+
+    <string-array name="importance">
+        <item></item>
+        <item>Important and urgent</item>
+        <item>Important, but not urgent</item>
+        <item>Not important, but urgent</item>
+        <item>Not important and not urgent</item>
+    </string-array>
 </resources>
