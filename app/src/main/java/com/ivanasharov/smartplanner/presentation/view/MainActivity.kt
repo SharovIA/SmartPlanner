@@ -4,16 +4,24 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
+import com.ivanasharov.smartplanner.BaseApplication
 import com.ivanasharov.smartplanner.R
+import com.ivanasharov.smartplanner.data.database.TaskDatabase
 import com.ivanasharov.smartplanner.presentation.MyPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
+
+  //  @Inject
+  //  lateinit var db : TaskDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+    //    db = BaseApplication.getComponent().getTaskDatabase()
         initViewPager2withFragments()
+
     }
 
     private fun initViewPager2withFragments() {

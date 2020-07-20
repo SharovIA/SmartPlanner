@@ -22,7 +22,8 @@
     <string name="activity_add_task_add_to_calendar">Add to calendar</string>
     <string name="activity_add_task_save">Save</string>
 
-    <string-array name="importance">
+    <string-array name="importance"
+        >
         <item></item>
         <item>Important and urgent</item>
         <item>Important, but not urgent</item>
