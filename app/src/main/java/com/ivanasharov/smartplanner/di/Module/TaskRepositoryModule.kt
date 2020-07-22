@@ -9,10 +9,12 @@ import dagger.Provides
 import javax.inject.Singleton
 
 
-@Module
+@Module(includes = arrayOf(DatabaseModule::class))
 class TaskRepositoryModule {
 
     @Singleton
     @Provides
     fun providesTaskRepository(taskDao: TaskDao): TaskRepository = TaskRepositoryImpl(taskDao)
+
+
 }

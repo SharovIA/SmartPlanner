@@ -11,6 +11,11 @@ import javax.inject.Inject
 
 class BaseApplication : Application() {
 
+    companion object{
+        private lateinit var baseApplication : BaseApplication
+
+        fun getInstance() : BaseApplication = baseApplication
+    }
 
 /*   companion object{
         private lateinit var component: AppComponent
@@ -22,7 +27,7 @@ class BaseApplication : Application() {
 */
     override fun onCreate() {
         super.onCreate()
-   //     baseApplication = this
+        baseApplication = this
 
         initializeComponent()
 
@@ -38,8 +43,8 @@ class BaseApplication : Application() {
         DI.appComponent = DaggerAppComponent.builder()
             .appContext(this)
           // .appComponent()
-            .taskReposiitiryModule()
-            .databaseModule(DatabaseModule(applicationContext))
+            //.taskReposiitiryModule()
+            //.databaseModule()
             .build()
     }
 }

@@ -1,6 +1,7 @@
 package com.ivanasharov.smartplanner.di.Module
 
 import android.app.Application
+import android.content.Context
 import com.ivanasharov.smartplanner.BaseApplication
 import com.ivanasharov.smartplanner.Utils.AndroidResourceProvider
 import com.ivanasharov.smartplanner.Utils.ResourceProvider

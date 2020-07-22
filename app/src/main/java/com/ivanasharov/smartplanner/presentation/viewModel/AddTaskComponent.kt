@@ -3,6 +3,10 @@ package com.ivanasharov.smartplanner.presentation.viewModel
 import androidx.lifecycle.ViewModel
 import com.ivanasharov.smartplanner.DI
 import com.ivanasharov.smartplanner.Utils.ResourceProvider
+import com.ivanasharov.smartplanner.data.TaskRepository
+import com.ivanasharov.smartplanner.data.TaskRepositoryImpl
+import com.ivanasharov.smartplanner.di.AppComponent
+import com.ivanasharov.smartplanner.di.Module.TaskRepositoryModule
 import com.ivanasharov.smartplanner.di.TaskScope
 import com.ivanasharov.smartplanner.di.ViewModelFactory
 import com.ivanasharov.smartplanner.di.ViewModelKey
@@ -48,4 +52,6 @@ abstract class AddTaskModule {
     @Binds
     @TaskScope
     abstract fun addTaskInteractor(addTaskInteractor: AddTaskInteractorImpl): AddTaskInteractor
+
+
 }

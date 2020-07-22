@@ -10,4 +10,6 @@ class AndroidResourceProvider @Inject constructor(
     override fun array(id: Int): Array<String> = context.resources.getStringArray(id)
 
     override fun string(id: Int): String = context.resources.getString(id)
+
+  //  override fun getContext(): Context = context
 }

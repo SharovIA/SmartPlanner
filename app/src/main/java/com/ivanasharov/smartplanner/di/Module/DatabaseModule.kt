@@ -4,6 +4,9 @@ import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.ivanasharov.smartplanner.BaseApplication
+import com.ivanasharov.smartplanner.DI
+import com.ivanasharov.smartplanner.Utils.AndroidResourceProvider
+import com.ivanasharov.smartplanner.Utils.ResourceProvider
 import com.ivanasharov.smartplanner.data.TaskRepository
 import com.ivanasharov.smartplanner.data.TaskRepositoryImpl
 import com.ivanasharov.smartplanner.data.dao.TaskDao
@@ -14,17 +17,18 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
-class DatabaseModule(val context: Context){
+class DatabaseModule{
   //  val taskDatabase : TaskDatabase = Room.databaseBuilder(context, TaskDatabase::class.java,
   //     "Task.db").build()
 
     //   databaseBuilder(baseApplication,
     //    TaskDatabase::class.java,
    // "Task.db").build()
+//    private val context : Context = DI.appComponent.getBaseApplication()
 
     @Singleton
     @Provides
-    fun providesTaskDatabase() : TaskDatabase {
+    fun providesTaskDatabase(context: Context) : TaskDatabase {
         return Room.databaseBuilder(context, TaskDatabase::class.java,
         "Task.db").build()
     }
