@@ -1,23 +1,18 @@
 package com.ivanasharov.smartplanner
 
 import android.app.Application
-import com.ivanasharov.smartplanner.data.database.TaskDatabase
-import com.ivanasharov.smartplanner.di.AppComponent
 import com.ivanasharov.smartplanner.di.DaggerAppComponent
 
-import com.ivanasharov.smartplanner.di.Module.ApplicationModule
-import com.ivanasharov.smartplanner.di.Module.DatabaseModule
-import javax.inject.Inject
 
 class BaseApplication : Application() {
 
-    companion object{
+ /*   companion object{
         private lateinit var baseApplication : BaseApplication
 
         fun getInstance() : BaseApplication = baseApplication
     }
 
-/*   companion object{
+   companion object{
         private lateinit var component: AppComponent
         private lateinit var baseApplication : BaseApplication
 
@@ -27,7 +22,7 @@ class BaseApplication : Application() {
 */
     override fun onCreate() {
         super.onCreate()
-        baseApplication = this
+    //    baseApplication = this
 
         initializeComponent()
 

@@ -18,13 +18,6 @@ import javax.inject.Singleton
 
 @Module
 class DatabaseModule{
-  //  val taskDatabase : TaskDatabase = Room.databaseBuilder(context, TaskDatabase::class.java,
-  //     "Task.db").build()
-
-    //   databaseBuilder(baseApplication,
-    //    TaskDatabase::class.java,
-   // "Task.db").build()
-//    private val context : Context = DI.appComponent.getBaseApplication()
 
     @Singleton
     @Provides

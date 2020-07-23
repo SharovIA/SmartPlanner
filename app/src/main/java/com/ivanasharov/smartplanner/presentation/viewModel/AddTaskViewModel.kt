@@ -15,22 +15,22 @@ import javax.inject.Inject
 
 class AddTaskViewModel @Inject constructor(
     private val resource: ResourceProvider,
-    private val addTaskInteractor : AddTaskInteractor
+    private val addTaskInteractor: AddTaskInteractor
 ) : BaseViewModel() {
 
-    var day  : Int
-    var month  : Int
-    var year  : Int
-    var hours1  : Int
-    var minutes1  : Int
-    var hours2  : Int
-    var minutes2  : Int
-    val taskUILiveData : TaskUI = TaskUI()
+    var day: Int
+    var month: Int
+    var year: Int
+    var hours1: Int
+    var minutes1: Int
+    var hours2: Int
+    var minutes2: Int
+    val taskUILiveData: TaskUI = TaskUI()
 
     init {
         val calendar = Calendar.getInstance()
         day = calendar.get(Calendar.DAY_OF_MONTH)
-        month = calendar.get(Calendar.MONTH)+1
+        month = calendar.get(Calendar.MONTH) + 1
         year = calendar.get(Calendar.YEAR)
         hours1 = calendar.get(Calendar.HOUR)
         minutes1 = calendar.get(Calendar.MINUTE)
@@ -50,26 +50,28 @@ class AddTaskViewModel @Inject constructor(
 
     }
 
-    fun updateFullDate() { taskUILiveData.date.value = "$day-$month-$year"
+    fun updateFullDate() {
+        taskUILiveData.date.value = "$day-$month-$year"
     }
 
-    fun updateFullTimeFrom() { taskUILiveData.timeFrom.value = getTextValue(hours1) +":" + getTextValue(minutes1)
+    fun updateFullTimeFrom() {
+        taskUILiveData.timeFrom.value = getTextValue(hours1) + ":" + getTextValue(minutes1)
     }
 
-    fun updateFullTimeTo() { taskUILiveData.timeTo.value = getTextValue(hours2) +":" + getTextValue(minutes2)
+    fun updateFullTimeTo() {
+        taskUILiveData.timeTo.value = getTextValue(hours2) + ":" + getTextValue(minutes2)
     }
 
 
-
-    private fun getTextValue(number :Int) : String{
-        when(number<10) {
+    private fun getTextValue(number: Int): String {
+        when (number < 10) {
             true -> return "0$number"
             false -> return "$number"
         }
     }
 
     fun save() {
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
             val taskDomain = ConvertTaskUIToTaskDomain(taskUILiveData).convert()
             addTaskInteractor.process(taskDomain)
         }

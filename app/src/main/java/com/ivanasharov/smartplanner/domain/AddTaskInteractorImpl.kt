@@ -21,14 +21,14 @@ class AddTaskInteractorImpl @Inject constructor(
     private val taskRepository: TaskRepository
 ) : AddTaskInteractor {
 
-    override fun process(task : TaskDomain) {
+    override fun process(task: TaskDomain) {
         //validator 1
         Log.d("test", "process")
         //saveTask and return id      //addCalendar
         if (task.isAddCalendar!!) {
             val isAddCalendar: Boolean = addCalendar(task)
         }
-        val isSaveTask : Int = saveTask(task)
+        val isSaveTask: Int = saveTask(task)
 
         //validator 2
 
@@ -52,7 +52,6 @@ class AddTaskInteractorImpl @Inject constructor(
         //TODO
         return false
     }
-
 
 
 }

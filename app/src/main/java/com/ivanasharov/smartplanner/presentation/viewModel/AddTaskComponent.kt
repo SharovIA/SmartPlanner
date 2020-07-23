@@ -27,15 +27,28 @@ interface AddTaskComponent {
     @Component.Builder
     interface Builder {
         @BindsInstance
-        fun resources(resourceProvider : ResourceProvider): Builder
+        fun setResources(resourceProvider: ResourceProvider): Builder
+
+        @BindsInstance
+        fun setTaskRepository(taskRepository: TaskRepository): Builder
 
         fun build(): AddTaskComponent
     }
 
-    companion object{
-        fun create() = with(DI.appComponent){
+    /*   companion object {
+           fun create() = with(DI.appComponent) {
+               DaggerAddTaskComponent.builder()
+                   .resources(resources())
+                   .getTaskRepository(getTaskRepository())
+                   .build()
+           }
+       }
+     */
+    companion object {
+        fun create() = with(DI.appComponent) {
             DaggerAddTaskComponent.builder()
-                .resources(resources())
+                .setResources(resources())
+                .setTaskRepository(getTaskRepository())
                 .build()
         }
     }
