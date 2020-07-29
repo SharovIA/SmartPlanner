@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 //1. addContact, return contacts
 
-//2. process:
+//2. execute:
 //validator 1
 //saveTask and return id      //addCalendar
 //isAddress and validator 2
@@ -21,19 +21,19 @@ class AddTaskInteractorImpl @Inject constructor(
     private val taskRepository: TaskRepository
 ) : AddTaskInteractor {
 
-    override fun process(task: TaskDomain) {
+    override fun execute(task: TaskDomain) {
         //validator 1
-        Log.d("test", "process")
+        Log.d("test", "execute")
         //saveTask and return id      //addCalendar
         if (task.isAddCalendar!!) {
             val isAddCalendar: Boolean = addCalendar(task)
         }
-        val isSaveTask: Int = saveTask(task)
+        val isSaveTask: Long? = saveTask(task)
 
         //validator 2
 
         //saveAddress
-        val isSaveAddress: Boolean = saveAddress(task)
+//        val isSaveAddress: Boolean = saveAddress(task)
 
 
     }
@@ -43,9 +43,8 @@ class AddTaskInteractorImpl @Inject constructor(
         return false
     }
 
-    private fun saveTask(task: TaskDomain): Int {
-        //TODO
-        return 0
+    private fun saveTask(task: TaskDomain): Long? {
+        return taskRepository.save(task)
     }
 
     private fun addCalendar(task: TaskDomain): Boolean {

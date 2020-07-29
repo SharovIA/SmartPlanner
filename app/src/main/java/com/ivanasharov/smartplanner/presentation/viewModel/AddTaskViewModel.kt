@@ -9,6 +9,8 @@ import com.ivanasharov.smartplanner.presentation.Model.TaskUI
 import com.ivanasharov.smartplanner.presentation.viewModel.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 import javax.inject.Inject
 
@@ -50,8 +52,15 @@ class AddTaskViewModel @Inject constructor(
 
     }
 
-    fun updateFullDate() {
+/*    fun updateFullDate() {
         taskUILiveData.date.value = "$day-$month-$year"
+    }*/
+fun updateFullDate() {
+    val date = GregorianCalendar(year, month, day)
+    taskUILiveData.date.value = date
+}
+    fun getFullDate() : String{
+      return "$day-$month-$year"
     }
 
     fun updateFullTimeFrom() {
@@ -73,7 +82,7 @@ class AddTaskViewModel @Inject constructor(
     fun save() {
         viewModelScope.launch(Dispatchers.IO) {
             val taskDomain = ConvertTaskUIToTaskDomain(taskUILiveData).convert()
-            addTaskInteractor.process(taskDomain)
+            addTaskInteractor.execute(taskDomain)
         }
 
         Log.d("test", "vm")

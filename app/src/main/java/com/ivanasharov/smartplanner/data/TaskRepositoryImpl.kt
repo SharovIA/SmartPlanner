@@ -2,15 +2,23 @@ package com.ivanasharov.smartplanner.data
 
 import com.ivanasharov.smartplanner.data.dao.TaskDao
 import com.ivanasharov.smartplanner.data.entity.Task
+import com.ivanasharov.smartplanner.domain.TaskDomain
 import javax.inject.Inject
 
 class TaskRepositoryImpl @Inject constructor(
     private val taskDao : TaskDao
 ) : TaskRepository {
+    override fun save(taskDomain: TaskDomain): Long? {
+        val task : Task = ConvertTaskDomainToTaskData().convert(taskDomain)
+        return taskDao.insert(task)
+    }
+
+    //mapping
+    //
+    //
 
 
-
-    override fun getAll(): List<Task> {
+/*    override fun getAll(): List<Task> {
         return taskDao.getAll()
     }
 
@@ -28,5 +36,5 @@ class TaskRepositoryImpl @Inject constructor(
 
     override fun delete(task: Task) {
         taskDao.delete(task)
-    }
+    }*/
 }

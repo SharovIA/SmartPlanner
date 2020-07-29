@@ -67,7 +67,8 @@ class AddTaskActivity : AppCompatActivity() {
     private fun setObserve() {
         taskViewModel.taskUILiveData.date.observe(this, Observer{
             it?.let{
-                dateTextViewATActivity.text = taskViewModel.taskUILiveData.date.value
+               // dateTextViewATActivity.text = taskViewModel.taskUILiveData.date.value
+                dateTextViewATActivity.text = taskViewModel.getFullDate()
             }
         })
 

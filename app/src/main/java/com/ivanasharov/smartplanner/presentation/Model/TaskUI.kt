@@ -1,11 +1,14 @@
 package com.ivanasharov.smartplanner.presentation.Model
 
 import androidx.lifecycle.MutableLiveData
+import java.util.*
 
 data class TaskUI(
         val name : MutableLiveData<String?> = MutableLiveData(),
         val description : MutableLiveData<String?> = MutableLiveData(),
-        val date  : MutableLiveData<String?> = MutableLiveData(),
+       // val date  : MutableLiveData<Calendar> = MutableLiveData(),
+        //val date  : MutableLiveData<String?> = MutableLiveData(),
+        val date  : MutableLiveData<GregorianCalendar> = MutableLiveData(),
         val timeFrom  : MutableLiveData<String?> = MutableLiveData(),
         val timeTo  : MutableLiveData<String?> = MutableLiveData(),
         val importance : MutableLiveData<String?> = MutableLiveData(),
