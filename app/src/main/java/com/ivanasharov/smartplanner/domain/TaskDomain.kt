@@ -15,5 +15,6 @@ data class TaskDomain(
     val isShowMap : Boolean?,
     val isAddContact : Boolean?,
     val contact : String?,
-    val isAddCalendar : Boolean?
+    val isAddCalendar : Boolean?,
+    val status : Boolean?
 )

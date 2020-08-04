@@ -22,7 +22,7 @@ data class Task(
     val importance : Int = 0,
     val isLocation: Boolean = false,
     @Embedded
-    val address: Address,
+    val address: Address?,
     val isShowMap: Boolean? = false,
     val contact : String? = null,
     val status : Boolean = false

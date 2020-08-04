@@ -12,6 +12,8 @@ import com.ivanasharov.smartplanner.di.ViewModelFactory
 import com.ivanasharov.smartplanner.di.ViewModelKey
 import com.ivanasharov.smartplanner.domain.AddTaskInteractor
 import com.ivanasharov.smartplanner.domain.AddTaskInteractorImpl
+import com.ivanasharov.smartplanner.domain.CurrentTasksInteractor
+import com.ivanasharov.smartplanner.domain.CurrentTasksInteractorImpl
 import dagger.Binds
 import dagger.BindsInstance
 import dagger.Component
@@ -63,8 +65,17 @@ abstract class AddTaskModule {
     abstract fun addTaskViewModel(viewModel: AddTaskViewModel): ViewModel
 
     @Binds
+    @IntoMap
+    @ViewModelKey(CurrentDayViewModel::class)
+    abstract fun currentDayViewModel(viewModel: CurrentDayViewModel): ViewModel
+
+
+
+    @Binds
     @TaskScope
     abstract fun addTaskInteractor(addTaskInteractor: AddTaskInteractorImpl): AddTaskInteractor
 
-
+    @Binds
+    @TaskScope
+    abstract fun currentDayInteractor(currentTaskInteractor : CurrentTasksInteractorImpl): CurrentTasksInteractor
 }

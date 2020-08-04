@@ -22,8 +22,15 @@
     <string name="activity_add_task_add_to_calendar">Add to calendar</string>
     <string name="activity_add_task_save">Save</string>
 
-    <string-array name="importance"
-        >
+    <string name="sunday">Sunday</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+
+    <string-array name="importance">
         <item></item>
         <item>Important and urgent</item>
         <item>Important, but not urgent</item>

@@ -20,7 +20,7 @@ class ConvertTaskUIToTaskDomain(
             taskUI.date.value, timeFrom,  timeTo,
             category, taskUI.address.value, taskUI.isShowMap.value,
             taskUI.isSnapContact.value, taskUI.contact.value,
-            taskUI.isAddToCalendar.value)
+            taskUI.isAddToCalendar.value, taskUI.status.value)
     }
 
     private fun convertTime(strTime : String?): GregorianCalendar? {

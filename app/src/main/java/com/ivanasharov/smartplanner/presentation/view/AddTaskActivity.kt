@@ -2,6 +2,7 @@ package com.ivanasharov.smartplanner.presentation.view
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import androidx.activity.viewModels
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.Observer
 import com.ivanasharov.smartplanner.DI
@@ -44,6 +46,7 @@ class AddTaskActivity : AppCompatActivity() {
         saveButton.setOnClickListener {
             getDataFromActivity()
             taskViewModel.save()
+            finish()
         }
     }
 

@@ -48,6 +48,7 @@ dependencies {
     implementation libs.material
     implementation libs.fragment
     implementation libs.viewpager
+    implementation libs.recyclerView
 
     implementation libs.lifecycleViewModel
     implementation libs.lifecycleLiveData
