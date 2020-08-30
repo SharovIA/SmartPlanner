@@ -16,11 +16,14 @@ class ConvertTaskUIToTaskDomain(
         val category = convertCategory(taskUI.importance.value)
         val timeFrom = convertTime(taskUI.timeFrom.value)
         val timeTo = convertTime(taskUI.timeTo.value)
+        //var status : Boolean
+          //  if (taskUI.status.value != null) status = taskUI.status.value
+
         return TaskDomain(taskUI.name.value, taskUI.description.value,
             taskUI.date.value, timeFrom,  timeTo,
             category, taskUI.address.value, taskUI.isShowMap.value,
             taskUI.isSnapContact.value, taskUI.contact.value,
-            taskUI.isAddToCalendar.value, taskUI.status.value)
+            taskUI.isAddToCalendar.value, taskUI.status.value as Boolean)
     }
 
     private fun convertTime(strTime : String?): GregorianCalendar? {

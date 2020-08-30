@@ -29,6 +29,15 @@
     <string name="thursday">Thursday</string>
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
+    <string name="completed">Completed</string>
+    <string name="completedTasks">tasks</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="importance">Importance:</string>
+    <string name="tied_contact">Tied contact:</string>
+    <string name="address">Address:</string>
+    <string name="not_done">Not done</string>
+    <string name="done">Done</string>
 
     <string-array name="importance">
         <item></item>

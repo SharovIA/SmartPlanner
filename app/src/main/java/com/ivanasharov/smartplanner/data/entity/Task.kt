@@ -10,7 +10,7 @@ import java.sql.Time
 import java.util.*
 
 @Entity
-@TypeConverters(GregorianCalendarConverter::class)
+
 data class Task(
     @PrimaryKey(autoGenerate = true)
     val id : Long?,

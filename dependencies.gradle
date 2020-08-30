@@ -1,10 +1,12 @@
 ext.versions = [
         dagger : "2.28",
-        lifecycle : "2.2.0"
+        lifecycle : "2.2.0",
+        room : "2.3.0-alpha02"
 ]
 
 ext.libs = [
         appcompat                  : "androidx.appcompat:appcompat:1.1.0",
+     //   coreKtx                    : "androidx.core:core-ktx:1.3.0",
         coreKtx                    : "androidx.core:core-ktx:1.3.0",
         constraintLayout           :"androidx.constraintlayout:constraintlayout:1.1.3",
         material                   : "com.google.android.material:material:1.1.0-alpha07",
@@ -24,6 +26,16 @@ ext.libs = [
 
         //Dagger
         dagger                     : "com.google.dagger:dagger:$versions.dagger",
-        daggerCompiler             :"com.google.dagger:dagger-compiler:$versions.dagger"
+        daggerCompiler             :"com.google.dagger:dagger-compiler:$versions.dagger",
+
+        //Room room : "2.2.5"
+//        roomRuntime                : "android.arch.persistence.room-runtime:$versions.room",
+  //      roomCompile                : "android.arch.persistence.room-compiler:$versions.room",
+        // optional - Kotlin Extensions and Coroutines support for Room
+    //    roomKtx                    : "androidx.room:room-ktx:$versions.room"
+        roomRuntime                : "androidx.room:room-runtime:$versions.room",
+        roomCompile                : "androidx.room:room-compiler:$versions.room",
+        // optional - Kotlin Extensions and Coroutines support for Room
+        roomKtx                    : "androidx.room:room-ktx:$versions.room"
 
 ]

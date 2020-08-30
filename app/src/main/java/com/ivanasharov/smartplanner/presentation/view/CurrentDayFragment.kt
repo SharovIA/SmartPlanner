@@ -27,13 +27,6 @@ class CurrentDayFragment : Fragment() {
     private val component by lazy { AddTaskComponent.create()}
 
     private val currentDayViewModel by viewModels<CurrentDayViewModel>{ component.viewModelFactory()}
-//    private val currentDayViewModel: CurrentDayViewModel by viewModels()
-
-    //private val taskViewModel by viewModels<CurrentDayViewModel>{ component.viewModelFactory()}
-/*    companion object {
-        fun newInstance() = CurrentDayFragment()
-    }*/
-  //  private var recyclerView: RecyclerView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,23 +39,31 @@ class CurrentDayFragment : Fragment() {
         tasksRecyclerView?.layoutManager = LinearLayoutManager(activity)
         tasksRecyclerView?.setHasFixedSize(true)
         val arrayList = ArrayList<TaskUI>()
-        var adapter = CurrentTasksAdapter(arrayList)
+/*        var adapter = CurrentTasksAdapter(arrayList, requireContext(), {
+            val status = currentDayViewModel.currentTasks.value?.get(it)?.status?.value
+            if (status!=null && status)
+                currentDayViewModel.currentTasks.value?.get(it)?.status?.value = false
+            else currentDayViewModel.currentTasks.value?.get(it)?.status?.value =true
+
+        })*/
+        var adapter = CurrentTasksAdapter(arrayList, requireContext()) {
+            currentDayViewModel.changeStatus(it)
+        }
         tasksRecyclerView?.adapter = adapter
 
         currentDayViewModel.currentTasks.observe(this,  Observer<ArrayList<TaskUI>> {
             adapter.addTasksArrayList(it)
         })
 
+        tasksRecyclerView?.adapter
         return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-   //     viewModel = ViewModelProviders.of(this).get(CurrentDayViewModel::class.java)
-        // TODO: Use the ViewModel
         setObserve()
 
-        addTaskForCurrentDayButton.setOnClickListener{ Log.d("test", "HELLO!")
+        addTaskForCurrentDayButton.setOnClickListener{
             startActivity(Intent(requireContext(), AddTaskActivity::class.java))
         }
     }
@@ -71,6 +72,13 @@ class CurrentDayFragment : Fragment() {
         currentDayViewModel.date.observe(this, Observer{
             it?.let{
                 currentDateTextView.text = currentDayViewModel.date.value
+            }
+        })
+
+        currentDayViewModel.statusOfTasks.observe(this, Observer{
+            it?.let{
+                countTasksTextView.text = getString(R.string.completed) +" " + currentDayViewModel.statusOfTasks.value + " " + getString(
+                                    R.string.completedTasks)
             }
         })
     }

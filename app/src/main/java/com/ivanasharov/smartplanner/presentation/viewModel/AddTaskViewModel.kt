@@ -49,6 +49,7 @@ class AddTaskViewModel @Inject constructor(
         taskUILiveData.isSnapContact.value = false
         taskUILiveData.contact.value = null
         taskUILiveData.isAddToCalendar.value = false
+        taskUILiveData.status.value = false
 
     }
 

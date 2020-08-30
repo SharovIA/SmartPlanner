@@ -10,7 +10,7 @@ class ConvertTaskDomainToTaskData{
         return Task(null,
             taskDomian.name, taskDomian.description, taskDomian.date,
             taskDomian.timeFrom, taskDomian.timeTo, taskDomian.importance,
-            false, getAddress(), taskDomian.isShowMap, taskDomian.contact, false)
+            false, getAddress(), taskDomian.isShowMap, taskDomian.contact, taskDomian.status)
 
     }
 

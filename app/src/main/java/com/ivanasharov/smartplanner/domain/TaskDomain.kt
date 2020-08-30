@@ -5,8 +5,6 @@ import java.util.*
 data class TaskDomain(
     val name : String?,
     val description : String?,
-   // val date : String?,
- //   val date : Calendar?,
     val date : GregorianCalendar?,
     val timeFrom : GregorianCalendar?,
     val timeTo : GregorianCalendar?,
@@ -16,5 +14,5 @@ data class TaskDomain(
     val isAddContact : Boolean?,
     val contact : String?,
     val isAddCalendar : Boolean?,
-    val status : Boolean?
+    var status : Boolean
 )

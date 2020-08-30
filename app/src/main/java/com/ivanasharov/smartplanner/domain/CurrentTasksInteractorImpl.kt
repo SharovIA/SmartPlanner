@@ -2,8 +2,8 @@ package com.ivanasharov.smartplanner.domain
 
 import android.util.Log
 import com.ivanasharov.smartplanner.data.TaskRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -13,7 +13,13 @@ class CurrentTasksInteractorImpl @Inject constructor(
 ) : CurrentTasksInteractor {
 
     private val calendar = Calendar.getInstance()
-    private lateinit var tasksOfCurrentDay : ArrayList<TaskDomain>
+    private var tasksOfCurrentDay : ArrayList<TaskDomain> = ArrayList()
+    private val date : GregorianCalendar
+
+    init {
+      date = GregorianCalendar(calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.DAY_OF_MONTH))
+    }
 
     override fun getCurrentDayOfWeek(): Int {
         return calendar.get(Calendar.DAY_OF_WEEK)
@@ -26,23 +32,26 @@ class CurrentTasksInteractorImpl @Inject constructor(
     }
 
     override fun getCountTasksAll(): Int? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return tasksOfCurrentDay.size
     }
 
     override fun getCountFinishedTasks(): Int? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        var count = 0
+        tasksOfCurrentDay.forEach {
+            if (it.status!= null && it.status)
+                count++
+        }
+        return count
     }
 
-/*    override suspend fun getCurrentTasks(): ArrayList<TaskDomain> {
-        tasksOfCurrentDay = taskRepository.getListCurrentTasks(calendar)
-        return tasksOfCurrentDay
-    }*/
-    override fun getCurrentTasks(): Flow<ArrayList<TaskDomain>> = flow {
-    //tasksOfCurrentDay =
-    val s = taskRepository.getListCurrentTasks(calendar)
-    emit(s)
-    //return tasksOfCurrentDay
-}
+/*    override fun getCurrentTasks(): Flow<ArrayList<TaskDomain>> =
+        taskRepository.getListCurrentTasks(calendar)*/
+
+    override fun getCurrentTasks(): Flow<ArrayList<TaskDomain>> = taskRepository.getListCurrentTasks(date).map {
+            this.tasksOfCurrentDay = it
+        it
+        }
+
 
     private fun getTextValue(number: Int): String {
         when (number < 10) {
@@ -50,4 +59,21 @@ class CurrentTasksInteractorImpl @Inject constructor(
             false -> return "$number"
         }
     }
+
+/*    override fun changeTask(index: Int) {
+        val task = tasksOfCurrentDay[index]
+        task.status = !task.status
+        taskRepository.changeTask(task)
+
+        Log.d("test", "check: ")
+    }*/
+
+    override fun changeTask(index: Int) {
+        val task = tasksOfCurrentDay[index]
+        task.status = !task.status
+        taskRepository.changeTask(task)
+
+        Log.d("test", "check: ")
+    }
+
 }

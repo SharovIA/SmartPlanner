@@ -69,6 +69,11 @@ abstract class AddTaskModule {
     @ViewModelKey(CurrentDayViewModel::class)
     abstract fun currentDayViewModel(viewModel: CurrentDayViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(ShowTaskViewModel::class)
+    abstract fun showTaskViewModel(viewModel: ShowTaskViewModel): ViewModel
+
 
 
     @Binds

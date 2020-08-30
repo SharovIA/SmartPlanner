@@ -28,6 +28,7 @@ class CurrentDayViewModel @Inject constructor(
 
     val currentTasks : MutableLiveData<ArrayList<TaskUI>> = MutableLiveData()
     val date  : MutableLiveData<String> = MutableLiveData()
+    val statusOfTasks  : MutableLiveData<String?> = MutableLiveData()
     val countTasksAll  : MutableLiveData<Int> = MutableLiveData()
     val countFinishedTasks  : MutableLiveData<Int> = MutableLiveData()
 
@@ -35,18 +36,26 @@ class CurrentDayViewModel @Inject constructor(
         getData()
     }
 
-    fun getData() {
+    private fun getData() {
         val tasks = ArrayList<TaskUI>()
         viewModelScope.launch(Dispatchers.IO) {
             currentTasksInteractor.getCurrentTasks().collect{
+                if(tasks.size !=0) tasks.clear()
                 it.forEach {value ->
                     tasks.add(ConvertTaskDomainToTaskUI().convert(value))
                 }
                 currentTasks.postValue(tasks)
+                statusOfTasks.postValue("${getCountFinishedTasks()}/${getCountTasks()}")
+             //   countTasksAll.postValue( getCountTasks())
+              //  countFinishedTasks.postValue(getCountFinishedTasks())
             }
         }
         date.value = getDate()
     }
+
+    private fun getCountFinishedTasks(): Int? =currentTasksInteractor.getCountFinishedTasks()
+
+    private fun getCountTasks(): Int? = currentTasksInteractor.getCountTasksAll()
 
 
     private fun getDate(): String? {
@@ -69,5 +78,12 @@ class CurrentDayViewModel @Inject constructor(
             7 -> return resource.string(R.string.saturday)
             else -> return "Day of the week is undefined"
         }
+    }
+
+    fun changeStatus(index : Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            currentTasksInteractor.changeTask(index)
+        }
+        Log.d("test", "check: ")
     }
 }
