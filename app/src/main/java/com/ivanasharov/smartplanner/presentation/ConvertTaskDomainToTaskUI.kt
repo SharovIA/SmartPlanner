@@ -20,7 +20,6 @@ class ConvertTaskDomainToTaskUI {
         taskUI.timeTo.postValue(convertTime( taskDomain.timeTo))
         taskUI.importance.postValue(ConvertImportance(taskDomain.importance))
         taskUI.address.postValue( taskDomain.address)
-        taskUI.isShowMap.postValue( taskDomain.isShowMap)
         taskUI.status.postValue( taskDomain.status)
         return taskUI
     }

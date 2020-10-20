@@ -21,7 +21,7 @@ class ConvertTaskUIToTaskDomain(
 
         return TaskDomain(taskUI.name.value, taskUI.description.value,
             taskUI.date.value, timeFrom,  timeTo,
-            category, taskUI.address.value, taskUI.isShowMap.value,
+            category, taskUI.address.value,
             taskUI.isSnapContact.value, taskUI.contact.value,
             taskUI.isAddToCalendar.value, taskUI.status.value as Boolean)
     }

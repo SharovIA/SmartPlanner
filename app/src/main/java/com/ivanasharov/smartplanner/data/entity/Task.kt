@@ -21,18 +21,7 @@ data class Task(
     val timeTo: GregorianCalendar? = null,
     val importance : Int = 0,
     val isLocation: Boolean = false,
-    @Embedded
-    val address: Address?,
-    val isShowMap: Boolean? = false,
+    val address: String?,
     val contact : String? = null,
     val status : Boolean = false
-){
-
-    data class Address(
-        val country : String? = null,
-        val region : String? =null,
-        val town : String? = null,
-        val street : String? = null,
-        val house : String? = null
-    )
-}
+)

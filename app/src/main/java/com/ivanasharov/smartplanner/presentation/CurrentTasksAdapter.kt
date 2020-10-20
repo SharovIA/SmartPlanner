@@ -74,7 +74,6 @@ class CurrentTasksAdapter(
         intent.putExtra("timeTo", taskItem.timeTo.value)
         intent.putExtra("importance", taskItem.importance.value)
         intent.putExtra("address", taskItem.address.value)
-        intent.putExtra("isShowMap", taskItem.isShowMap.value)
         intent.putExtra("isSnapContact", taskItem.isSnapContact.value)
         intent.putExtra("contact", taskItem.contact.value)
         intent.putExtra("status", taskItem.status.value)

@@ -11,7 +11,6 @@ data class TaskUI(
         val timeTo  : MutableLiveData<String?> = MutableLiveData(),
         val importance : MutableLiveData<String?> = MutableLiveData(),
         val address : MutableLiveData<String?> = MutableLiveData(),
-        val isShowMap : MutableLiveData<Boolean> = MutableLiveData(),
         val isSnapContact : MutableLiveData<Boolean> = MutableLiveData(),
         val contact : MutableLiveData<String?> = MutableLiveData(),
         val isAddToCalendar : MutableLiveData<Boolean> = MutableLiveData(),

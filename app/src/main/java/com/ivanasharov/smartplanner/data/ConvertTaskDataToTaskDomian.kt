@@ -15,10 +15,10 @@ class ConvertTaskDataToTaskDomian {
 
         arrayListTasksData.forEach {
             address = null
-            if(it.isLocation && it.address != null)
-                address = getAddress(it.address)
-            taskDomain = TaskDomain(it.name, it.description, it.date,
-                it.timeFrom, it.timeTo, it.importance, address, it.isShowMap,
+//           if(it.isLocation && it.address != null)
+//                address = getAddress(it.address)
+             taskDomain = TaskDomain(it.name, it.description, it.date,
+                it.timeFrom, it.timeTo, it.importance, it.address,
                 false, it.contact, false, it.status)
             arrayListTaskDomain.add(taskDomain)
         }
@@ -26,8 +26,8 @@ class ConvertTaskDataToTaskDomian {
 
     }
 
-    private fun getAddress(address: Task.Address): String? {
+/*    private fun getAddress(address: Task.Address): String? {
         return "${address.country}, ${address.region}, ${address.town}, " +
                 "${address.street}, ${address.house}"
-    }
+    }*/
 }

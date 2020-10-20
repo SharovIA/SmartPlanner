@@ -55,7 +55,6 @@ class AddTaskActivity : AppCompatActivity() {
         taskViewModel.taskUILiveData.description.value = descriptionEditTextATActivity.text.toString()
         taskViewModel.taskUILiveData.address.value = addressEditTextATActivity.text.toString()
         taskViewModel.taskUILiveData.importance.value = importanceSpinner.selectedItem.toString()
-        taskViewModel.taskUILiveData.isShowMap.value = showMapCheckBox.isChecked
         taskViewModel.taskUILiveData.isAddToCalendar.value = addCalendarAndroidCheckBox.isChecked
         taskViewModel.taskUILiveData.isSnapContact.value = addContactCheckBox.isChecked
     }

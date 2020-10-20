@@ -10,7 +10,6 @@ data class TaskDomain(
     val timeTo : GregorianCalendar?,
     val importance: Int,
     val address: String?,
-    val isShowMap : Boolean?,
     val isAddContact : Boolean?,
     val contact : String?,
     val isAddCalendar : Boolean?,

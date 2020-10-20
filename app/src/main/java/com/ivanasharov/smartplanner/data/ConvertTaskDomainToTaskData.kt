@@ -10,12 +10,15 @@ class ConvertTaskDomainToTaskData{
         return Task(null,
             taskDomian.name, taskDomian.description, taskDomian.date,
             taskDomian.timeFrom, taskDomian.timeTo, taskDomian.importance,
-            false, getAddress(), taskDomian.isShowMap, taskDomian.contact, taskDomian.status)
+            false, taskDomian.address, taskDomian.contact, taskDomian.status)
 
     }
 
-    private fun getAddress(): Task.Address {
+/*    private fun getAddress(strAddress: String?): Task.Address {
         val address = Task.Address()
+        if (strAddress != null){
+           // val parts = strTime?.split(":")
+        }
         return address
-    }
+    }*/
 }

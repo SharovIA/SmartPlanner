@@ -39,7 +39,6 @@ class ShowTaskViewModel @Inject constructor(): BaseViewModel() {
         taskUI.timeTo.value = intent.getStringExtra("timeTo")
         taskUI.importance.value = intent.getStringExtra("importance")
         taskUI.address.value = intent.getStringExtra("address")
-        taskUI.isShowMap.value = intent.getBooleanExtra("isShowMap", false)
         taskUI.isSnapContact.value = intent.getBooleanExtra("isSnapContact", false)
         taskUI.contact.value = intent.getStringExtra("contact")
         taskUI.status.value = intent.getBooleanExtra("status", false)

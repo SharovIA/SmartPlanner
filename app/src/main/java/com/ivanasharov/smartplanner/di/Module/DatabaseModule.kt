@@ -3,6 +3,7 @@ package com.ivanasharov.smartplanner.di.Module
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
+import androidx.room.migration.Migration
 import com.ivanasharov.smartplanner.BaseApplication
 import com.ivanasharov.smartplanner.DI
 import com.ivanasharov.smartplanner.Utils.AndroidResourceProvider
@@ -29,6 +30,7 @@ class DatabaseModule{
     @Singleton
     @Provides
     fun providesTaskDao(taskDatabase: TaskDatabase): TaskDao { return taskDatabase.getTeskDao()}
+
 
 //class DatabaseModule(baseApplication: BaseApplication) {
 

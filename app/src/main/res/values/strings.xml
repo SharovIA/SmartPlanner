@@ -38,6 +38,9 @@
     <string name="address">Address:</string>
     <string name="not_done">Not done</string>
     <string name="done">Done</string>
+    <string name="showMap">To show on the map</string>
+    <string name="google_android_map_api_key">AIzaSyDcd6upxUfS8B8M1eRUMAvVY9BRyAz7Deg</string>
+    <string name="hide_map">Hide map</string>
 
     <string-array name="importance">
         <item></item>
