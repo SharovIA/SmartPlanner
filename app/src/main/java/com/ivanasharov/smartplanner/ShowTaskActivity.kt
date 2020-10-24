@@ -206,7 +206,10 @@ class ShowTaskActivity : AppCompatActivity(), OnMapReadyCallback {
 
         observerContact = Observer{
             it?.let{
-                    snapContactTextViewShowActivity.text = getString(R.string.tied_contact) + it
+                if (it.isNotEmpty())
+                    labelSnapContactTextViewShowActivity.visibility = View.VISIBLE
+                    snapContactTextViewShowActivity.visibility = View.VISIBLE
+                    snapContactTextViewShowActivity.text = it
             }
         }
 

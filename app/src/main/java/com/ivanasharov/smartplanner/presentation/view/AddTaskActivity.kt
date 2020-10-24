@@ -1,27 +1,34 @@
 package com.ivanasharov.smartplanner.presentation.view
 
+import android.Manifest
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.Intent
+import android.content.pm.PackageManager
+import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.util.Log
-import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.DatePicker
 import androidx.activity.viewModels
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.lifecycle.ViewModelProviders
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.ivanasharov.smartplanner.Contact
 import com.ivanasharov.smartplanner.DI
 import com.ivanasharov.smartplanner.R
 import com.ivanasharov.smartplanner.presentation.viewModel.AddTaskComponent
 import com.ivanasharov.smartplanner.presentation.viewModel.AddTaskViewModel
 import kotlinx.android.synthetic.main.activity_add_task.*
 import java.util.*
+import kotlin.collections.ArrayList
+
 
 class AddTaskActivity : AppCompatActivity() {
     private val component by lazy {AddTaskComponent.create()}
+
+    private val TAG = "CONTACT"
+    private val PERMISSIONS_REQUEST_READ_CONTACTS = 10
 
   //  private val taskViewModel by lazy {ViewModelProviders.of(this).get(AddTaskViewModel::class.java)}
     private val taskViewModel by viewModels<AddTaskViewModel>{ component.viewModelFactory()}
@@ -48,6 +55,91 @@ class AddTaskActivity : AppCompatActivity() {
             taskViewModel.save()
             finish()
         }
+
+        addContactCheckBox.setOnClickListener {
+            getListOfContacts()
+        }
+    }
+
+    private fun getListOfContacts() {
+        // Проверка разрешения
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_CONTACTS) ==
+            PackageManager.PERMISSION_GRANTED)
+        {
+            // Разрешения чтения контактов имеются
+            Log.d(TAG, "Permission is granted")
+            val listContacts = readContacts()
+
+            val listOfItems = ArrayList<String>()
+            for (contact in listContacts){
+                listOfItems.add(contact.getData())
+            }
+            // Create an ArrayAdapter using a simple spinner layout and languages array
+            val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, listOfItems)
+            // Set layout to use when the list of choices appear
+            aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Set Adapter to Spinner
+            contactSpinner!!.adapter = aa
+
+
+            Log.d(TAG, "ok")
+        } else {
+            // Разрешений нет
+            Log.d(TAG, "Permission is not granted")
+
+            // Запрос разрешений
+            Log.d(TAG, "Request permissions")
+
+            val permissions: Array<String> = arrayOf( Manifest.permission.READ_CONTACTS)
+
+            ActivityCompat.requestPermissions(this, permissions,
+                PERMISSIONS_REQUEST_READ_CONTACTS)
+        }
+    }
+
+    private fun readContacts() : ArrayList<Contact> {
+        val listContacts = ArrayList<Contact>()
+        val cursor = contentResolver.query(
+            ContactsContract.Contacts.CONTENT_URI,
+            null, null, null, null);
+
+        if(cursor != null && cursor.count > 0) {
+            while(cursor.moveToNext()) {
+                val id = cursor.getString(
+                        cursor.getColumnIndex(
+                            ContactsContract.Contacts._ID))
+                val name = cursor.getString(
+                        cursor.getColumnIndex(
+                            ContactsContract.Contacts
+                                .DISPLAY_NAME))
+                val has_phone = cursor.getString(
+                        cursor.getColumnIndex(
+                            ContactsContract.Contacts
+                                .HAS_PHONE_NUMBER))
+                var phone = ""
+                if (Integer.parseInt(has_phone) > 0) {
+                    // extract phone number
+                    val args: Array<String> = arrayOf(id)
+                   val pCur = contentResolver.query(
+                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                        args, null)
+
+                    if (pCur != null) {
+                        while (pCur.moveToNext()) {
+                            phone = pCur.getString (pCur.getColumnIndex(
+                                        ContactsContract.CommonDataKinds.Phone.NUMBER))
+                        }
+                        pCur.close()
+                    }
+                }
+
+                val contact = Contact(id, name, phone)
+                listContacts.add(contact)
+            }
+        }
+        return listContacts
     }
 
     private fun getDataFromActivity(){
@@ -57,6 +149,8 @@ class AddTaskActivity : AppCompatActivity() {
         taskViewModel.taskUILiveData.importance.value = importanceSpinner.selectedItem.toString()
         taskViewModel.taskUILiveData.isAddToCalendar.value = addCalendarAndroidCheckBox.isChecked
         taskViewModel.taskUILiveData.isSnapContact.value = addContactCheckBox.isChecked
+        if (addContactCheckBox.isChecked)
+            taskViewModel.taskUILiveData.contact.value = contactSpinner.selectedItem.toString()
     }
 
     private fun initSpinner() {
