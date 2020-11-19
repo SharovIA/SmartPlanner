@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.pm.PackageManager
-import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -15,23 +14,23 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.ivanasharov.smartplanner.Contact
-import com.ivanasharov.smartplanner.DI
 import com.ivanasharov.smartplanner.R
-import com.ivanasharov.smartplanner.presentation.viewModel.AddTaskComponent
 import com.ivanasharov.smartplanner.presentation.viewModel.AddTaskViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_add_task.*
 import java.util.*
+import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-
+@AndroidEntryPoint
 class AddTaskActivity : AppCompatActivity() {
-    private val component by lazy {AddTaskComponent.create()}
+ //  private val component by lazy {AddTaskComponent.create()}
 
     private val TAG = "CONTACT"
     private val PERMISSIONS_REQUEST_READ_CONTACTS = 10
 
-  //  private val taskViewModel by lazy {ViewModelProviders.of(this).get(AddTaskViewModel::class.java)}
-    private val taskViewModel by viewModels<AddTaskViewModel>{ component.viewModelFactory()}
+    private val taskViewModel : AddTaskViewModel by viewModels()
+ //   private val taskViewModel by viewModels<AddTaskViewModel>{ component.viewModelFactory()}
     private lateinit var spinnerAdapter :ArrayAdapter<CharSequence>
 
 
@@ -163,7 +162,6 @@ class AddTaskActivity : AppCompatActivity() {
     private fun setObserve() {
         taskViewModel.taskUILiveData.date.observe(this, Observer{
             it?.let{
-               // dateTextViewATActivity.text = taskViewModel.taskUILiveData.date.value
                 dateTextViewATActivity.text = taskViewModel.getFullDate()
             }
         })
@@ -210,6 +208,11 @@ class AddTaskActivity : AppCompatActivity() {
             }
         }
         TimePickerDialog(this, time, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("run", "AddTaskActivity")
     }
 }
 

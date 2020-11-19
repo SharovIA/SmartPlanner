@@ -1,23 +1,26 @@
 package com.ivanasharov.smartplanner.presentation
 
-import com.ivanasharov.smartplanner.DI
 import com.ivanasharov.smartplanner.R
+import com.ivanasharov.smartplanner.Utils.ResourceProvider
 import com.ivanasharov.smartplanner.domain.TaskDomain
 import com.ivanasharov.smartplanner.presentation.Model.TaskUI
-import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.*
+import javax.inject.Inject
 
-class ConvertTaskUIToTaskDomain(
-    private val taskUI: TaskUI
+class ConvertTaskUIToTaskDomain @Inject constructor(
+    private val resources: ResourceProvider
 ) {
 
-    fun convert(): TaskDomain {
+    fun convert(taskUI: TaskUI): TaskDomain {
         val category = convertCategory(taskUI.importance.value)
-        val timeFrom = convertTime(taskUI.timeFrom.value)
-        val timeTo = convertTime(taskUI.timeTo.value)
-        //var status : Boolean
-          //  if (taskUI.status.value != null) status = taskUI.status.value
+        val timeFrom = convertTime(taskUI.timeFrom.value,
+            taskUI.date.value?.get(Calendar.DAY_OF_MONTH),
+            taskUI.date.value?.get(Calendar.MONTH),
+            taskUI.date.value?.get(Calendar.YEAR))
+        val timeTo = convertTime(taskUI.timeTo.value,
+            taskUI.date.value?.get(Calendar.DAY_OF_MONTH),
+            taskUI.date.value?.get(Calendar.MONTH),
+            taskUI.date.value?.get(Calendar.YEAR))
 
         return TaskDomain(taskUI.name.value, taskUI.description.value,
             taskUI.date.value, timeFrom,  timeTo,
@@ -26,10 +29,8 @@ class ConvertTaskUIToTaskDomain(
             taskUI.isAddToCalendar.value, taskUI.status.value as Boolean)
     }
 
-    private fun convertTime(strTime : String?): GregorianCalendar? {
-        val day =taskUI.date.value?.get(Calendar.DAY_OF_MONTH)
-        val month =taskUI.date.value?.get(Calendar.MONTH)
-        val year =taskUI.date.value?.get(Calendar.YEAR)
+    private fun convertTime(strTime : String?,
+        day: Int?, month: Int?, year: Int?): GregorianCalendar? {
         var hour  = 0
         var minutes = 0
         val parts = strTime?.split(":")
@@ -54,6 +55,6 @@ class ConvertTaskUIToTaskDomain(
         }
     }
 
-    private fun getArray(): Array<String> =
-        DI.appComponent.resources().array(R.array.importance)
+    private fun getArray(): Array<String> = resources.array(R.array.importance)
+     //   DI.appComponent.resources().array(R.array.importance)
 }

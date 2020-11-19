@@ -1,8 +1,9 @@
-package com.ivanasharov.smartplanner
+package com.ivanasharov.smartplanner.presentation.view
 
 import android.location.Geocoder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -12,17 +13,18 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.ivanasharov.smartplanner.presentation.viewModel.AddTaskComponent
+import com.ivanasharov.smartplanner.R
 import com.ivanasharov.smartplanner.presentation.viewModel.ShowTaskViewModel
 import kotlinx.android.synthetic.main.activity_show_task.*
 import java.io.IOException
 import java.util.*
+import javax.inject.Inject
 
 class ShowTaskActivity : AppCompatActivity(), OnMapReadyCallback {
 
-    private val component by lazy { AddTaskComponent.create()}
-
-    private val showTaskViewModel by viewModels<ShowTaskViewModel>{ component.viewModelFactory()}
+   // private val component by lazy { AddTaskComponent.create()}
+      private val showTaskViewModel :ShowTaskViewModel by viewModels()
+ //   private val showTaskViewModel by viewModels<ShowTaskViewModel>{ component.viewModelFactory()}
 
    private lateinit var observerName: Observer<String?>
    private lateinit var observerDescription: Observer<String?>
@@ -66,6 +68,25 @@ class ShowTaskActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+
+
+/*    private fun showMap() {
+        if(mapView.visibility == View.GONE){
+            onMapReady(showTaskViewModel.gMap)
+            if (isCorrectAddress) {
+                mapView.visibility = View.VISIBLE
+                showMapLabel.text = getString(R.string.hide_map)
+            } else {
+                Toast.makeText(this, "Address is incorrect!", Toast.LENGTH_LONG).show()
+            }
+
+        } else {
+            mapView.visibility = View.GONE
+            showMapLabel.text = getString(R.string.showMap)
+        }
+    }
+*/
+
     private fun showMap() {
         if(mapView.visibility == View.GONE){
             onMapReady(gmap)
@@ -81,6 +102,7 @@ class ShowTaskActivity : AppCompatActivity(), OnMapReadyCallback {
             showMapLabel.text = getString(R.string.showMap)
         }
     }
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -107,12 +129,18 @@ class ShowTaskActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onDestroy() {
         super.onDestroy()
         mapView.onDestroy()
+        Log.d("run", "ShowTaskActivity")
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
         mapView.onLowMemory()
     }
+
+
+/*    override fun onMapReady(map: GoogleMap?) {
+        showTaskViewModel.onMapReady()
+    }*/
 
     override fun onMapReady(p0: GoogleMap?) {
         gmap = p0
@@ -142,7 +170,7 @@ class ShowTaskActivity : AppCompatActivity(), OnMapReadyCallback {
         var lat: Double
         var lon: Double
 
-        coder?.apply {
+        coder.apply {
             try {
                 getFromLocationName(strAddress, 1).let {
                     if (it.isNotEmpty()) {
@@ -216,12 +244,12 @@ class ShowTaskActivity : AppCompatActivity(), OnMapReadyCallback {
         observerStatus = Observer{
             it?.let{
                 if(it){
-                    statusTrueTextViewShowActivity.setBackgroundColor(getColor(R.color.accent))
-                    statusFalseTextViewShowActivity.setBackgroundColor(getColor(R.color.divider))
+                  //  statusTrueTextViewShowActivity.setBackgroundColor(getColor(R.color.accent))
+                  //  statusFalseTextViewShowActivity.setBackgroundColor(getColor(R.color.divider))
                 }
                 else{
-                    statusTrueTextViewShowActivity.setBackgroundColor(getColor(R.color.divider))
-                    statusFalseTextViewShowActivity.setBackgroundColor(getColor(R.color.accent))
+                    //statusTrueTextViewShowActivity.setBackgroundColor(getColor(R.color.divider))
+                    //statusFalseTextViewShowActivity.setBackgroundColor(getColor(R.color.accent))
                 }
             }
         }

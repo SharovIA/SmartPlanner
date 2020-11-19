@@ -8,8 +8,6 @@ interface CurrentTasksInteractor {
     fun getCurrentDayOfWeek(): Int
     fun getCountTasksAll(): Int?
     fun getCountFinishedTasks(): Int?
-
-   fun getCurrentTasks(): Flow<ArrayList<TaskDomain>>
+    fun getCurrentTasks(): Flow<ArrayList<TaskDomain>>
     fun changeTask(index : Int)
-   //suspend fun getCurrentTasks(): Flow<ArrayList<TaskDomain>>
 }

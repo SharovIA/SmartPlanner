@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme">
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_android_map_api_key" />
-        <activity android:name=".ShowTaskActivity"></activity>
+        <activity android:name=".presentation.view.ShowTaskActivity"></activity>
         <activity android:name=".presentation.view.AddTaskActivity" />
         <activity android:name=".presentation.view.MainActivity">
             <intent-filter>

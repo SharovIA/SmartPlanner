@@ -1,15 +1,21 @@
 package com.ivanasharov.smartplanner.presentation
 
-import com.ivanasharov.smartplanner.DI
+import android.content.Context
 import com.ivanasharov.smartplanner.R
 import com.ivanasharov.smartplanner.Utils.ResourceProvider
 import com.ivanasharov.smartplanner.domain.TaskDomain
 import com.ivanasharov.smartplanner.presentation.Model.TaskUI
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.*
 import javax.inject.Inject
 
-class ConvertTaskDomainToTaskUI {
-
+class ConvertTaskDomainToTaskUI @Inject constructor(
+    private val resources: ResourceProvider
+) {
 
     fun convert(taskDomain: TaskDomain): TaskUI {
         var taskUI = TaskUI()
@@ -36,8 +42,8 @@ class ConvertTaskDomainToTaskUI {
         }
     }
 
-    private fun getArray(): Array<String> =
-        DI.appComponent.resources().array(R.array.importance)
+    private fun getArray(): Array<String> = resources.array(R.array.importance)
+    //    DI.appComponent.resources().array(R.array.importance)
 
     private fun convertTime(calendar: GregorianCalendar?): String? {
         val hours = calendar?.get(Calendar.HOUR_OF_DAY)

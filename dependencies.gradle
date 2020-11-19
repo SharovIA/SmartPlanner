@@ -1,5 +1,5 @@
 ext.versions = [
-        dagger : "2.28",
+        dagger : "2.28-alpha",
         lifecycle : "2.2.0",
         room : "2.3.0-alpha02"
 ]
@@ -25,8 +25,10 @@ ext.libs = [
 
 
         //Dagger
-        dagger                     : "com.google.dagger:dagger:$versions.dagger",
-        daggerCompiler             :"com.google.dagger:dagger-compiler:$versions.dagger",
+        daggerHilt                     : "com.google.dagger:hilt-android:$versions.dagger",
+        daggerHiltCompiler             :"com.google.dagger:hilt-android-compiler:$versions.dagger",
+        daggerViewModel                :"androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha01",
+        daggerCompileViewModel         :"androidx.hilt:hilt-compiler:1.0.0-alpha01",
 
         //Room room : "2.2.5"
 //        roomRuntime                : "android.arch.persistence.room-runtime:$versions.room",

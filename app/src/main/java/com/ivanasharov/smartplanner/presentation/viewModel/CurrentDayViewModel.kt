@@ -1,6 +1,7 @@
 package com.ivanasharov.smartplanner.presentation.viewModel
 
 import android.util.Log
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,9 +19,10 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class CurrentDayViewModel @Inject constructor(
+class CurrentDayViewModel @ViewModelInject constructor(
     private val resource: ResourceProvider,
-    private val currentTasksInteractor: CurrentTasksInteractor
+    private val currentTasksInteractor: CurrentTasksInteractor,
+    private val convert: ConvertTaskDomainToTaskUI
 ) : BaseViewModel() {
     // tasks
     // current date
@@ -42,7 +44,7 @@ class CurrentDayViewModel @Inject constructor(
             currentTasksInteractor.getCurrentTasks().collect{
                 if(tasks.size !=0) tasks.clear()
                 it.forEach {value ->
-                    tasks.add(ConvertTaskDomainToTaskUI().convert(value))
+                    tasks.add(convert.convert(value))
                 }
                 currentTasks.postValue(tasks)
                 statusOfTasks.postValue("${getCountFinishedTasks()}/${getCountTasks()}")

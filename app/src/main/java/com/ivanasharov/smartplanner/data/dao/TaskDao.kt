@@ -8,15 +8,8 @@ import java.util.*
 @Dao
 interface TaskDao {
 
-/*    @Query("SELECT * FROM task")
-    fun getAll(): List<Task>*/
-
     @Query("SELECT * FROM task")
     fun getAll(): Flow<List<Task>>
-
-
-    //@Query("SELECT * FROM task")
-    //fun getAllll(): List<Task>
 
     @Query("SELECT * FROM task WHERE date = :calendar")
     fun getByDate(calendar: GregorianCalendar): Flow<List<Task>>

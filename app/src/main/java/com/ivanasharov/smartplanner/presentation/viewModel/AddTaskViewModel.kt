@@ -1,6 +1,7 @@
 package com.ivanasharov.smartplanner.presentation.viewModel
 
 import android.util.Log
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.ivanasharov.smartplanner.Utils.ResourceProvider
 import com.ivanasharov.smartplanner.domain.AddTaskInteractor
@@ -15,9 +16,10 @@ import java.util.*
 import javax.inject.Inject
 
 
-class AddTaskViewModel @Inject constructor(
+class AddTaskViewModel @ViewModelInject constructor(
     private val resource: ResourceProvider,
-    private val addTaskInteractor: AddTaskInteractor
+    private val addTaskInteractor: AddTaskInteractor,
+    private val convert: ConvertTaskUIToTaskDomain
 ) : BaseViewModel() {
 
     var day: Int
@@ -52,9 +54,7 @@ class AddTaskViewModel @Inject constructor(
 
     }
 
-/*    fun updateFullDate() {
-        taskUILiveData.date.value = "$day-$month-$year"
-    }*/
+
 fun updateFullDate() {
     val date = GregorianCalendar(year, month, day)
     taskUILiveData.date.value = date
@@ -81,7 +81,7 @@ fun updateFullDate() {
 
     fun save() {
         viewModelScope.launch(Dispatchers.IO) {
-            val taskDomain = ConvertTaskUIToTaskDomain(taskUILiveData).convert()
+            val taskDomain = convert.convert(taskUILiveData)
             addTaskInteractor.execute(taskDomain)
         }
 

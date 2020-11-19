@@ -2,7 +2,6 @@ package com.ivanasharov.smartplanner.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.ivanasharov.smartplanner.data.GregorianCalendarConverter
 import com.ivanasharov.smartplanner.data.dao.TaskDao

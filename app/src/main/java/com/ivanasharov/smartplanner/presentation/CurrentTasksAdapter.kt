@@ -2,18 +2,15 @@ package com.ivanasharov.smartplanner.presentation
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import com.ivanasharov.smartplanner.R
-import com.ivanasharov.smartplanner.ShowTaskActivity
+import com.ivanasharov.smartplanner.presentation.view.ShowTaskActivity
 import com.ivanasharov.smartplanner.presentation.Model.TaskUI
-import com.ivanasharov.smartplanner.presentation.view.CurrentDayFragment
 
 class CurrentTasksAdapter(
     private var tasksList : ArrayList<TaskUI>,
@@ -26,24 +23,18 @@ class CurrentTasksAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): CurrentTasksAdapter.TaskViewHolder {
+    ): TaskViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.task_item, parent,false)
         return TaskViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        if(tasksList != null)
-            return tasksList.size
-        else return 0
-    }
+    override fun getItemCount(): Int = tasksList.size
 
-    override fun onBindViewHolder(holder: CurrentTasksAdapter.TaskViewHolder, position: Int) {
-        if (tasksList != null) {
+    override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
             holder.title?.text = tasksList[position].name.value
             if(tasksList[position].status.value != null && tasksList[position].status.value == true)
             holder.status?.isChecked = true
-        }
 
         holder.itemView.setOnClickListener {
             val taskItem  = tasksList[position]
@@ -56,7 +47,6 @@ class CurrentTasksAdapter(
             listener(position)
             //когда ставлю галку - попадаю сюда.
             //Как мне отсюда изменить вьюмодель? Она же не тут, а во фрагменте...
-            //Log.d("test", "check: " +holder.status?.isChecked.toString())
 
         }
     }

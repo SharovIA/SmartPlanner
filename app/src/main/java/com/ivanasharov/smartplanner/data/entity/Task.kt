@@ -1,16 +1,10 @@
 package com.ivanasharov.smartplanner.data.entity
 
-import android.location.Address
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
-import com.ivanasharov.smartplanner.data.GregorianCalendarConverter
-import java.sql.Time
 import java.util.*
 
 @Entity
-
 data class Task(
     @PrimaryKey(autoGenerate = true)
     val id : Long?,

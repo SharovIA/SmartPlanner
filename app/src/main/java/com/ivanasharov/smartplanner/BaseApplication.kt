@@ -1,9 +1,9 @@
 package com.ivanasharov.smartplanner
 
 import android.app.Application
-import com.ivanasharov.smartplanner.di.DaggerAppComponent
+import dagger.hilt.android.HiltAndroidApp
 
-
+@HiltAndroidApp
 class BaseApplication : Application() {
 
  /*   companion object{
@@ -24,22 +24,13 @@ class BaseApplication : Application() {
         super.onCreate()
     //    baseApplication = this
 
-        initializeComponent()
+//        initializeComponent()
 
     }
 
-    private fun initializeComponent() {
-      /*  component =
-            DaggerAppComponent.builder()
-            .applicationModule(ApplicationModule(baseApplication))
-            .databaseModule(DatabaseModule(baseApplication))
-            .build()
-       */
+/*    private fun initializeComponent() {
         DI.appComponent = DaggerAppComponent.builder()
             .appContext(this)
-          // .appComponent()
-            //.taskReposiitiryModule()
-            //.databaseModule()
             .build()
-    }
+    }*/
 }

@@ -2,7 +2,6 @@ package com.ivanasharov.smartplanner.data
 
 import com.ivanasharov.smartplanner.data.entity.Task
 import com.ivanasharov.smartplanner.domain.TaskDomain
-import java.util.*
 
 class ConvertTaskDomainToTaskData{
 
@@ -13,12 +12,4 @@ class ConvertTaskDomainToTaskData{
             false, taskDomian.address, taskDomian.contact, taskDomian.status)
 
     }
-
-/*    private fun getAddress(strAddress: String?): Task.Address {
-        val address = Task.Address()
-        if (strAddress != null){
-           // val parts = strTime?.split(":")
-        }
-        return address
-    }*/
 }
