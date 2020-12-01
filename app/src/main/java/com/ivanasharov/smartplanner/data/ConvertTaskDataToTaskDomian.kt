@@ -6,7 +6,7 @@ import kotlin.collections.ArrayList
 
 class ConvertTaskDataToTaskDomian {
 
-    fun convert(arrayListTasksData: List<Task>): ArrayList<TaskDomain> {
+/*    fun convert(arrayListTasksData: List<Task>): ArrayList<TaskDomain> {
         val arrayListTaskDomain = ArrayList<TaskDomain>()
         var taskDomain : TaskDomain
 
@@ -18,5 +18,11 @@ class ConvertTaskDataToTaskDomian {
         }
         return arrayListTaskDomain
 
+    }*/
+
+    fun convert(tasksData: Task): TaskDomain {
+        return TaskDomain(tasksData.name, tasksData.description, tasksData.date,
+                tasksData.timeFrom, tasksData.timeTo, tasksData.importance, tasksData.address,
+                false, tasksData.contact, false, tasksData.status)
     }
 }

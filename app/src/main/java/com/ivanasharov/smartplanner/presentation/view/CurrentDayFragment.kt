@@ -12,71 +12,108 @@ import com.ivanasharov.smartplanner.presentation.viewModel.CurrentDayViewModel
 import kotlinx.android.synthetic.main.current_day_fragment.*
 import android.content.Intent
 import android.util.Log
-import androidx.activity.viewModels
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.ivanasharov.smartplanner.presentation.CurrentTasksAdapter
-import com.ivanasharov.smartplanner.presentation.Model.TaskUI
+import com.ivanasharov.smartplanner.databinding.CurrentDayFragmentBinding
+import com.ivanasharov.smartplanner.databinding.TaskItemBinding
+import com.ivanasharov.smartplanner.presentation.model.TaskViewModel
+import com.ivanasharov.smartplanner.presentation.view.adapters.*
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class CurrentDayFragment : Fragment() {
-//    private val component by lazy { AddTaskComponent.create()}
 
-      private val currentDayViewModel : CurrentDayViewModel by viewModels()
-//    private val currentDayViewModel by viewModels<CurrentDayViewModel>{ component.viewModelFactory()}
+    private val mCurrentDayViewModel : CurrentDayViewModel by viewModels()
+    private val mAdapter = UniversalListAdapter(
+        HolderCreator(::createHolder),
+        HolderBinder(::bindHolder),
+        TaskDiffCallback()
+    )
+
+    private fun bindHolder(taskViewModel: TaskViewModel, holder: Holder<TaskItemBinding>) {
+        holder.binding.viewModel = taskViewModel
+        holder.binding.mainViewModel = mCurrentDayViewModel
+        holder.binding.currentDayCheckBoxItem.setOnClickListener {
+            mCurrentDayViewModel.changeStatus(holder.adapterPosition)
+        }
+
+    }
+
+    private fun createHolder(parent: ViewGroup): Holder<TaskItemBinding> {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding =  TaskItemBinding.inflate(inflater, parent, false)
+        return Holder(binding)
+    }
+
+    private lateinit var mBinding: CurrentDayFragmentBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.current_day_fragment, container, false)
+        mBinding.viewModel = mCurrentDayViewModel
+        mBinding.lifecycleOwner = viewLifecycleOwner
+        mBinding.currentDayRecyclerView.adapter = mAdapter
+        return mBinding.root
 
-        val view : View? = inflater.inflate(R.layout.current_day_fragment, container, false)
 
-        val tasksRecyclerView : RecyclerView? = view?.findViewById(R.id.currentDayRecyclerView)
+
+/*        val view : View? = inflater.inflate(R.layout.current_day_fragment, container, false)
+
+       val tasksRecyclerView : RecyclerView? = view?.findViewById(R.id.currentDayRecyclerView)
         tasksRecyclerView?.layoutManager = LinearLayoutManager(activity)
         tasksRecyclerView?.setHasFixedSize(true)
         val arrayList = ArrayList<TaskUI>()
 
         var adapter = CurrentTasksAdapter(arrayList, requireContext()) {
-            currentDayViewModel.changeStatus(it)
+            mCurrentDayViewModel.changeStatus(it)
         }
         tasksRecyclerView?.adapter = adapter
 
-        currentDayViewModel.currentTasks.observe(viewLifecycleOwner,  Observer<ArrayList<TaskUI>> {
+        mCurrentDayViewModel.currentTasks.observe(viewLifecycleOwner,  Observer<ArrayList<TaskUI>> {
             adapter.addTasksArrayList(it)
         })
 
         tasksRecyclerView?.adapter
-        return view
+        return view*/
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mCurrentDayViewModel.taskList.observe(viewLifecycleOwner, Observer {
+            mAdapter.submitList(it)
+        })
+
+/*        mCurrentDayViewModel.statusOfTasks.observe(viewLifecycleOwner, Observer{
+                mBinding.countTasksTextView.text = mCurrentDayViewModel.statusOfTasks.value
+        })*/
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setObserve()
+     //  setObserve()
 
         addTaskForCurrentDayButton.setOnClickListener{
             startActivity(Intent(requireContext(), AddTaskActivity::class.java))
         }
     }
 
-    private fun setObserve() {
-        currentDayViewModel.date.observe(viewLifecycleOwner, Observer{
+/*   private fun setObserve() {
+       mCurrentDayViewModel.date.observe(viewLifecycleOwner, Observer{
             it?.let{
-                currentDateTextView.text = currentDayViewModel.date.value
+                currentDateTextView.text = mCurrentDayViewModel.date.value
             }
         })
 
-        currentDayViewModel.statusOfTasks.observe(viewLifecycleOwner, Observer{
+       mCurrentDayViewModel.statusOfTasks.observe(viewLifecycleOwner, Observer{
             it?.let{
-                countTasksTextView.text = getString(R.string.completed) +" " + currentDayViewModel.statusOfTasks.value + " " + getString(
-                                    R.string.completedTasks)
+                countTasksTextView.text = mCurrentDayViewModel.statusOfTasks.value
             }
         })
-    }
+    }*/
 
     override fun onDestroyView() {
         super.onDestroyView()

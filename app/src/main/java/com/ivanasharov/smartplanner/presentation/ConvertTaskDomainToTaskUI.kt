@@ -1,15 +1,9 @@
 package com.ivanasharov.smartplanner.presentation
 
-import android.content.Context
 import com.ivanasharov.smartplanner.R
 import com.ivanasharov.smartplanner.Utils.ResourceProvider
 import com.ivanasharov.smartplanner.domain.TaskDomain
-import com.ivanasharov.smartplanner.presentation.Model.TaskUI
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
-import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.components.ApplicationComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.ivanasharov.smartplanner.presentation.model.TaskUILoad
 import java.util.*
 import javax.inject.Inject
 
@@ -17,11 +11,11 @@ class ConvertTaskDomainToTaskUI @Inject constructor(
     private val resources: ResourceProvider
 ) {
 
-    fun convert(taskDomain: TaskDomain): TaskUI {
-        var taskUI = TaskUI()
+/*    fun convert(taskDomain: TaskDomain): TaskUI {
+        val taskUI = TaskUI()
         taskUI.name.postValue(taskDomain.name)
         taskUI.description.postValue( taskDomain.description)
-        taskUI.date.postValue(taskDomain.date)
+        taskUI.date.postValue(convertDate(taskDomain.date))
         taskUI.timeFrom.postValue(convertTime(taskDomain.timeFrom))
         taskUI.timeTo.postValue(convertTime( taskDomain.timeTo))
         taskUI.importance.postValue(ConvertImportance(taskDomain.importance))
@@ -29,7 +23,13 @@ class ConvertTaskDomainToTaskUI @Inject constructor(
         taskUI.contact.postValue( taskDomain.contact)
         taskUI.status.postValue( taskDomain.status)
         return taskUI
-    }
+    }*/
+fun convert(taskDomain: TaskDomain): TaskUILoad {
+    return TaskUILoad(taskDomain.name as String, taskDomain.description as String,
+    convertDate(taskDomain.date), convertTime(taskDomain.timeFrom),
+    convertTime( taskDomain.timeTo), ConvertImportance(taskDomain.importance),
+    taskDomain.address, taskDomain.contact,  taskDomain.status)
+}
 
     private fun ConvertImportance(importance: Int): String? {
         val categories = getArray()
@@ -45,10 +45,17 @@ class ConvertTaskDomainToTaskUI @Inject constructor(
     private fun getArray(): Array<String> = resources.array(R.array.importance)
     //    DI.appComponent.resources().array(R.array.importance)
 
-    private fun convertTime(calendar: GregorianCalendar?): String? {
+    private fun convertTime(calendar: GregorianCalendar?): String {
         val hours = calendar?.get(Calendar.HOUR_OF_DAY)
         val minutes = calendar?.get(Calendar.MINUTE)
         return "${getTextValue(hours)}:${getTextValue(minutes)}"
+    }
+
+    private fun convertDate(calendar: GregorianCalendar?): String {
+        val year = calendar?.get(Calendar.YEAR)
+        val month = calendar?.get(Calendar.MONTH)
+        val dayOfMonth = calendar?.get(Calendar.DAY_OF_MONTH)
+        return "${getTextValue(dayOfMonth)}-${getTextValue(month)}-${getTextValue(year)}"
     }
 
     private fun getTextValue(number: Int?): String? {

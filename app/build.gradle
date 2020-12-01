@@ -1,9 +1,6 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
@@ -32,6 +29,11 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+
+    //DataBinding
+    buildFeatures{
+        dataBinding = true //включаем кодогенерацию
+    }
 }
 
 kapt {
@@ -54,8 +56,6 @@ dependencies {
     implementation libs.lifecycleViewModel
     implementation libs.lifecycleLiveData
     implementation libs.lifecycleExtensions
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     kapt libs.lifecycleCompiler
 
     implementation libs.daggerHilt
@@ -67,7 +67,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
 
     implementation libs.roomRuntime

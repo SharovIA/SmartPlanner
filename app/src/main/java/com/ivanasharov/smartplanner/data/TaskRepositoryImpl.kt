@@ -12,8 +12,14 @@ class TaskRepositoryImpl @Inject constructor(
     private val taskDao : TaskDao
 ) : TaskRepository {
 
-    override fun getListCurrentTasks(date: GregorianCalendar): Flow<ArrayList<TaskDomain>> = taskDao.getByDate(date).map{
+/*    override fun getListCurrentTasks(date: GregorianCalendar): Flow<ArrayList<TaskDomain>> = taskDao.getByDate(date).map{
         ConvertTaskDataToTaskDomian().convert(it)
+    }*/
+
+    override fun getListCurrentTasks(date: GregorianCalendar): Flow<List<TaskDomain>> = taskDao.getByDate(date).map{ list ->
+        list.map{
+            ConvertTaskDataToTaskDomian().convert(it)
+        }
     }
 
     override fun save(taskDomain: TaskDomain): Long? {

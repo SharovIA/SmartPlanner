@@ -13,7 +13,8 @@ class CurrentTasksInteractorImpl @Inject constructor(
 ) : CurrentTasksInteractor {
 
     private val calendar = Calendar.getInstance()
-    private var tasksOfCurrentDay : ArrayList<TaskDomain> = ArrayList()
+  //  private var tasksOfCurrentDay : ArrayList<TaskDomain> = ArrayList()
+   private lateinit var tasksOfCurrentDay :List<TaskDomain>
     private val date : GregorianCalendar
 
     init {
@@ -44,10 +45,15 @@ class CurrentTasksInteractorImpl @Inject constructor(
         return count
     }
 
-    override fun getCurrentTasks(): Flow<ArrayList<TaskDomain>> = taskRepository.getListCurrentTasks(date).map {
+/*    override fun getCurrentTasks(): Flow<ArrayList<TaskDomain>> = taskRepository.getListCurrentTasks(date).map {
             this.tasksOfCurrentDay = it
         it
-        }
+        }*/
+
+    override fun getCurrentTasks(): Flow<List<TaskDomain>> = taskRepository.getListCurrentTasks(date).map {
+        this.tasksOfCurrentDay = it
+        it
+    }
 
 
     private fun getTextValue(number: Int): String {

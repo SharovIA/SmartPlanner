@@ -9,8 +9,8 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ivanasharov.smartplanner.R
+import com.ivanasharov.smartplanner.presentation.model.TaskUI
 import com.ivanasharov.smartplanner.presentation.view.ShowTaskActivity
-import com.ivanasharov.smartplanner.presentation.Model.TaskUI
 
 class CurrentTasksAdapter(
     private var tasksList : ArrayList<TaskUI>,
@@ -49,15 +49,15 @@ class CurrentTasksAdapter(
             //Как мне отсюда изменить вьюмодель? Она же не тут, а во фрагменте...
 
         }
-    }
+  }
 
     fun addTasksArrayList(tasksList: ArrayList<TaskUI>){
         this.tasksList = tasksList
         notifyDataSetChanged()
     }
 
-    private fun addToIntent(intent: Intent, taskItem : TaskUI) {
-        intent.putExtra("name", taskItem.name.value)
+    private fun addToIntent(intent: Intent, newTaskItem : TaskUI) {
+/*        intent.putExtra("name", taskItem.name.value)
         intent.putExtra("description", taskItem.description.value)
         intent.putExtra("date", taskItem.date.value?.timeInMillis)
         intent.putExtra("timeFrom", taskItem.timeFrom.value)
@@ -67,7 +67,7 @@ class CurrentTasksAdapter(
         intent.putExtra("isSnapContact", taskItem.isSnapContact.value)
         intent.putExtra("contact", taskItem.contact.value)
         intent.putExtra("status", taskItem.status.value)
-    }
+*/    }
 
     inner class TaskViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
 

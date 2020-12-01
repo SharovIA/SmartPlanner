@@ -21,10 +21,11 @@ import java.util.*
 import javax.inject.Inject
 
 class ShowTaskActivity : AppCompatActivity(), OnMapReadyCallback {
-
-   // private val component by lazy { AddTaskComponent.create()}
+    override fun onMapReady(p0: GoogleMap?) {
+        TODO("Not yet implemented")
+    }
+/*
       private val showTaskViewModel :ShowTaskViewModel by viewModels()
- //   private val showTaskViewModel by viewModels<ShowTaskViewModel>{ component.viewModelFactory()}
 
    private lateinit var observerName: Observer<String?>
    private lateinit var observerDescription: Observer<String?>
@@ -282,4 +283,5 @@ class ShowTaskActivity : AppCompatActivity(), OnMapReadyCallback {
         showTaskViewModel.taskUI.contact.removeObserver(observerContact)
         showTaskViewModel.taskUI.status.removeObserver(observerStatus)
     }
+    */
 }

@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout>
+    <data>
+        <variable
+            name="viewModel" type="com.ivanasharov.smartplanner.presentation.viewModel.AddTaskViewModel" />
+    </data>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,22 +18,6 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/descriptionEditTextATActivity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@color/design_default_color_background"
-            android:hint="@string/activity_add_task_description"
-            android:importantForAutofill="no"
-            android:inputType="textMultiLine"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nameEditTextATActivity" />
-
-        <EditText
             android:id="@+id/nameEditTextATActivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,12 +26,30 @@
             android:layout_marginEnd="8dp"
             android:background="@color/design_default_color_on_primary"
             android:hint="@string/activity_add_task_name"
+            android:text="@={viewModel.taskUI.name}"
             android:importantForAutofill="no"
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/descriptionEditTextATActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/design_default_color_background"
+            android:hint="@string/activity_add_task_description"
+            android:text="@={viewModel.taskUI.description}"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nameEditTextATActivity" />
 
         <LinearLayout
             android:id="@+id/linearLayout1"
@@ -63,7 +71,9 @@
                 android:layout_marginEnd="8dp"
                 android:layout_weight="2"
                 android:background="@color/design_default_color_background"
-                android:text="@string/activity_add_task_date" />
+                android:hint="@string/activity_add_task_date"
+                android:text="@{viewModel.taskUI.date}"
+                />
 
             <TextView
                 android:id="@+id/time1TextViewATActivity"
@@ -72,7 +82,8 @@
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:background="@color/design_default_color_background"
-                android:text="@string/activity_add_task_time_from" />
+                android:hint="@string/activity_add_task_time_from"
+                android:text="@{viewModel.taskUI.timeFrom}" />
 
             <TextView
                 android:id="@+id/time2TextViewATActivity"
@@ -80,7 +91,8 @@
                 android:layout_height="46dp"
                 android:layout_weight="1"
                 android:background="@color/design_default_color_background"
-                android:text="@string/activity_add_task_time_to" />
+                android:hint="@string/activity_add_task_time_to"
+                android:text="@{viewModel.taskUI.timeTo}" />
         </LinearLayout>
 
         <LinearLayout
@@ -121,6 +133,7 @@
             android:layout_marginEnd="8dp"
             android:background="@color/design_default_color_background"
             android:hint="@string/activity_add_task_location"
+            android:text="@={viewModel.taskUI.address}"
             android:importantForAutofill="no"
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
@@ -153,16 +166,18 @@
                 android:id="@+id/addContactCheckBox"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:checked="@={viewModel.isSnapContact()}"
                 android:layout_weight="1" />
         </LinearLayout>
 
-        <Spinner
+        <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/contactSpinner"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
+
             android:background="@color/design_default_color_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.387"
@@ -194,6 +209,7 @@
             <CheckBox
                 android:id="@+id/addCalendarAndroidCheckBox"
                 android:layout_width="0dp"
+                android:checked="@={viewModel.isAddToCalendar()}"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
         </LinearLayout>
@@ -216,3 +232,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
+</layout>

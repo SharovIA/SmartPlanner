@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="4dp"
-    android:layout_margin="4dp">
-
-    <RelativeLayout
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.ivanasharov.smartplanner.presentation.model.TaskViewModel" />
+        <variable
+            name="mainViewModel"
+            type="com.ivanasharov.smartplanner.presentation.viewModel.CurrentDayViewModel" />
+    </data>
+<RelativeLayout
+        app:cardCornerRadius="4dp"
+        android:layout_margin="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/design_default_color_background"
         android:orientation="horizontal">
 
         <TextView
@@ -17,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/currentDayCheckBoxItem"
             android:paddingRight="10dp"
-            android:text="Task"
+            android:text="@{viewModel.name}"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -25,8 +31,8 @@
             android:id="@+id/currentDayCheckBoxItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"/>
+            android:checked="@{viewModel.status}"
+            android:layout_alignParentEnd="true" />
 
-    </RelativeLayout>
-
-</androidx.cardview.widget.CardView>
+</RelativeLayout>
+</layout>

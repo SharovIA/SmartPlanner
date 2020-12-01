@@ -9,7 +9,8 @@ interface TaskRepository {
 
     fun save (taskDomain: TaskDomain): Long?
 
-    fun getListCurrentTasks(date: GregorianCalendar) : Flow<ArrayList<TaskDomain>>
+   // fun getListCurrentTasks(date: GregorianCalendar) : Flow<ArrayList<TaskDomain>>
+    fun getListCurrentTasks(date: GregorianCalendar) : Flow<List<TaskDomain>>
 
     fun changeTask(taskDomain: TaskDomain)
 

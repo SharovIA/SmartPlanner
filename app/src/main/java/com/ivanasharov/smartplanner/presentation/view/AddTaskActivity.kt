@@ -12,48 +12,47 @@ import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
+import androidx.databinding.DataBindingUtil
 import com.ivanasharov.smartplanner.Contact
 import com.ivanasharov.smartplanner.R
+import com.ivanasharov.smartplanner.databinding.ActivityAddTaskBinding
 import com.ivanasharov.smartplanner.presentation.viewModel.AddTaskViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_add_task.*
-import java.util.*
-import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class AddTaskActivity : AppCompatActivity() {
- //  private val component by lazy {AddTaskComponent.create()}
+
 
     private val TAG = "CONTACT"
     private val PERMISSIONS_REQUEST_READ_CONTACTS = 10
 
     private val taskViewModel : AddTaskViewModel by viewModels()
- //   private val taskViewModel by viewModels<AddTaskViewModel>{ component.viewModelFactory()}
+   private lateinit var mBinding: ActivityAddTaskBinding
     private lateinit var spinnerAdapter :ArrayAdapter<CharSequence>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_task)
-
-        setObserve()
-
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_task)
+        mBinding.lifecycleOwner = this
+        mBinding.viewModel = taskViewModel
         initSpinner()
         initListeners()
 
     }
 
     private fun initListeners() {
-        dateTextViewATActivity.setOnClickListener{setDate()}
-        time1TextViewATActivity.setOnClickListener{setTime(true)}
-        time2TextViewATActivity.setOnClickListener{setTime(false)}
-        saveButton.setOnClickListener {
-            getDataFromActivity()
-            taskViewModel.save()
-            finish()
-        }
+        mBinding.dateTextViewATActivity.setOnClickListener{setDate()}
+        mBinding.time1TextViewATActivity.setOnClickListener{setTime(true)}
+        mBinding.time2TextViewATActivity.setOnClickListener{setTime(false)}
+        mBinding.saveButton.setOnClickListener {
+                 getDataFromActivity()
+                 taskViewModel.save()
+                 finish()
+             }
 
         addContactCheckBox.setOnClickListener {
             getListOfContacts()
@@ -140,74 +139,36 @@ class AddTaskActivity : AppCompatActivity() {
         }
         return listContacts
     }
-
+//---------------------------------------
     private fun getDataFromActivity(){
-        taskViewModel.taskUILiveData.name.value = nameEditTextATActivity.text.toString()
-        taskViewModel.taskUILiveData.description.value = descriptionEditTextATActivity.text.toString()
-        taskViewModel.taskUILiveData.address.value = addressEditTextATActivity.text.toString()
-        taskViewModel.taskUILiveData.importance.value = importanceSpinner.selectedItem.toString()
-        taskViewModel.taskUILiveData.isAddToCalendar.value = addCalendarAndroidCheckBox.isChecked
-        taskViewModel.taskUILiveData.isSnapContact.value = addContactCheckBox.isChecked
-        if (addContactCheckBox.isChecked)
-            taskViewModel.taskUILiveData.contact.value = contactSpinner.selectedItem.toString()
+    taskViewModel.taskUI.importance.value = mBinding.importanceSpinner.selectedItem.toString()
+    if (mBinding.addContactCheckBox.isChecked){
+        taskViewModel.taskUI.contact.value = mBinding.contactSpinner.selectedItem.toString()
+    }
     }
 
     private fun initSpinner() {
         spinnerAdapter = ArrayAdapter.createFromResource(this,
             R.array.importance, android.R.layout.simple_spinner_item)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        importanceSpinner.adapter = spinnerAdapter
+        mBinding.importanceSpinner.adapter = spinnerAdapter
     }
-
-    private fun setObserve() {
-        taskViewModel.taskUILiveData.date.observe(this, Observer{
-            it?.let{
-                dateTextViewATActivity.text = taskViewModel.getFullDate()
-            }
-        })
-
-        taskViewModel.taskUILiveData.timeFrom.observe(this, Observer{
-            it?.let{
-                time1TextViewATActivity.text = taskViewModel.taskUILiveData.timeFrom.value
-            }
-        })
-
-        taskViewModel.taskUILiveData.timeTo.observe(this, Observer{
-            it?.let{
-                time2TextViewATActivity.text = taskViewModel.taskUILiveData.timeTo.value
-            }
-        })
-}
-
 
     private fun setDate(){
-        val calendar = Calendar.getInstance()
         val date =
-            DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
-                taskViewModel.day = dayOfMonth
-                taskViewModel.month = month+1
-                taskViewModel.year = year
-                taskViewModel.updateFullDate()
+            DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                taskViewModel.setDate(year, month, dayOfMonth)
             }
-        DatePickerDialog(this, date, calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+        DatePickerDialog(this, date, taskViewModel.currentYear,
+            taskViewModel.currentMonth, taskViewModel.currentDay).show()
     }
 
-    private fun setTime(firstTime : Boolean){
-        val calendar = Calendar.getInstance()
-        val time = TimePickerDialog.OnTimeSetListener{view, hourOfDay, minute ->
-            if(firstTime) {
-                taskViewModel.hours1 = hourOfDay
-                taskViewModel.minutes1 = minute
-                taskViewModel.updateFullTimeFrom()
-            }
-            else{
-                taskViewModel.hours2 = hourOfDay
-                taskViewModel.minutes2 = minute
-                taskViewModel.updateFullTimeTo()
-            }
+     private fun setTime(isTimeFrom : Boolean){
+        val time = TimePickerDialog.OnTimeSetListener{ _, hourOfDay, minute ->
+                taskViewModel.setTime(hourOfDay, minute, isTimeFrom)
         }
-        TimePickerDialog(this, time, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
+        TimePickerDialog(this, time, taskViewModel.currentHour,
+            taskViewModel.currentMinute, true).show()
     }
 
     override fun onDestroy() {
