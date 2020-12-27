@@ -1,41 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="viewModel" type="com.ivanasharov.smartplanner.presentation.viewModel.AddTaskViewModel" />
     </data>
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    <ScrollView
+        android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fon_add_task"
     tools:context=".presentation.view.AddTaskActivity">
+        
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+<!--
         <EditText
-            android:id="@+id/nameEditTextATActivity"
+            android:id="@+id/nameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:background="@color/design_default_color_on_primary"
             android:hint="@string/activity_add_task_name"
-            android:text="@={viewModel.taskUI.name}"
             android:importantForAutofill="no"
             android:inputType="text"
+            android:text="@={viewModel.taskUI.name}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
         <EditText
-            android:id="@+id/descriptionEditTextATActivity"
+            android:id="@+id/descriptionEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -49,7 +50,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nameEditTextATActivity" />
+            app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
 
         <LinearLayout
             android:id="@+id/linearLayout1"
@@ -61,11 +62,11 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/descriptionEditTextATActivity">
+            app:layout_constraintTop_toBottomOf="@+id/descriptionEditText">
 
 
             <TextView
-                android:id="@+id/dateTextViewATActivity"
+                android:id="@+id/dateTextView"
                 android:layout_width="0dp"
                 android:layout_height="46dp"
                 android:layout_marginEnd="8dp"
@@ -76,7 +77,7 @@
                 />
 
             <TextView
-                android:id="@+id/time1TextViewATActivity"
+                android:id="@+id/time1TextView"
                 android:layout_width="0dp"
                 android:layout_height="46dp"
                 android:layout_marginEnd="8dp"
@@ -86,7 +87,7 @@
                 android:text="@{viewModel.taskUI.timeFrom}" />
 
             <TextView
-                android:id="@+id/time2TextViewATActivity"
+                android:id="@+id/time2TextView"
                 android:layout_width="0dp"
                 android:layout_height="46dp"
                 android:layout_weight="1"
@@ -125,7 +126,7 @@
         </LinearLayout>
 
         <EditText
-            android:id="@+id/addressEditTextATActivity"
+            android:id="@+id/addressEditText"
             android:layout_width="match_parent"
             android:layout_height="46dp"
             android:layout_marginStart="8dp"
@@ -151,7 +152,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addressEditTextATActivity">
+            app:layout_constraintTop_toBottomOf="@+id/addressEditText">
 
             <TextView
                 android:layout_width="0dp"
@@ -216,8 +217,8 @@
 
         <Button
             android:id="@+id/saveButton"
-            android:layout_width="200dp"
-            android:layout_height="40dp"
+            android:layout_width="192dp"
+            android:layout_height="58dp"
             android:layout_marginStart="171dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="152dp"
@@ -229,6 +230,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
+-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

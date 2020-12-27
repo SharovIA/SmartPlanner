@@ -2,11 +2,10 @@ package com.ivanasharov.smartplanner.di.Module
 
 import android.app.Application
 import android.content.ContentResolver
-import android.content.Context
 import com.ivanasharov.smartplanner.BaseApplication
-import com.ivanasharov.smartplanner.Utils.AndroidResourceProvider
-import com.ivanasharov.smartplanner.Utils.ResourceProvider
-import dagger.Binds
+import com.ivanasharov.smartplanner.data.dao.TaskDao
+import com.ivanasharov.smartplanner.data.database.TaskDatabase
+
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,12 +14,12 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
-abstract class ApplicationModule {
+class ContentModule {
 
-    @Binds
     @Singleton
-    abstract fun bindResourceProvider(provider: AndroidResourceProvider) : ResourceProvider
+    @Provides
+    fun providesTaskDao(application: Application): ContentResolver {
+        return application.contentResolver
+    }
+
 }
-
-
-

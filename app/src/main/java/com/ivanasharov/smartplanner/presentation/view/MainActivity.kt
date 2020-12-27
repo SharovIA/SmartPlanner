@@ -3,7 +3,15 @@ package com.ivanasharov.smartplanner.presentation.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
+import androidx.appcompat.widget.Toolbar
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ivanasharov.smartplanner.BaseApplication
 import com.ivanasharov.smartplanner.R
@@ -16,14 +24,35 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var mNavigationController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initViewPager2withFragments()
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        mNavigationController = navHostFragment.navController
+        setUpBottomNav(mNavigationController)
+
+        val toolbar: Toolbar = findViewById(R.id.toolbar_actionbar)
+        val appBarConfiguration = AppBarConfiguration(setOf(
+            R.id.currentDayFragment, R.id.freeTimeFragment, R.id.planningFragment,
+            R.id.informationFragment))
+        toolbar.setupWithNavController(mNavigationController, appBarConfiguration)
+    //    initViewPager2withFragments()
 
     }
 
-    private fun initViewPager2withFragments() {
+    private fun setUpBottomNav(navController: NavController){
+        val bottomNav: BottomNavigationView = findViewById(R.id.bottom_nav_view)
+        bottomNav.setupWithNavController(navController)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        NavigationUI.onNavDestinationSelected(item, mNavigationController)
+        return super.onOptionsItemSelected(item)
+    }
+
+/*    private fun initViewPager2withFragments() {
         var adapter = MyPagerAdapter(supportFragmentManager, lifecycle)
         viewPager2.adapter = adapter
         var names: ArrayList<String> = arrayListOf(getString(R.string.tab_1_current_day),
@@ -33,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(tabs, viewPager2) { tab, position ->
             tab.text = names[position]
         }.attach()
-    }
+    }*/
 
     override fun onDestroy() {
         super.onDestroy()

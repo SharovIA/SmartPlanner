@@ -1,6 +1,7 @@
 package com.ivanasharov.smartplanner.domain
 
 import android.util.Log
+import com.ivanasharov.smartplanner.data.CalendarRepository
 import com.ivanasharov.smartplanner.data.TaskRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -19,7 +20,7 @@ class CurrentTasksInteractorImpl @Inject constructor(
 
     init {
       date = GregorianCalendar(calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.DAY_OF_MONTH))
+            calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
     }
 
     override fun getCurrentDayOfWeek(): Int {

@@ -24,7 +24,7 @@ import kotlin.collections.ArrayList
 @AndroidEntryPoint
 class AddTaskActivity : AppCompatActivity() {
 
-
+/*
     private val TAG = "CONTACT"
     private val PERMISSIONS_REQUEST_READ_CONTACTS = 10
 
@@ -175,5 +175,7 @@ class AddTaskActivity : AppCompatActivity() {
         super.onDestroy()
         Log.d("run", "AddTaskActivity")
     }
+
+ */
 }
 

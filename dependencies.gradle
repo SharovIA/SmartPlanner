@@ -1,7 +1,8 @@
 ext.versions = [
         dagger : "2.28-alpha",
         lifecycle : "2.2.0",
-        room : "2.3.0-alpha02"
+        room : "2.3.0-alpha02",
+        navigation : "2.3.1"
 ]
 
 ext.libs = [ //'androidx.appcompat:appcompat:1.2.0' //1.0.2
@@ -10,7 +11,6 @@ ext.libs = [ //'androidx.appcompat:appcompat:1.2.0' //1.0.2
         coreKtx                    : "androidx.core:core-ktx:1.3.2",
            //  implementation 'androidx.constraintlayout:constraintlayout:2.0.4' //1.1.3
         constraintLayout           :"androidx.constraintlayout:constraintlayout:2.0.4",
-        material                   : "com.google.android.material:material:1.2.1", //1.1.0-alpha07
         fragment                   : "androidx.fragment:fragment-ktx:1.2.5", //1.2.4
         viewpager                  : "androidx.viewpager2:viewpager2:1.0.0",
         recyclerView               : "androidx.recyclerview:recyclerview:1.1.0",
@@ -23,9 +23,10 @@ ext.libs = [ //'androidx.appcompat:appcompat:1.2.0' //1.0.2
         lifecycleCompiler          : "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle",
         lifecycleExtensions        : "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle",
 
+        //Bottom and Material
+        material                   : "com.google.android.material:material:1.2.1",
 
-
-        //Dagger
+        //DaggerHilt
         daggerHilt                     : "com.google.dagger:hilt-android:$versions.dagger",
         daggerHiltCompiler             :"com.google.dagger:hilt-android-compiler:$versions.dagger",
         daggerViewModel                :"androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha01",
@@ -36,6 +37,10 @@ ext.libs = [ //'androidx.appcompat:appcompat:1.2.0' //1.0.2
         roomRuntime                : "androidx.room:room-runtime:$versions.room",
         roomCompile                : "androidx.room:room-compiler:$versions.room",
         // optional - Kotlin Extensions and Coroutines support for Room
-        roomKtx                    : "androidx.room:room-ktx:$versions.room"
+        roomKtx                    : "androidx.room:room-ktx:$versions.room",
+
+        //Navigation
+        navigationFragment         : "androidx.navigation:navigation-fragment-ktx:$versions.navigation",
+        navigationUI               :  "androidx.navigation:navigation-ui-ktx:$versions.navigation"
 
 ]

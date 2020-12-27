@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/currentDayFragment">
+
+    <fragment
+        android:id="@+id/currentDayFragment"
+        android:name="com.ivanasharov.smartplanner.presentation.view.CurrentDayFragment"
+        android:label="@string/tab_1_current_day" >
+
+        <action
+            android:id="@+id/action_currentDayFragment_to_addTaskFragment"
+            app:destination="@id/addTaskFragment" />
+        <action
+            android:id="@+id/action_currentDayFragment_to_showTaskFragment"
+            app:destination="@id/showTaskFragment">
+            <argument
+                android:name="taskViewModel"
+                app:argType="com.ivanasharov.smartplanner.presentation.model.TaskViewModel" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/freeTimeFragment"
+        android:name="com.ivanasharov.smartplanner.presentation.view.FreeTimeFragment"
+        android:label="@string/tab_2_free_time"
+        tools:layout="@layout/free_time_fragment" />
+    <fragment
+        android:id="@+id/planningFragment"
+        android:name="com.ivanasharov.smartplanner.presentation.view.PlanningFragment"
+        android:label="@string/tab_3_planning"
+        tools:layout="@layout/planning_fragment" />
+    <fragment
+        android:id="@+id/informationFragment"
+        android:name="com.ivanasharov.smartplanner.presentation.view.InformationFragment"
+        android:label="@string/tab_4_info"
+        tools:layout="@layout/information_fragment" />
+    <fragment
+        android:id="@+id/addTaskFragment"
+        android:name="com.ivanasharov.smartplanner.presentation.view.AddTaskFragment"
+        android:label="@string/add_task" />
+    <fragment
+        android:id="@+id/showTaskFragment"
+        android:name="com.ivanasharov.smartplanner.presentation.view.ShowTaskFragment"
+        android:label="@string/show_task">
+        <argument
+        android:name="taskViewModel"
+        app:argType="com.ivanasharov.smartplanner.presentation.model.TaskViewModel" />
+    </fragment>
+
+</navigation>

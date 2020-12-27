@@ -15,6 +15,8 @@ import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.FragmentNavigator
+import androidx.navigation.fragment.findNavController
 import com.ivanasharov.smartplanner.databinding.CurrentDayFragmentBinding
 import com.ivanasharov.smartplanner.databinding.TaskItemBinding
 import com.ivanasharov.smartplanner.presentation.model.TaskViewModel
@@ -36,6 +38,13 @@ class CurrentDayFragment : Fragment() {
         holder.binding.mainViewModel = mCurrentDayViewModel
         holder.binding.currentDayCheckBoxItem.setOnClickListener {
             mCurrentDayViewModel.changeStatus(holder.adapterPosition)
+        }
+        holder.binding.titleTextViewItem.setOnClickListener{
+         //   val extras =
+          //      FragmentNavigator.Extras.Builder()
+            //        .addSharedElement(holder.binding.titleTextViewItem, "nameText")
+              //      .build()
+            findNavController().navigate(CurrentDayFragmentDirections.actionCurrentDayFragmentToShowTaskFragment(taskViewModel))
         }
 
     }
@@ -86,6 +95,14 @@ class CurrentDayFragment : Fragment() {
         mCurrentDayViewModel.taskList.observe(viewLifecycleOwner, Observer {
             mAdapter.submitList(it)
         })
+        mBinding.addTaskForCurrentDayButton.setOnClickListener{
+/*            val extras =
+                FragmentNavigator.Extras.Builder()
+                    .addSharedElement(holder.binding.catAvatar, "image")
+                    .build()*/
+            findNavController().navigate(R.id.addTaskFragment)
+            //findNavController().navigate(Cu CatFragmentDirections.actionCatFragmentToSaveCatBreed(viewModel), extras)
+        }
 
 /*        mCurrentDayViewModel.statusOfTasks.observe(viewLifecycleOwner, Observer{
                 mBinding.countTasksTextView.text = mCurrentDayViewModel.statusOfTasks.value
@@ -96,9 +113,9 @@ class CurrentDayFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
      //  setObserve()
 
-        addTaskForCurrentDayButton.setOnClickListener{
+/*        addTaskForCurrentDayButton.setOnClickListener{
             startActivity(Intent(requireContext(), AddTaskActivity::class.java))
-        }
+        }*/
     }
 
 /*   private fun setObserve() {

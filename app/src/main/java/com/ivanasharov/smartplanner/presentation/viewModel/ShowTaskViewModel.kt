@@ -5,6 +5,42 @@ import com.ivanasharov.smartplanner.presentation.viewModel.base.BaseViewModel
 
 class ShowTaskViewModel @ViewModelInject constructor(
 ): BaseViewModel() {
+
+
+    var time = ""
+//    val taskUI = TaskUI()
+//    var  gMap : GoogleMap? = null
+    var isCorrectAddress = false
+
+
+/*    private fun loadMap() {
+        viewModelScope.launch(Dispatchers.IO) {
+
+        }
+    }
+
+    fun onMapReady() {
+        gMap?.setMinZoomPreference(12f)
+        gMap?.isIndoorEnabled = true
+        val uiSettings = gMap?.uiSettings
+        uiSettings?.isIndoorLevelPickerEnabled = true
+        uiSettings?.isMyLocationButtonEnabled = true
+        uiSettings?.isMapToolbarEnabled = true
+        uiSettings?.isCompassEnabled = true
+        uiSettings?.isZoomControlsEnabled = true
+
+        if (taskUI.address.value != null) {
+            val coordinates = getCoordinaty()
+            if (coordinates != null) {
+                isCorrectAddress = true
+                gMap?.addMarker(MarkerOptions().position(coordinates))
+                gMap?.moveCamera(CameraUpdateFactory.newLatLng(coordinates))
+            }
+        }
+    }
+    */
+
+
 /*
     val taskUI = TaskUI()
     var  gMap : GoogleMap? = null

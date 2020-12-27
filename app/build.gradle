@@ -3,6 +3,18 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'androidx.navigation.safeargs.kotlin' //для передачи аргументов по навигации
+
+//для передачи аргументов по навигации classpath
+buildscript {
+    repositories {
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.1"
+    }
+}
 
 android {
     compileSdkVersion 29
@@ -75,10 +87,7 @@ dependencies {
     implementation libs.roomKtx
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
-    /*implementation "android.arch.persistence.room:runtime:1.0.0"
-    implementation 'android.arch.persistence.room:runtime:1.0.0'
-    annotationProcessor  'android.arch.persistence.room:compiler:1.0.0'
-    kapt 'android.arch.persistence.room:compiler:1.0.0'*/
-
+    implementation libs.navigationFragment
+    implementation libs.navigationUI
 
 }
