@@ -6,10 +6,7 @@
     <data>
         <import type="android.view.View" />
         <variable
-            name="mainViewModel" type="com.ivanasharov.smartplanner.presentation.viewModel.ShowTaskViewModel" />
-        <variable
-            name="viewModel"
-            type="com.ivanasharov.smartplanner.presentation.model.TaskViewModel" />
+            name="viewModel" type="com.ivanasharov.smartplanner.presentation.viewModel.ShowTaskViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,11 +25,15 @@
         android:background="@color/design_default_color_background"
         android:textAlignment="center"
         android:textSize="@dimen/text_size_values_show_activity"
-        android:text="@{viewModel.name}"
+        android:text="@{viewModel.task.name}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+        <include
+            android:visibility="@{viewModel.isLoading() ? View.VISIBLE : View.GONE}"
+            android:id="@+id/waiting"
+            layout="@layout/waiting_layout" />
     <TextView
         android:id="@+id/descriptionTextViewShowActivity"
         android:layout_width="match_parent"
@@ -42,9 +43,9 @@
         android:layout_marginEnd="8dp"
         android:background="@color/design_default_color_background"
         android:textAlignment="center"
-        android:visibility="@{viewModel.description == null ? View.GONE : View.VISIBLE}"
+        android:visibility="@{viewModel.task.description == null ? View.GONE : View.VISIBLE}"
         android:textSize="@dimen/text_size_values_show_activity"
-        android:text="@{viewModel.description}"
+        android:text="@{viewModel.task.description}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameTextViewShowActivity" />
@@ -100,7 +101,7 @@
             android:layout_marginRight="8dp"
             android:layout_weight="1"
             android:textSize="@dimen/text_size_values_show_activity"
-            android:text="@{viewModel.date}"
+            android:text="@{viewModel.task.date}"
             android:background="@color/design_default_color_background"
             android:textAlignment="center" />
 
@@ -111,7 +112,7 @@
             android:paddingLeft="8dp"
             android:layout_weight="1"
             android:textSize="@dimen/text_size_values_show_activity"
-            android:text="@{mainViewModel.time}"
+            android:text="@{viewModel.time}"
             android:background="@color/design_default_color_background"
             android:textAlignment="center" />
     </LinearLayout>
@@ -125,7 +126,7 @@
         android:layout_marginEnd="8dp"
         android:orientation="horizontal"
         android:weightSum="3"
-        android:visibility="@{viewModel.importance == null ? View.GONE : View.VISIBLE}"
+        android:visibility="@{viewModel.task.importance == null ? View.GONE : View.VISIBLE}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
@@ -144,7 +145,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:textSize="@dimen/text_size_values_show_activity"
-            android:text="@{viewModel.importance}"
+            android:text="@{viewModel.task.importance}"
             android:background="@color/design_default_color_background"
             android:textAlignment="center" />
     </LinearLayout>
@@ -153,7 +154,7 @@
         android:id="@+id/labelSnapContactTextViewShowActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="@{viewModel.contact == null ? View.GONE : View.VISIBLE}"
+        android:visibility="@{viewModel.task.contact == null ? View.GONE : View.VISIBLE}"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -172,8 +173,8 @@
         android:layout_marginEnd="16dp"
         android:background="@color/design_default_color_background"
         android:textSize="@dimen/text_size_values_show_activity"
-        android:visibility="@{viewModel.contact == null ? View.GONE : View.VISIBLE}"
-        android:text="@{viewModel.contact}"
+        android:visibility="@{viewModel.task.contact == null ? View.GONE : View.VISIBLE}"
+        android:text="@{viewModel.task.contact}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelSnapContactTextViewShowActivity" />
@@ -185,7 +186,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="98dp"
-        android:visibility="@{viewModel.address == null ? View.GONE : View.VISIBLE}"
+        android:visibility="@{viewModel.task.address == null ? View.GONE : View.VISIBLE}"
         android:text="@string/address"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -199,8 +200,8 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@color/design_default_color_background"
-        android:visibility="@{viewModel.address == null ? View.GONE : View.VISIBLE}"
-        android:text="@{viewModel.address}"
+        android:visibility="@{viewModel.task.address == null ? View.GONE : View.VISIBLE}"
+        android:text="@{viewModel.task.address}"
         android:textAlignment="center"
         android:textSize="@dimen/text_size_values_show_activity"
         app:layout_constraintEnd_toEndOf="parent"
@@ -214,7 +215,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="8dp"
-        android:visibility="@{viewModel.address == null ? View.GONE : View.VISIBLE}"
+        android:visibility="@{viewModel.task.address == null ? View.GONE : View.VISIBLE}"
         android:text="@string/showMap"
         android:textSize="@dimen/text_size_title_show_activity"
         app:layout_constraintEnd_toEndOf="parent"
@@ -251,7 +252,7 @@
             android:id="@+id/statusFalseTextViewShowActivity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@{viewModel.status ? @color/divider : @color/accent}"
+            android:background="@{viewModel.task.status ? @color/divider : @color/accent}"
             android:layout_weight="1"
             android:text="@string/not_done"
             android:textAlignment="center" />
@@ -262,7 +263,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/done"
-            android:background="@{viewModel.status ? @color/accent : @color/divider}"
+            android:background="@{viewModel.task.status ? @color/accent : @color/divider}"
             android:textAlignment="center" />
     </LinearLayout>
 

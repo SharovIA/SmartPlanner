@@ -23,6 +23,6 @@ class ConvertTaskDataToTaskDomian {
     fun convert(tasksData: Task): TaskDomain {
         return TaskDomain(tasksData.name, tasksData.description, tasksData.date,
                 tasksData.timeFrom, tasksData.timeTo, tasksData.importance, tasksData.address,
-                false, tasksData.contact, false, null, tasksData.status)
+                false, tasksData.contact, false, null, tasksData.status, tasksData.id)
     }
 }

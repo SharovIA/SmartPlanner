@@ -12,13 +12,20 @@
 
         <action
             android:id="@+id/action_currentDayFragment_to_addTaskFragment"
-            app:destination="@id/addTaskFragment" />
+            app:destination="@id/addTaskFragment">
+            <argument
+                android:name="idOfTask"
+                app:argType="long" />
+            <argument
+                android:name="title"
+                app:argType="string" />
+        </action>
         <action
             android:id="@+id/action_currentDayFragment_to_showTaskFragment"
             app:destination="@id/showTaskFragment">
             <argument
-                android:name="taskViewModel"
-                app:argType="com.ivanasharov.smartplanner.presentation.model.TaskViewModel" />
+                android:name="idOfTask"
+                app:argType="long" />
         </action>
     </fragment>
     <fragment
@@ -39,14 +46,32 @@
     <fragment
         android:id="@+id/addTaskFragment"
         android:name="com.ivanasharov.smartplanner.presentation.view.AddTaskFragment"
-        android:label="@string/add_task" />
+        android:label="{title}">
+        <argument
+            android:name="idOfTask"
+            app:argType="long" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
+
     <fragment
         android:id="@+id/showTaskFragment"
         android:name="com.ivanasharov.smartplanner.presentation.view.ShowTaskFragment"
         android:label="@string/show_task">
         <argument
-        android:name="taskViewModel"
-        app:argType="com.ivanasharov.smartplanner.presentation.model.TaskViewModel" />
+            android:name="idOfTask"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_showTaskFragment_to_addTaskFragment"
+            app:destination="@id/addTaskFragment">
+            <argument
+                android:name="idOfTask"
+                app:argType="long" />
+            <argument
+                android:name="title"
+                app:argType="string" />
+        </action>
     </fragment>
 
 </navigation>

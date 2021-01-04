@@ -27,8 +27,12 @@ class AddTaskInteractorImpl @Inject constructor(
         //validator 1
         Log.d("test", "execute")
         //saveTask and return id      //addCalendar
-
-        val isSaveTask: Long? = saveTask(task)
+        var isSaveTask: Long? = null
+        if (task.id == null) 
+             isSaveTask= saveTask(task)
+        else
+           updateTask(task)
+        
         if (task.isAddCalendar != null && task.isAddCalendar && isSaveTask != null) {
             val isAddCalendar: Boolean = addCalendar(task)
         }
@@ -40,7 +44,13 @@ class AddTaskInteractorImpl @Inject constructor(
 
     }
 
+    private fun updateTask(task: TaskDomain) {
+        return mTaskRepository.updateTask(task)
+    }
+
     override fun getCalendars(): Flow<List<String>> = mCalendarRepository.getAllCalendars()
+
+    override fun loadTask(id: Long): Flow<TaskDomain> = mTaskRepository.getTaskById(id)
 
     private fun saveAddress(task: TaskDomain): Boolean {
         //TODO

@@ -68,5 +68,6 @@ data class TaskViewModel( val taskUILoad: TaskUILoad,
                           val importance : String? = taskUILoad.importance,
                           val address : String? = taskUILoad.address,
                           val contact : String? = taskUILoad.contact,
-                          val status : Boolean = taskUILoad.status
+                          val status : Boolean = taskUILoad.status,
+                          val id: Long? = taskUILoad.id
 ): Serializable

@@ -1,13 +1,9 @@
 package com.ivanasharov.smartplanner.domain
 
-import android.util.Log
-import com.ivanasharov.smartplanner.data.CalendarRepository
 import com.ivanasharov.smartplanner.data.TaskRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 class CurrentTasksInteractorImpl @Inject constructor(
     private val taskRepository: TaskRepository
@@ -67,7 +63,7 @@ class CurrentTasksInteractorImpl @Inject constructor(
     override fun changeTask(index: Int) {
         val task = tasksOfCurrentDay[index]
         task.status = !task.status
-        taskRepository.changeTask(task)
+        taskRepository.changeStatusTask(task)
     }
 
 }

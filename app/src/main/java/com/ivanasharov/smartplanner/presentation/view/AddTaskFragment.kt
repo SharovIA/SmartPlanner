@@ -4,52 +4,71 @@ import android.Manifest
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.provider.Settings
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.annotation.CallSuper
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.content.PermissionChecker.checkCallingOrSelfPermission
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import com.ivanasharov.smartplanner.Contact
 import com.ivanasharov.smartplanner.R
-import com.ivanasharov.smartplanner.databinding.ActivityAddTaskBinding
 import com.ivanasharov.smartplanner.databinding.FragmentAddTaskBinding
 import com.ivanasharov.smartplanner.presentation.view.dialogs.CalendarSelectionDialogFragment
 import com.ivanasharov.smartplanner.presentation.viewModel.AddTaskViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_add_task.*
 
 @AndroidEntryPoint
 //class AddTaskFragment : FragmentActivity() {
 class AddTaskFragment : Fragment() {
 
-    private val TAG = "CONTACT"
-    private val PERMISSIONS_REQUEST_READ_CONTACTS = 10
-    private val PERMISSIONS_REQUEST_READ_CALENDAR = 11
-    private val PERMISSIONS_REQUEST_WRITE_CALENDAR = 12
+    companion object{
+        private const val TAG = "CONTACT"
+        private const val PERMISSIONS_REQUEST_CODE = 123
+        private const val PERMISSIONS_REQUEST_READ_CONTACTS = 10
+        private const val PERMISSIONS_REQUEST_READ_CALENDAR = 11
+        private const val PERMISSIONS_REQUEST_WRITE_CALENDAR = 12
+    }
+
+    private var mIsPermissionForReadCalendar = false
+    private var mIsPermissionForWriteToCalendar = false
 
     private val mAddTaskViewModel : AddTaskViewModel by viewModels()
+    private val mArguments: AddTaskFragmentArgs by navArgs()
     private lateinit var mBinding: FragmentAddTaskBinding
     private lateinit var spinnerAdapter : ArrayAdapter<CharSequence>
     private lateinit var mContext : Context
   //  private lateinit var mContext : Context
 
     override fun onCreate(savedInstanceState: Bundle?) {
+/*        val bundle = arguments
+        if(bundle != null) {
+            mAddTaskViewModel.loadTaskForEdit(bundle.getLong("id"))
+            mAddTaskViewModel.modeNewTask = false       //Edit mode
+        }*/
+        if (mArguments.idOfTask != -1L){
+            mAddTaskViewModel.loadTaskForEdit(mArguments.idOfTask)
+            mAddTaskViewModel.modeNewTask = false       //Edit mode
+        }
         super.onCreate(savedInstanceState)
 
     }
@@ -64,7 +83,15 @@ class AddTaskFragment : Fragment() {
         mContext = inflater.context
         initSpinner()
         initListeners()
+
+
+
         // Inflate the layout for this fragment
+/*        if (!mAddTaskViewModel.modeNewTask) {
+            val toolbar: Toolbar =
+                activity?.findViewById<Toolbar>(R.id.toolbar_actionbar) as Toolbar
+            toolbar.title = getString(R.string.edit_task)
+        }*/
         return mBinding.root
     }
 
@@ -86,11 +113,199 @@ class AddTaskFragment : Fragment() {
         }
         mBinding.time1TextView.setOnClickListener{setTime(true)}
         mBinding.time2TextView.setOnClickListener{setTime(false)}
+
+        mBinding.addCalendarAndroidCheckBox.setOnClickListener{
+            if(hasPermissionReadCalendar()) {
+                chooseCalendar()
+
+            } else
+                requestPermissionWithRationale()
+        }
+
         mBinding.saveButton.setOnClickListener {
             getDataFromActivity()
             if (mAddTaskViewModel.isAddToCalendar.value != null && mAddTaskViewModel.isAddToCalendar.value as Boolean){
                 // Проверка разрешения
-                if (checkSelfPermission(requireContext(),
+                if (mIsPermissionForWriteToCalendar)
+                    mAddTaskViewModel.save()
+                else
+                    checkCalendarPermissionWrite()
+
+            }
+            else
+                mAddTaskViewModel.save()
+        }
+
+        mBinding.addContactCheckBox.setOnClickListener {
+            getListOfContacts()
+        }
+/*
+        mBinding.addCalendarAndroidCheckBox.setOnClickListener {
+            initDialog()
+        }*/
+    }
+
+    private fun chooseCalendar() {
+        mAddTaskViewModel.loadCalendars()
+        mAddTaskViewModel.namesCalendarsList.observe(viewLifecycleOwner, Observer{
+            initDialog()
+        })
+
+    }
+
+    private fun hasPermissionReadCalendar(): Boolean {
+        var result = 0
+        val permissions = arrayOf(Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR)
+        for (permission in permissions){
+            result = checkCallingOrSelfPermission(requireContext(), permission)
+            if (result != PackageManager.PERMISSION_GRANTED)
+                return false
+        }
+        return true
+    }
+
+    private fun requestPerms(){
+        val permissions = arrayOf(Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            requestPermissions(permissions, PERMISSIONS_REQUEST_CODE)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        var allowed = true
+
+        when(requestCode){
+            PERMISSIONS_REQUEST_CODE -> {
+                for(res in grantResults) {
+                    // if user granted all permissions.
+                    allowed = allowed && (res == PackageManager.PERMISSION_GRANTED)
+                }
+            }
+            else -> {
+                // if user not granted permissions.
+                allowed = false
+            }
+        }
+
+        if(allowed){
+            chooseCalendar()
+        } else{
+            // we will give warning to user that they haven't granted permissions.
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CALENDAR)){
+                    Toast.makeText(requireContext(), "Calendar Permissions denied.", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    showNoCalendarPermissionSnackbar();
+                }
+            }
+        }
+    }
+
+    private fun showNoCalendarPermissionSnackbar() {
+        Snackbar.make(activity?.findViewById(R.id.content) as View,"", Snackbar.LENGTH_LONG)
+            .setAction("Settings", View.OnClickListener{
+                openApplicationSettings()
+                Toast.makeText(requireContext(), "Open Permissions and grant the read and write permissions",
+                    Toast.LENGTH_SHORT)
+                    .show()
+            })
+            .show()
+    }
+
+    private fun openApplicationSettings() {
+        val appSettingsIntent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+        Uri.parse("package:" + activity?.packageName))
+        startActivityForResult(appSettingsIntent, PERMISSIONS_REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == PERMISSIONS_REQUEST_CODE){
+            chooseCalendar()
+            return
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun requestPermissionWithRationale() {
+        if(ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
+            Manifest.permission.READ_CALENDAR)){
+            val message = "Storage permission is needed to show files count"
+            Snackbar.make(
+                activity?.findViewById(R.id.content) as View,
+                message,
+                Snackbar.LENGTH_LONG
+            ).setAction("GRANT") {
+                requestPerms()
+            }.show()
+        } else{
+            requestPerms()
+        }
+    }
+//----------------------------
+    private fun checkCalendarPermissionRead() {
+        // Проверка разрешения
+        if (checkSelfPermission(requireContext(),
+                Manifest.permission.READ_CALENDAR) ==
+            PackageManager.PERMISSION_GRANTED)
+        {
+            mIsPermissionForReadCalendar = true
+
+            Log.d(TAG, "ok")
+        } else {
+            // Разрешений нет
+            Log.d(TAG, "Permission is not granted")
+
+            // Запрос разрешений
+            Log.d(TAG, "Request permissions")
+
+            val permissions: Array<String> = arrayOf( Manifest.permission.READ_CALENDAR)
+
+            requestPermissions(permissions,
+                PERMISSIONS_REQUEST_READ_CALENDAR)
+
+        }
+    }
+
+    private fun checkCalendarPermissionWrite() {
+        // Проверка разрешения
+        if (checkSelfPermission(requireContext(),
+                Manifest.permission.WRITE_CALENDAR) ==
+            PackageManager.PERMISSION_GRANTED)
+        {
+            mIsPermissionForWriteToCalendar = true
+
+            Log.d(TAG, "ok")
+        } else {
+            // Разрешений нет
+            Log.d(TAG, "Permission is not granted")
+
+            // Запрос разрешений
+            Log.d(TAG, "Request permissions")
+
+            val permissions: Array<String> = arrayOf(Manifest.permission.WRITE_CALENDAR)
+
+            requestPermissions(permissions,
+                PERMISSIONS_REQUEST_WRITE_CALENDAR)
+
+        }
+    }
+//----------------------------------------------------------------------------------
+/*    private fun initListeners() {
+        mBinding.dateTextView.setOnClickListener{
+            setDate()
+        }
+        mBinding.time1TextView.setOnClickListener{setTime(true)}
+        mBinding.time2TextView.setOnClickListener{setTime(false)}
+        mBinding.saveButton.setOnClickListener {
+            getDataFromActivity()
+            if (mAddTaskViewModel.isAddToCalendar.value != null && mAddTaskViewModel.isAddToCalendar.value as Boolean){
+                // Проверка разрешения
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(requireContext(),
                         Manifest.permission.READ_CALENDAR) ==
                     PackageManager.PERMISSION_GRANTED && checkSelfPermission(requireContext(),
                         Manifest.permission.WRITE_CALENDAR) ==
@@ -123,7 +338,7 @@ class AddTaskFragment : Fragment() {
         mBinding.addCalendarAndroidCheckBox.setOnClickListener {
             initDialog()
         }
-    }
+    }*/
 
     private fun initDialog() {
         if (!mAddTaskViewModel.namesCalendarsList.value.isNullOrEmpty()) {
@@ -215,18 +430,36 @@ class AddTaskFragment : Fragment() {
     }
     //---------------------------------------
     private fun getDataFromActivity(){
-        mAddTaskViewModel.taskUI.importance.value = mBinding.importanceSpinner.selectedItem.toString()
+      //  mAddTaskViewModel.taskUI.importance.value = mBinding.importanceSpinner.selectedItem.toString()
         if (mBinding.addContactCheckBox.isChecked){
             mAddTaskViewModel.taskUI.contact.value = mBinding.contactSpinner.selectedItem.toString()
         }
     }
 
-    private fun initSpinner() {
+/*    private fun initSpinner() {
         spinnerAdapter = ArrayAdapter.createFromResource(requireContext(),
             R.array.importance, android.R.layout.simple_spinner_item)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         mBinding.importanceSpinner.adapter = spinnerAdapter
+    }*/
+private fun initSpinner() {
+    spinnerAdapter = ArrayAdapter.createFromResource(requireContext(),
+        R.array.importance, android.R.layout.simple_spinner_item)
+    spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+    mBinding.importanceSpinner.adapter = spinnerAdapter
+
+    mBinding.importanceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        override fun onNothingSelected(parent: AdapterView<*>?) { }
+
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            if ((mAddTaskViewModel.taskUI.importance.value != null) &&  (mAddTaskViewModel.taskUI.importance.value?.isNotEmpty() as Boolean))
+                parent?.setSelection(spinnerAdapter.getPosition(mAddTaskViewModel.taskUI.importance.value))
+            else
+                mAddTaskViewModel.taskUI.importance.value = parent?.selectedItem.toString()
+        }
+
     }
+}
 
     private fun setDate(){
         val date =

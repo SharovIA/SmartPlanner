@@ -12,6 +12,10 @@ interface TaskRepository {
    // fun getListCurrentTasks(date: GregorianCalendar) : Flow<ArrayList<TaskDomain>>
     fun getListCurrentTasks(date: GregorianCalendar) : Flow<List<TaskDomain>>
 
-    fun changeTask(taskDomain: TaskDomain)
+    fun changeStatusTask(taskDomain: TaskDomain)
+
+    fun updateTask(taskDomain: TaskDomain)
+
+    fun getTaskById(id: Long): Flow<TaskDomain>
 
 }

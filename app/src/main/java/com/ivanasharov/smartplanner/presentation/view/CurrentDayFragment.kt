@@ -1,5 +1,7 @@
 package com.ivanasharov.smartplanner.presentation.view
 
+import android.Manifest
+import android.content.ContentValues.TAG
 import android.os.Bundle
 
 import androidx.fragment.app.Fragment
@@ -11,7 +13,10 @@ import com.ivanasharov.smartplanner.R
 import com.ivanasharov.smartplanner.presentation.viewModel.CurrentDayViewModel
 import kotlinx.android.synthetic.main.current_day_fragment.*
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.util.Log
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -25,6 +30,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CurrentDayFragment : Fragment() {
+
+    private val PERMISSIONS_REQUEST_READ_CALENDAR = 11
 
     private val mCurrentDayViewModel : CurrentDayViewModel by viewModels()
     private val mAdapter = UniversalListAdapter(
@@ -44,7 +51,11 @@ class CurrentDayFragment : Fragment() {
           //      FragmentNavigator.Extras.Builder()
             //        .addSharedElement(holder.binding.titleTextViewItem, "nameText")
               //      .build()
-            findNavController().navigate(CurrentDayFragmentDirections.actionCurrentDayFragmentToShowTaskFragment(taskViewModel))
+          //  val bundle = Bundle()
+            //bundle.putLong("id", taskViewModel.id as Long)
+            findNavController().navigate(CurrentDayFragmentDirections.actionCurrentDayFragmentToShowTaskFragment(taskViewModel.id as Long))
+          //  findNavController().navigate(R.id.showTaskFragment, bundle)
+            //findNavController().navigate(CurrentDayFragmentDirections.actionCurrentDayFragmentToShowTaskFragment(taskViewModel))
         }
 
     }
@@ -96,18 +107,36 @@ class CurrentDayFragment : Fragment() {
             mAdapter.submitList(it)
         })
         mBinding.addTaskForCurrentDayButton.setOnClickListener{
-/*            val extras =
-                FragmentNavigator.Extras.Builder()
-                    .addSharedElement(holder.binding.catAvatar, "image")
-                    .build()*/
-            findNavController().navigate(R.id.addTaskFragment)
-            //findNavController().navigate(Cu CatFragmentDirections.actionCatFragmentToSaveCatBreed(viewModel), extras)
+            findNavController().navigate(CurrentDayFragmentDirections.actionCurrentDayFragmentToAddTaskFragment(-1, getString(R.string.add_task)))
+               //findNavController().navigate(R.id.addTaskFragment)
         }
 
 /*        mCurrentDayViewModel.statusOfTasks.observe(viewLifecycleOwner, Observer{
                 mBinding.countTasksTextView.text = mCurrentDayViewModel.statusOfTasks.value
         })*/
     }
+
+/*    private fun checkPermissionCalendar(): Boolean {
+        // Проверка разрешения
+        if (checkSelfPermission(requireContext(),
+                Manifest.permission.READ_CALENDAR) ==
+            PackageManager.PERMISSION_GRANTED)
+        {
+            return true
+        } else {
+            // Разрешений нет
+            Log.d(TAG, "Permission is not granted")
+
+            // Запрос разрешений
+            Log.d(TAG, "Request permissions")
+
+            val permissions: Array<String> = arrayOf( Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR)
+
+            requestPermissions(permissions,
+                PERMISSIONS_REQUEST_READ_CALENDAR)
+        }
+        return false
+    }*/
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

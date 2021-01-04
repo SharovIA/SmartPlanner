@@ -24,27 +24,40 @@ class CalendarRepositoryImpl @Inject constructor(
         private const val PROJECTION_ACCOUNT_NAME_INDEX: Int = 1
     }
 
-    init {
-        getCalendars()
-    }
+/*    private fun getCalendars() {
 
-    private fun getCalendars() {
-/*        val cur: Cursor? = mContentResolver.query(uri, null, null, null, null)
-        val accountNameArrayList = ArrayList<String>()
-        while (cur != null && cur.moveToNext()) {
-            idList.add(cur.getLong(PROJECTION_ID_INDEX))
-            accountNameArrayList.add(cur.getString(PROJECTION_ACCOUNT_NAME_INDEX))
-        }
-        accountName = accountNameArrayList.toList()*/
         val cur: Cursor? = mContentResolver.query(uri, null, null, null, null)
         while (cur != null && cur.moveToNext()) {
+            if(cur.getString(PROJECTION_ACCOUNT_NAME_INDEX) != null)
+         //   val a = cur.getString(PROJECTION_ACCOUNT_NAME_INDEX)
+           // val b  = cur.getLong(PROJECTION_ID_INDEX)
             mNamesAndIndexsCalendars[cur.getString(PROJECTION_ACCOUNT_NAME_INDEX)] = cur.getLong(PROJECTION_ID_INDEX)
         }
+        Log.d("r", "fds")
+
+    }*/
+
+    private fun getCalendars() {
+        val projection = arrayOf("_id", "calendar_displayName")
+
+        val cur: Cursor? = mContentResolver.query(uri, projection, null, null, null)
+        if (cur != null && cur.moveToFirst()) {
+            val nameCol = cur.getColumnIndex(projection[1])
+            val idCol = cur.getColumnIndex(projection[0])
+            do {
+                val name = cur.getString(nameCol)
+                val id = cur.getString(idCol)
+                mNamesAndIndexsCalendars[name] = id.toLong()
+            } while (cur.moveToNext())
+            cur.close()
+        }
+
+        Log.d("r", "fds")
 
     }
 
     override fun getAllCalendars(): Flow<List<String>> = flow {
-        //emit(accountName)
+        getCalendars()
         emit(mNamesAndIndexsCalendars.keys.toList())
     }
 

@@ -15,7 +15,7 @@ interface TaskDao {
     fun getByDate(calendar: GregorianCalendar): Flow<List<Task>>
 
     @Query("SELECT * FROM task WHERE id = :id")
-    fun getById(id : Long): Task
+    fun getById(id : Long): Flow<Task>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(task: Task): Long?
@@ -23,7 +23,7 @@ interface TaskDao {
     @Query("UPDATE task SET status = :status WHERE (name = :name AND timeFrom = :timeFrom)")
     fun updateTask(name: String?, timeFrom: GregorianCalendar?, status : Boolean): Int
 
-    @Update
+    @Update()
     fun update(task: Task)
 
     @Delete

@@ -14,7 +14,7 @@ class ConvertTaskUIToTaskDomain @Inject constructor(
     private var month : Int? = null
     private var year : Int? = null
 
-    fun convert(taskUI: TaskUI, isSnapContact:Boolean, isAddToCalendar:Boolean, nameOfCalendar: String?): TaskDomain {
+    fun convert(taskUI: TaskUI, isSnapContact:Boolean, isAddToCalendar:Boolean, nameOfCalendar: String?, id: Long?): TaskDomain {
         val category = convertCategory(taskUI.importance.value)
         val date = convertDate(taskUI.date.value)
         val timeFrom = convertTime(taskUI.timeFrom.value)
@@ -24,7 +24,7 @@ class ConvertTaskUIToTaskDomain @Inject constructor(
             date, timeFrom,  timeTo,
             category, taskUI.address.value,
             isSnapContact, taskUI.contact.value,
-            isAddToCalendar, nameOfCalendar, taskUI.status.value as Boolean)
+            isAddToCalendar, nameOfCalendar, taskUI.status.value as Boolean, id)
     }
 
     private fun convertDate(strDate : String?): GregorianCalendar? {

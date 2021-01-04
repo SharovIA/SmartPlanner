@@ -28,8 +28,17 @@ class TaskRepositoryImpl @Inject constructor(
         return taskDao.insert(task)
     }
 
-    override fun changeTask(taskDomain: TaskDomain) {
+    override fun changeStatusTask(taskDomain: TaskDomain) {
         val task : Task = ConvertTaskDomainToTaskData().convert(taskDomain)
         taskDao.updateTask(task.name, task.timeFrom, task.status)
+    }
+
+    override fun updateTask(taskDomain: TaskDomain) {
+        val task : Task = ConvertTaskDomainToTaskData().convert(taskDomain)
+        taskDao.update(task)
+    }
+
+    override fun getTaskById(id: Long): Flow<TaskDomain> = taskDao.getById(id).map{
+        ConvertTaskDataToTaskDomian().convert(it)
     }
 }

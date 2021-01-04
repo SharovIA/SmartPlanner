@@ -14,5 +14,6 @@ data class TaskDomain(
     val contact : String?,
     val isAddCalendar : Boolean?,
     val selectNameOfCalendar : String?,
-    var status : Boolean
+    var status : Boolean,
+    val id: Long?
 )

@@ -1,6 +1,5 @@
 package com.ivanasharov.smartplanner.presentation.viewModel
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,8 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.ivanasharov.smartplanner.R
 import com.ivanasharov.smartplanner.Utils.ResourceProvider
 import com.ivanasharov.smartplanner.domain.CurrentTasksInteractor
-import com.ivanasharov.smartplanner.presentation.ConvertTaskDomainToTaskUI
-import com.ivanasharov.smartplanner.presentation.model.TaskUI
+import com.ivanasharov.smartplanner.presentation.ConvertDomainToUI
 import com.ivanasharov.smartplanner.presentation.model.TaskViewModel
 import com.ivanasharov.smartplanner.presentation.viewModel.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +18,7 @@ import kotlinx.coroutines.launch
 class CurrentDayViewModel @ViewModelInject constructor(
     private val resources: ResourceProvider,
     private val currentTasksInteractor: CurrentTasksInteractor,
-    private val convert: ConvertTaskDomainToTaskUI
+    private val convert: ConvertDomainToUI
 ) : BaseViewModel() {
     // tasks
     // current date
@@ -113,7 +111,7 @@ class CurrentDayViewModel @ViewModelInject constructor(
             mIsLoading.postValue(true)
             currentTasksInteractor.getCurrentTasks().map{list->
                     list.map { it
-                        convert.convert(it)
+                        convert.taskDomainToTaskUILoad(it)
                     }
                 }.collect{
                 mTaskList.postValue(it.map{ taskUILoad ->

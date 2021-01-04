@@ -7,4 +7,6 @@ interface AddTaskInteractor {
     fun execute(task : TaskDomain)
 
     fun getCalendars(): Flow<List<String>>
+
+    fun loadTask(id: Long): Flow<TaskDomain>
 }

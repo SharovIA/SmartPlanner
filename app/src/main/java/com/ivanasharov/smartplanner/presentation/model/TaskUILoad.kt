@@ -1,5 +1,7 @@
 package com.ivanasharov.smartplanner.presentation.model
 
+import java.io.Serializable
+
 data class TaskUILoad(val name : String,
     val description : String?,
     val date  : String,
@@ -8,5 +10,6 @@ data class TaskUILoad(val name : String,
     val importance : String?,
     val address : String?,
     val contact : String?,
-    val status : Boolean
-)
+    val status : Boolean,
+    val id : Long?
+): Serializable

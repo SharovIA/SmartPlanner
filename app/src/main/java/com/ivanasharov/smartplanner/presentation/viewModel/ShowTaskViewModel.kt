@@ -1,18 +1,63 @@
 package com.ivanasharov.smartplanner.presentation.viewModel
 
+import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.ivanasharov.smartplanner.domain.AddTaskInteractor
+import com.ivanasharov.smartplanner.presentation.ConvertDomainToUI
+import com.ivanasharov.smartplanner.presentation.model.TaskViewModel
 import com.ivanasharov.smartplanner.presentation.viewModel.base.BaseViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 class ShowTaskViewModel @ViewModelInject constructor(
+    private val mAddTaskInteractor: AddTaskInteractor,
+    private val mConvertDomainToUI: ConvertDomainToUI
 ): BaseViewModel() {
 
 
-    var time = ""
+    private val mTime = MutableLiveData<String>()
 //    val taskUI = TaskUI()
 //    var  gMap : GoogleMap? = null
     var isCorrectAddress = false
+    private val mTaskViewModel  = MutableLiveData<TaskViewModel>()
+    private val mIsLoading= MutableLiveData<Boolean>(true)
+    /*    private val mIsLoadingCalendars = MutableLiveData<Boolean>(false)
+        private val mIsLoadingTask = MutableLiveData<Boolean>(false)*/
+    private val mNamesCalendarsList = MutableLiveData<List<String>>()
+    val isLoading: LiveData<Boolean>
+        get() = mIsLoading
+    val task: LiveData<TaskViewModel>
+        get() = mTaskViewModel
 
+    val time: LiveData<String>
+        get() = mTime
 
+    fun loadTask(id: Long){
+        viewModelScope.launch(Dispatchers.IO) {
+            //mIsLoading.postValue(true)
+            mAddTaskInteractor.loadTask(id).map {
+                TaskViewModel(mConvertDomainToUI.taskDomainToTaskUILoad(it))
+            }.collect{
+                mTaskViewModel.postValue(it)
+                mTime.postValue(getTime(it))
+                mIsLoading.postValue( false)
+                // taskUI.postValue(it)
+            }
+
+            Log.d("run", "cxz")
+            //   mIsLoading.postValue(false)
+        }
+        Log.d("run", "cxz")
+    }
+
+    private fun getTime(taskViewModel: TaskViewModel): String {
+        return "${taskViewModel.timeFrom} - ${taskViewModel.timeTo}"
+    }
 /*    private fun loadMap() {
         viewModelScope.launch(Dispatchers.IO) {
 

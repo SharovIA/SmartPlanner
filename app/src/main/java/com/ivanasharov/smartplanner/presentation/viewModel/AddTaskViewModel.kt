@@ -8,6 +8,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ivanasharov.smartplanner.Utils.ResourceProvider
 import com.ivanasharov.smartplanner.domain.AddTaskInteractor
+import com.ivanasharov.smartplanner.domain.TaskDomain
+import com.ivanasharov.smartplanner.presentation.ConvertDomainToUI
 import com.ivanasharov.smartplanner.presentation.ConvertTaskUIToTaskDomain
 import com.ivanasharov.smartplanner.presentation.model.TaskUI
 import com.ivanasharov.smartplanner.presentation.model.TaskViewModel
@@ -21,7 +23,8 @@ import java.util.*
 class AddTaskViewModel @ViewModelInject constructor(
     private val resource: ResourceProvider,
     private val mAddTaskInteractor: AddTaskInteractor,
-    private val mConvert: ConvertTaskUIToTaskDomain
+    private val mConvert: ConvertTaskUIToTaskDomain,
+    private val mConvertDomainToUI: ConvertDomainToUI
 ) : BaseViewModel() {
 
 /*    var day: Int
@@ -138,15 +141,28 @@ fun updateFullDate() {
     val isSnapContact : MutableLiveData<Boolean> = MutableLiveData(false)
     val isAddToCalendar : MutableLiveData<Boolean> = MutableLiveData(false)
     val nameOfCalendar = MutableLiveData<String>("")
-
+    private val mIdTask = MutableLiveData<Long?>(null)
     private val mIsSave = MediatorLiveData<Boolean>()
     val isSave: LiveData<Boolean>
         get() = mIsSave
-    val taskUI = TaskUI()
 
+    var taskUI = TaskUI()
+    var modeNewTask = true //Add New Task mode
+    private val mIsLoading= MutableLiveData<Boolean>(false)
+/*    private val mIsLoadingCalendars = MutableLiveData<Boolean>(false)
+    private val mIsLoadingTask = MutableLiveData<Boolean>(false)*/
     private val mNamesCalendarsList = MutableLiveData<List<String>>()
     val namesCalendarsList: LiveData<List<String>>
         get() = mNamesCalendarsList
+
+/*    val isLoadingCalendars: LiveData<Boolean>
+        get() = mIsLoadingCalendars
+
+    val isLoadingTask: LiveData<Boolean>
+        get() = mIsLoadingTask*/
+
+    val isLoading: LiveData<Boolean>
+        get() = mIsLoading
 
     private val mCalendar = Calendar.getInstance()
     val currentDay = mCalendar.get(Calendar.DAY_OF_MONTH)
@@ -156,15 +172,39 @@ fun updateFullDate() {
     val currentMinute = mCalendar.get(Calendar.MINUTE)
 
 
-    init {
-        loadCalendars()
+    fun loadTaskForEdit(id: Long){
+        viewModelScope.launch(Dispatchers.IO) {
+            mIdTask.postValue(id)
+            mIsLoading.postValue(true)
+            mAddTaskInteractor.loadTask(id).collect{
+                taskUI = mConvertDomainToUI.taskDomainToTaskUI(it)
+                mIsLoading.postValue( false)
+                Log.d("run", "cxz")
+               // taskUI.postValue(it)
+            }
+         //   mIsLoading.postValue(false)
+        }
+        Log.d("run", "cxz")
     }
 
-    private fun loadCalendars() {
+/*    private fun parseData(task: TaskDomain) {
+        taskUI.name.postValue(task.name)
+        taskUI.description.postValue(task.description)
+        taskUI.date.postValue(task.date)
+        taskUI.name.postValue(task.name)
+        taskUI.name.postValue(task.name)
+        taskUI.name.postValue(task.name)
+
+    }*/
+
+
+    fun loadCalendars() {
         viewModelScope.launch(Dispatchers.IO) {
+            mIsLoading.postValue(true)
             mAddTaskInteractor.getCalendars().collect{
                 mNamesCalendarsList.postValue(it)
             }
+            mIsLoading.postValue(false)
         }
     }
 
@@ -190,7 +230,7 @@ fun updateFullDate() {
     fun save() {
         viewModelScope.launch(Dispatchers.IO) {
             mIsSave.postValue(false)
-            val taskDomain = mConvert.convert(taskUI, isSnapContact.value as Boolean, isAddToCalendar.value as Boolean, nameOfCalendar.value)
+            val taskDomain = mConvert.convert(taskUI, isSnapContact.value as Boolean, isAddToCalendar.value as Boolean, nameOfCalendar.value, mIdTask.value)
            mAddTaskInteractor.execute(taskDomain)
             mIsSave.postValue(true)
         }

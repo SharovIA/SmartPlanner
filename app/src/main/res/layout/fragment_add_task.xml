@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <import type="android.view.View" />
         <variable
             name="viewModel" type="com.ivanasharov.smartplanner.presentation.viewModel.AddTaskViewModel" />
     </data>
@@ -120,6 +121,7 @@
                     android:id="@+id/importanceSpinner"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+
                     android:layout_weight="3"
                     android:background="@color/design_default_color_background" />
             </LinearLayout>
@@ -213,6 +215,11 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
             </LinearLayout>
+
+            <include
+                android:visibility="@{viewModel.isLoading() ? View.VISIBLE : View.GONE}"
+                android:id="@+id/waiting"
+                layout="@layout/waiting_layout" />
 
             <Button
                 android:id="@+id/saveButton"

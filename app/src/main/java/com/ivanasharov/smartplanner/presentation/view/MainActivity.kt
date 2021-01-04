@@ -47,11 +47,15 @@ class MainActivity : AppCompatActivity() {
         bottomNav.setupWithNavController(navController)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+/*    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         NavigationUI.onNavDestinationSelected(item, mNavigationController)
         return super.onOptionsItemSelected(item)
-    }
+    }*/
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.onNavDestinationSelected(item, mNavigationController)
+                || super.onOptionsItemSelected(item)
+    }
 /*    private fun initViewPager2withFragments() {
         var adapter = MyPagerAdapter(supportFragmentManager, lifecycle)
         viewPager2.adapter = adapter
