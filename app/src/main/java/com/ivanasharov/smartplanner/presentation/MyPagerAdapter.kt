@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.ivanasharov.smartplanner.presentation.view.CurrentDayFragment
-import com.ivanasharov.smartplanner.presentation.view.FreeTimeFragment
+import com.ivanasharov.smartplanner.presentation.view.DailyScheduleFragment
 import com.ivanasharov.smartplanner.presentation.view.InformationFragment
 import com.ivanasharov.smartplanner.presentation.view.PlanningFragment
 
@@ -14,7 +14,7 @@ import com.ivanasharov.smartplanner.presentation.view.PlanningFragment
 
         var fragments: ArrayList<Fragment> = arrayListOf(
             CurrentDayFragment(),
-            FreeTimeFragment(),
+            DailyScheduleFragment(),
             PlanningFragment(),
             InformationFragment()
         )

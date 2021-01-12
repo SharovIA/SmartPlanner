@@ -1,5 +1,6 @@
 package com.ivanasharov.smartplanner.presentation.viewModel
 
+import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.ivanasharov.smartplanner.R
 import com.ivanasharov.smartplanner.Utils.ResourceProvider
 import com.ivanasharov.smartplanner.domain.CurrentTasksInteractor
+import com.ivanasharov.smartplanner.domain.DailyScheduleInteractor
+import com.ivanasharov.smartplanner.domain.DailyScheduleInteractorImpl
 import com.ivanasharov.smartplanner.presentation.ConvertDomainToUI
 import com.ivanasharov.smartplanner.presentation.model.TaskViewModel
 import com.ivanasharov.smartplanner.presentation.viewModel.base.BaseViewModel
@@ -14,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.util.*
 
 class CurrentDayViewModel @ViewModelInject constructor(
     private val resources: ResourceProvider,
@@ -104,7 +108,38 @@ class CurrentDayViewModel @ViewModelInject constructor(
 
     init {
         getData()
+     //   TEST()
     }
+
+
+
+/*    private fun TEST() {
+        val ttt = DailyScheduleInteractorImpl()
+        val timeA1 = GregorianCalendar(2021, 0, 5, 9, 40)
+        val timeB1 = GregorianCalendar(2021, 0, 5, 11, 15)
+        Log.d("analis", "test1")
+        ttt.analiz(timeA1, timeB1)
+
+        val timeA2 = GregorianCalendar(2021, 0, 5, 9, 40)
+        val timeB2 = GregorianCalendar(2021, 0, 5, 9, 50)
+        Log.d("analis", "test2")
+        ttt.analiz(timeA2, timeB2)
+
+        val timeA3 = GregorianCalendar(2021, 0, 5, 9, 58)
+        val timeB3 = GregorianCalendar(2021, 0, 5, 11, 0)
+        Log.d("analis", "test3")
+        ttt.analiz(timeA3, timeB3)
+
+        val timeA4 = GregorianCalendar(2021, 0, 5, 0, 0)
+        val timeB4 = GregorianCalendar(2021, 0, 5, 11, 15)
+        Log.d("analis", "test4")
+        ttt.analiz(timeA4, timeB4)
+
+        val timeA5 = GregorianCalendar(2021, 0, 5, 9, 0)
+        val timeB5 = GregorianCalendar(2021, 0, 5, 11, 0)
+        Log.d("analis", "test5")
+        ttt.analiz(timeA5, timeB5)
+    }*/
 
     private fun getData() {
         viewModelScope.launch(Dispatchers.IO) {

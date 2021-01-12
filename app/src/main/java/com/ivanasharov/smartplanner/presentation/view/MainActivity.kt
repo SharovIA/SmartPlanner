@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         val toolbar: Toolbar = findViewById(R.id.toolbar_actionbar)
         val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.currentDayFragment, R.id.freeTimeFragment, R.id.planningFragment,
+            R.id.currentDayFragment, R.id.dailyScheduleFragment, R.id.planningFragment,
             R.id.informationFragment))
         toolbar.setupWithNavController(mNavigationController, appBarConfiguration)
     //    initViewPager2withFragments()

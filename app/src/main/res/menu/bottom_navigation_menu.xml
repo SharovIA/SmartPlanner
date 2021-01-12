@@ -4,9 +4,9 @@
         android:icon="@drawable/ic_today"
         android:title="@string/tab_1_current_day" />
 
-    <item android:id="@+id/freeTimeFragment"
-        android:icon="@drawable/ic_free_time"
-        android:title="@string/tab_2_free_time" />
+    <item android:id="@+id/dailyScheduleFragment"
+        android:icon="@drawable/ic_daily_schedule"
+        android:title="@string/tab_2_daily_schedule" />
 
     <item android:id="@+id/planningFragment"
         android:icon="@drawable/ic_planning"

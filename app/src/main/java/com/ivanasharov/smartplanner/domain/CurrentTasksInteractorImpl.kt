@@ -10,7 +10,6 @@ class CurrentTasksInteractorImpl @Inject constructor(
 ) : CurrentTasksInteractor {
 
     private val calendar = Calendar.getInstance()
-  //  private var tasksOfCurrentDay : ArrayList<TaskDomain> = ArrayList()
    private lateinit var tasksOfCurrentDay :List<TaskDomain>
     private val date : GregorianCalendar
 

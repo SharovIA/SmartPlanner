@@ -2,10 +2,7 @@ package com.ivanasharov.smartplanner.di.Module
 
 import com.ivanasharov.smartplanner.Utils.AndroidResourceProvider
 import com.ivanasharov.smartplanner.Utils.ResourceProvider
-import com.ivanasharov.smartplanner.domain.AddTaskInteractor
-import com.ivanasharov.smartplanner.domain.AddTaskInteractorImpl
-import com.ivanasharov.smartplanner.domain.CurrentTasksInteractor
-import com.ivanasharov.smartplanner.domain.CurrentTasksInteractorImpl
+import com.ivanasharov.smartplanner.domain.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -21,5 +18,8 @@ abstract class ViewModelsModule {
 
     @Binds
     abstract fun currentDayInteractor(currentTaskInteractor : CurrentTasksInteractorImpl): CurrentTasksInteractor
+
+    @Binds
+    abstract fun bindDailyScheduleInteractor(dailyScheduleInteractor: DailyScheduleInteractorImpl): DailyScheduleInteractor
 
 }

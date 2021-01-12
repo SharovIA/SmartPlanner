@@ -12,6 +12,8 @@ interface TaskRepository {
    // fun getListCurrentTasks(date: GregorianCalendar) : Flow<ArrayList<TaskDomain>>
     fun getListCurrentTasks(date: GregorianCalendar) : Flow<List<TaskDomain>>
 
+    fun getListCurrentTasksForSchedule(date: GregorianCalendar) : Flow<List<NameTimeImportance>>
+
     fun changeStatusTask(taskDomain: TaskDomain)
 
     fun updateTask(taskDomain: TaskDomain)

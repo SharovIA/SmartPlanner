@@ -1,22 +1,41 @@
 package com.ivanasharov.smartplanner.presentation
 
-import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.ivanasharov.smartplanner.R
-import com.ivanasharov.smartplanner.presentation.model.TaskUI
-import com.ivanasharov.smartplanner.presentation.view.ShowTaskActivity
+import com.ivanasharov.smartplanner.databinding.HourItemBinding
+import com.ivanasharov.smartplanner.databinding.MinuteItemBinding
+import com.ivanasharov.smartplanner.presentation.model.Minute
 
-class CurrentTasksAdapter(
+class HourRecyclerViewAdapter(
+    private val mListMinutes: List<Int>
+) : RecyclerView.Adapter<HourRecyclerViewAdapter.MinuteViewHolder>() {
+
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MinuteViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = MinuteItemBinding.inflate(inflater, parent, false)
+      //  val binding = DataBindingUtil.inflate(inflater, R.layout.minute_item, parent, false)
+        return MinuteViewHolder(binding)
+    }
+
+    override fun getItemCount(): Int = mListMinutes.size
+
+    override fun onBindViewHolder(holder: MinuteViewHolder, position: Int) {
+        holder.binding.color = mListMinutes[position]
+    }
+
+    inner class MinuteViewHolder(
+        val binding : MinuteItemBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+    }
+/*class HourRecyclerViewAdapter(
     private var tasksList : ArrayList<TaskUI>,
     private val context: Context,
     val listener: (Int) -> Unit
-) : RecyclerView.Adapter<CurrentTasksAdapter.TaskViewHolder>() {
+) : RecyclerView.Adapter<HourRecyclerViewAdapter.TaskViewHolder>() {
 
 
 
@@ -56,18 +75,6 @@ class CurrentTasksAdapter(
         notifyDataSetChanged()
     }
 
-    private fun addToIntent(intent: Intent, newTaskItem : TaskUI) {
-/*        intent.putExtra("name", taskItem.name.value)
-        intent.putExtra("description", taskItem.description.value)
-        intent.putExtra("date", taskItem.date.value?.timeInMillis)
-        intent.putExtra("timeFrom", taskItem.timeFrom.value)
-        intent.putExtra("timeTo", taskItem.timeTo.value)
-        intent.putExtra("importance", taskItem.importance.value)
-        intent.putExtra("address", taskItem.address.value)
-        intent.putExtra("isSnapContact", taskItem.isSnapContact.value)
-        intent.putExtra("contact", taskItem.contact.value)
-        intent.putExtra("status", taskItem.status.value)
-*/    }
 
     inner class TaskViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
 
@@ -79,5 +86,5 @@ class CurrentTasksAdapter(
             status = itemView.findViewById(R.id.currentDayCheckBoxItem)
         }
 
-    }
+    }*/
 }

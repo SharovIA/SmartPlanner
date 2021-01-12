@@ -57,6 +57,8 @@ class AddTaskFragment : Fragment() {
     private lateinit var mBinding: FragmentAddTaskBinding
     private lateinit var spinnerAdapter : ArrayAdapter<CharSequence>
     private lateinit var mContext : Context
+
+    private var mIsInitSpinnerFinished  = false
   //  private lateinit var mContext : Context
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -449,17 +451,45 @@ private fun initSpinner() {
     mBinding.importanceSpinner.adapter = spinnerAdapter
 
     mBinding.importanceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-        override fun onNothingSelected(parent: AdapterView<*>?) { }
+        override fun onNothingSelected(parent: AdapterView<*>?) {}
 
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            if ((mAddTaskViewModel.taskUI.importance.value != null) &&  (mAddTaskViewModel.taskUI.importance.value?.isNotEmpty() as Boolean))
-                parent?.setSelection(spinnerAdapter.getPosition(mAddTaskViewModel.taskUI.importance.value))
+/*            if ((mAddTaskViewModel.taskUI.importance.value != null) &&  (mAddTaskViewModel.taskUI.importance.value?.isNotEmpty() as Boolean))
+
             else
+                mAddTaskViewModel.taskUI.importance.value = parent?.selectedItem.toString()*/
+            if(!mIsInitSpinnerFinished){//init
+                if (!mAddTaskViewModel.taskUI.importance.value.isNullOrEmpty() )
+                    parent?.setSelection(spinnerAdapter.getPosition(mAddTaskViewModel.taskUI.importance.value))
+                mIsInitSpinnerFinished = true
+            } else{//choose
                 mAddTaskViewModel.taskUI.importance.value = parent?.selectedItem.toString()
+            }
+/*            val oldValueOfImportanceInVM =
+
+                isFirst = false
+            } else {
+                val selectionValue = parent?.selectedItem.toString()
+                if (selectionValue =="")
+                    parent?.setSelection(spinnerAdapter.getPosition(mAddTaskViewModel.taskUI.importance.value))
+                isFirst = false
+                else {
+
+                }
+                val newValueOfImportance = parent?.selectedItem.toString()
+                if (newValueOfImportance != oldValueOfImportance){
+                    mAddTaskViewModel.taskUI.importance.value = newValueOfImportance
+                }*/
+
+            }
+/*            mAddTaskViewModel.taskUI.importance.observe(viewLifecycleOwner, Observer{
+
+            })*/
+
         }
 
     }
-}
+
 
     private fun setDate(){
         val date =

@@ -22,6 +22,9 @@ class TaskRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getListCurrentTasksForSchedule(date: GregorianCalendar): Flow<List<NameTimeImportance>> = taskDao.getByDateForSchedule(date)
+
+
     override fun save(taskDomain: TaskDomain): Long? {
 
         val task : Task = ConvertTaskDomainToTaskData().convert(taskDomain)

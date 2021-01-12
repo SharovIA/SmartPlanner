@@ -93,6 +93,7 @@ class ConvertTaskUIToTaskDomain @Inject constructor(
             categories[3] ->  return 2
             categories[2] ->  return 3
             categories[1] ->  return 4
+
             else -> return  0
         }
     }

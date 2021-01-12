@@ -2,7 +2,7 @@
     <string name="app_name">Smart planner</string>
 
     <string name="tab_1_current_day">Current day</string>
-    <string name="tab_2_free_time">Free time</string>
+    <string name="tab_2_daily_schedule">Daily Schedule</string>
     <string name="tab_3_planning">Planning</string>
     <string name="tab_4_info">Info</string>
 

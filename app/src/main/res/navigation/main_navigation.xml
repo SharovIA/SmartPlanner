@@ -29,10 +29,10 @@
         </action>
     </fragment>
     <fragment
-        android:id="@+id/freeTimeFragment"
-        android:name="com.ivanasharov.smartplanner.presentation.view.FreeTimeFragment"
-        android:label="@string/tab_2_free_time"
-        tools:layout="@layout/free_time_fragment" />
+        android:id="@+id/dailyScheduleFragment"
+        android:name="com.ivanasharov.smartplanner.presentation.view.DailyScheduleFragment"
+        android:label="@string/tab_2_daily_schedule"
+        tools:layout="@layout/daily_schedule_fragment" />
     <fragment
         android:id="@+id/planningFragment"
         android:name="com.ivanasharov.smartplanner.presentation.view.PlanningFragment"

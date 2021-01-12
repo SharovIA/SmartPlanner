@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewModel" type="com.ivanasharov.smartplanner.presentation.viewModel.DailyScheduleViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/fon_add_task"
+        tools:context=".presentation.view.DailyScheduleFragment">
+
+
+        <TextView
+            android:id="@+id/currentDateTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@{viewModel.date}"
+            android:textSize="@dimen/text_size_subtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:visibility="@{viewModel.isLoading() ? View.VISIBLE : View.GONE}"
+            android:id="@+id/waiting"
+            layout="@layout/waiting_layout" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/scheduleRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/primary_light"
+            android:visibility="@{viewModel.isLoading() ? View.GONE : View.VISIBLE}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/currentDateTextView" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

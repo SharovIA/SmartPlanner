@@ -1,6 +1,7 @@
 package com.ivanasharov.smartplanner.data.dao
 
 import androidx.room.*
+import com.ivanasharov.smartplanner.data.NameTimeImportance
 import com.ivanasharov.smartplanner.data.entity.Task
 import kotlinx.coroutines.flow.Flow
 import java.util.*
@@ -13,6 +14,9 @@ interface TaskDao {
 
     @Query("SELECT * FROM task WHERE date = :calendar")
     fun getByDate(calendar: GregorianCalendar): Flow<List<Task>>
+
+    @Query("SELECT name, timeFrom, timeTo, importance FROM task WHERE date = :calendar")
+    fun getByDateForSchedule(calendar: GregorianCalendar): Flow<List<NameTimeImportance>>
 
     @Query("SELECT * FROM task WHERE id = :id")
     fun getById(id : Long): Flow<Task>

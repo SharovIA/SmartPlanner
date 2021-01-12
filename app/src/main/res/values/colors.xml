@@ -9,4 +9,11 @@
         <color name="icons">#FFFFFF</color>
         <color name="divider">#BDBDBD</color>
         <color name="fon_add_task">#AEACE6F9</color>
+
+        <color name="important_and_urgent">#DC143C</color>
+        <color name="important_and_not_urgent">#FF6347</color>
+        <color name="not_important_and_urgent">#FFA500</color>
+        <color name="not_important_and_not_urgent">#FFFF00</color>
+        <color name="no_importance">#DCDCDC</color>
+
 </resources>
