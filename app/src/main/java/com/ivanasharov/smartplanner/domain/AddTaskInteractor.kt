@@ -1,5 +1,6 @@
 package com.ivanasharov.smartplanner.domain
 
+import com.ivanasharov.smartplanner.Contact
 import kotlinx.coroutines.flow.Flow
 
 interface AddTaskInteractor {
@@ -9,4 +10,6 @@ interface AddTaskInteractor {
     fun getCalendars(): Flow<List<String>>
 
     fun loadTask(id: Long): Flow<TaskDomain>
+
+    fun getContacts(): Flow<List<Contact>>
 }

@@ -3,7 +3,9 @@ package com.ivanasharov.smartplanner.domain
 import android.content.ContentValues
 import android.provider.CalendarContract
 import android.util.Log
+import com.ivanasharov.smartplanner.Contact
 import com.ivanasharov.smartplanner.data.CalendarRepository
+import com.ivanasharov.smartplanner.data.ContactRepository
 import com.ivanasharov.smartplanner.data.TaskRepository
 import kotlinx.coroutines.flow.Flow
 import java.util.*
@@ -20,7 +22,8 @@ import javax.inject.Inject
 
 class AddTaskInteractorImpl @Inject constructor(
     private val mTaskRepository: TaskRepository,
-    private val mCalendarRepository: CalendarRepository
+    private val mCalendarRepository: CalendarRepository,
+    private val mContactRepository: ContactRepository
 ) : AddTaskInteractor {
 
     override fun execute(task: TaskDomain) {
@@ -51,6 +54,8 @@ class AddTaskInteractorImpl @Inject constructor(
     override fun getCalendars(): Flow<List<String>> = mCalendarRepository.getAllCalendars()
 
     override fun loadTask(id: Long): Flow<TaskDomain> = mTaskRepository.getTaskById(id)
+
+    override fun getContacts(): Flow<List<Contact>> = mContactRepository.getAllContacts()
 
     private fun saveAddress(task: TaskDomain): Boolean {
         //TODO
