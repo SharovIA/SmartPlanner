@@ -2,7 +2,11 @@ package com.ivanasharov.smartplanner.di.Module
 
 import android.app.Application
 import android.content.ContentResolver
+import android.content.Context
+import android.location.LocationManager
 import com.ivanasharov.smartplanner.BaseApplication
+import com.ivanasharov.smartplanner.clients.interfaces.ServerClient
+import com.ivanasharov.smartplanner.clients.interfaces.ServerClientImpl
 import com.ivanasharov.smartplanner.data.dao.TaskDao
 import com.ivanasharov.smartplanner.data.database.TaskDatabase
 
@@ -18,8 +22,20 @@ class ContentModule {
 
     @Singleton
     @Provides
-    fun providesTaskDao(application: Application): ContentResolver {
+    fun providesContentResolver(application: Application): ContentResolver {
         return application.contentResolver
+    }
+
+    @Singleton
+    @Provides
+    fun providesLocationManager(application: Application): LocationManager {
+        return application.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    }
+
+    @Provides
+    @Singleton
+    fun provideServerClient(): ServerClient {
+        return ServerClientImpl()
     }
 
 }

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewModel" type="com.ivanasharov.smartplanner.presentation.viewModel.WeatherViewModel" />
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fon_add_task"
+
+    tools:context=".presentation.view.WeatherFragment">
+
+    <ImageView
+        android:id="@+id/fonImageView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@{viewModel.weather.background}"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/placeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:colorText="@{viewModel.weather.night}"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:textSize="@dimen/text_size_title"
+        android:text="@{viewModel.weather.namePlace}"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fonImageView" />
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout0"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="60dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/placeTextView">
+
+        <TextView
+            android:id="@+id/tempTextView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|end"
+            android:text="@{viewModel.weather.temp}"
+            app:colorText="@{viewModel.weather.night}"
+            android:textSize="@dimen/text_size_title"
+            android:textAlignment="textEnd"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/iconImageView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start|center_vertical"
+            android:layout_weight="1"
+            app:url="@{viewModel.weather.icon}" />
+
+    </LinearLayout>
+
+    <include
+        android:visibility="@{viewModel.isLoading() ? View.VISIBLE : View.GONE}"
+        android:id="@+id/waiting"
+        layout="@layout/waiting_layout" />
+
+
+    <TextView
+        android:id="@+id/stateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="42dp"
+        android:textSize="@dimen/text_size_title"
+        android:layout_marginEnd="16dp"
+        app:colorText="@{viewModel.weather.night}"
+        android:text="@{viewModel.weather.description}"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout0" />
+
+    <TextView
+        android:id="@+id/tempFellTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:textSize="@dimen/text_size_title"
+        app:colorText="@{viewModel.weather.night}"
+        android:text="@{viewModel.weather.tempFeels}"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/stateTextView" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fonImageView">
+
+        <ImageView
+            android:id="@+id/windImageView"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/wind"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fonImageView" />
+
+        <TextView
+            android:id="@+id/windTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@{viewModel.weather.wind}"
+            android:textSize="@dimen/text_size_title"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
+
+        <ImageView
+            android:id="@+id/presseruImageView"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/pressure"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fonImageView" />
+
+        <TextView
+            android:id="@+id/presseruTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal|center_vertical"
+            android:textSize="@dimen/text_size_title"
+            android:text="@{viewModel.weather.pressure}" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <ImageView
+            android:id="@+id/humidityImageView"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_baseline_opacity_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fonImageView" />
+
+        <TextView
+            android:id="@+id/humidityTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal|center_vertical"
+            android:textSize="@dimen/text_size_title"
+            android:text="@{viewModel.weather.humidity}" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

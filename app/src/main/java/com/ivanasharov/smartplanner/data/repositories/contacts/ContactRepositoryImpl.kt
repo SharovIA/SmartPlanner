@@ -1,4 +1,4 @@
-package com.ivanasharov.smartplanner.data
+package com.ivanasharov.smartplanner.data.repositories.contacts
 
 import android.content.ContentResolver
 import android.net.Uri

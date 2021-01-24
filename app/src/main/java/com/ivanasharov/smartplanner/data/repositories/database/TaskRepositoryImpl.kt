@@ -1,12 +1,14 @@
-package com.ivanasharov.smartplanner.data
+package com.ivanasharov.smartplanner.data.repositories.database
 
+import com.ivanasharov.smartplanner.data.ConvertTaskDataToTaskDomian
+import com.ivanasharov.smartplanner.data.ConvertTaskDomainToTaskData
+import com.ivanasharov.smartplanner.data.NameTimeImportance
 import com.ivanasharov.smartplanner.data.dao.TaskDao
 import com.ivanasharov.smartplanner.data.entity.Task
 import com.ivanasharov.smartplanner.domain.TaskDomain
 import kotlinx.coroutines.flow.*
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 class TaskRepositoryImpl @Inject constructor(
     private val taskDao : TaskDao
@@ -27,17 +29,20 @@ class TaskRepositoryImpl @Inject constructor(
 
     override fun save(taskDomain: TaskDomain): Long? {
 
-        val task : Task = ConvertTaskDomainToTaskData().convert(taskDomain)
+        val task : Task = ConvertTaskDomainToTaskData()
+            .convert(taskDomain)
         return taskDao.insert(task)
     }
 
     override fun changeStatusTask(taskDomain: TaskDomain) {
-        val task : Task = ConvertTaskDomainToTaskData().convert(taskDomain)
+        val task : Task = ConvertTaskDomainToTaskData()
+            .convert(taskDomain)
         taskDao.updateTask(task.name, task.timeFrom, task.status)
     }
 
     override fun updateTask(taskDomain: TaskDomain) {
-        val task : Task = ConvertTaskDomainToTaskData().convert(taskDomain)
+        val task : Task = ConvertTaskDomainToTaskData()
+            .convert(taskDomain)
         taskDao.update(task)
     }
 

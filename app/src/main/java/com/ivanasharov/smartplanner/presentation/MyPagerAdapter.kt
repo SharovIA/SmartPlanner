@@ -6,7 +6,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.ivanasharov.smartplanner.presentation.view.CurrentDayFragment
 import com.ivanasharov.smartplanner.presentation.view.DailyScheduleFragment
-import com.ivanasharov.smartplanner.presentation.view.InformationFragment
+import com.ivanasharov.smartplanner.presentation.view.WeatherFragment
 import com.ivanasharov.smartplanner.presentation.view.PlanningFragment
 
  class MyPagerAdapter(fm: FragmentManager, lifecycle: Lifecycle) :
@@ -16,7 +16,7 @@ import com.ivanasharov.smartplanner.presentation.view.PlanningFragment
             CurrentDayFragment(),
             DailyScheduleFragment(),
             PlanningFragment(),
-            InformationFragment()
+            WeatherFragment()
         )
         override fun getItemCount(): Int = fragments.size
 

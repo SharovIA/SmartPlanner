@@ -22,4 +22,7 @@ abstract class ViewModelsModule {
     @Binds
     abstract fun bindDailyScheduleInteractor(dailyScheduleInteractor: DailyScheduleInteractorImpl): DailyScheduleInteractor
 
+    @Binds
+    abstract fun bindDailyWeatherInteractor(weatherInteractorImpl: WeatherInteractorImpl): WeatherInteractor
+
 }

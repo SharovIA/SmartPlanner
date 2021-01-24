@@ -39,10 +39,10 @@
         android:label="@string/tab_3_planning"
         tools:layout="@layout/planning_fragment" />
     <fragment
-        android:id="@+id/informationFragment"
-        android:name="com.ivanasharov.smartplanner.presentation.view.InformationFragment"
-        android:label="@string/tab_4_info"
-        tools:layout="@layout/information_fragment" />
+        android:id="@+id/weatherFragment"
+        android:name="com.ivanasharov.smartplanner.presentation.view.WeatherFragment"
+        android:label="@string/tab_4_weather"
+        tools:layout="@layout/weather_fragment" />
     <fragment
         android:id="@+id/addTaskFragment"
         android:name="com.ivanasharov.smartplanner.presentation.view.AddTaskFragment"

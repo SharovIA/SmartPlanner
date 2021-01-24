@@ -1,10 +1,13 @@
 package com.ivanasharov.smartplanner.presentation
 
+import android.annotation.SuppressLint
 import com.ivanasharov.smartplanner.R
 import com.ivanasharov.smartplanner.Utils.ResourceProvider
+import com.ivanasharov.smartplanner.data.model.WeatherData
 import com.ivanasharov.smartplanner.domain.TaskDomain
 import com.ivanasharov.smartplanner.presentation.model.TaskUI
 import com.ivanasharov.smartplanner.presentation.model.TaskUILoad
+import com.ivanasharov.smartplanner.presentation.model.WeatherDataViewModel
 import java.util.*
 import javax.inject.Inject
 
@@ -25,7 +28,46 @@ class ConvertDomainToUI @Inject constructor(
         taskUI.status.postValue( taskDomain.status)
         return taskUI
     }*/
-fun taskDomainToTaskUILoad(taskDomain: TaskDomain): TaskUILoad {
+
+    fun weatherDataToWeatherDataViewModel(weather: WeatherData): WeatherDataViewModel{
+        return WeatherDataViewModel(weather.namePlace, weather.description, weather.icon, getTemp(weather.temp),
+        getTemp(weather.tempFeels), getPressure(weather.pressure), getHumidity(weather.humidity), getWind(weather.speedWind, weather.degWind),
+        getBackGround(weather.isNight), isNight(weather.isNight))
+    }
+
+    private fun isNight(night: Boolean?): Boolean {
+        return night != null && night
+    }
+
+    @SuppressLint("ResourceType")
+    private fun getBackGround(isNight: Boolean?): Int {
+        if (isNight!=null){
+            if (isNight) return resources.color(R.color.background_night)
+            else return resources.color(R.color.background_day)
+        }
+        return resources.color(R.color.background_nan)
+    }
+
+    private fun getWind(speedWind: Double, degWind: Int): String {
+        if(degWind == 0) return speedWind.toString() +" "+ resources.string(R.string.wind_ms_north)
+        if(degWind == 90) return speedWind.toString() +" "+ resources.string(R.string.wind_ms_east)
+        if(degWind == 180) return speedWind.toString() + " "+resources.string(R.string.wind_ms_south)
+        if(degWind == 270) return speedWind.toString() +" "+ resources.string(R.string.wind_ms_west)
+
+        if(degWind in 1..89) return speedWind.toString() + " "+resources.string(R.string.wind_ms_north_east)
+        if(degWind in 91..179) return speedWind.toString() +" "+ resources.string(R.string.wind_ms_southeast)
+        if(degWind in 181..269) return speedWind.toString() + " "+resources.string(R.string.wind_ms_southwest)
+        return speedWind.toString() +" "+ resources.string(R.string.wind_ms_northwest)
+    }
+
+    private fun getHumidity(humidity: Int): String  = "$humidity %"
+
+    private fun getPressure(pressure: Int): String = pressure.toString() +" "+ resources.string(R.string.ed_pressure)
+
+    private fun getTemp(temp: Int): String ="$temp c̊"
+
+
+    fun taskDomainToTaskUILoad(taskDomain: TaskDomain): TaskUILoad {
     return TaskUILoad(taskDomain.name as String, taskDomain.description,
     convertDate(taskDomain.date), convertTime(taskDomain.timeFrom),
     convertTime( taskDomain.timeTo), ConvertImportance(taskDomain.importance),

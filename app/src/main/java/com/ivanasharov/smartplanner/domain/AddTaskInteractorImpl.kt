@@ -4,9 +4,9 @@ import android.content.ContentValues
 import android.provider.CalendarContract
 import android.util.Log
 import com.ivanasharov.smartplanner.Contact
-import com.ivanasharov.smartplanner.data.CalendarRepository
-import com.ivanasharov.smartplanner.data.ContactRepository
-import com.ivanasharov.smartplanner.data.TaskRepository
+import com.ivanasharov.smartplanner.data.repositories.calendar.CalendarRepository
+import com.ivanasharov.smartplanner.data.repositories.contacts.ContactRepository
+import com.ivanasharov.smartplanner.data.repositories.database.TaskRepository
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 import javax.inject.Inject

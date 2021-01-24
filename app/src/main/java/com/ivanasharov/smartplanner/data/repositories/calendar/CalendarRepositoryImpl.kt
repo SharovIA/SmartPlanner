@@ -1,4 +1,4 @@
-package com.ivanasharov.smartplanner.data
+package com.ivanasharov.smartplanner.data.repositories.calendar
 
 import android.content.ContentResolver
 import android.content.ContentValues

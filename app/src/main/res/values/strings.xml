@@ -4,7 +4,7 @@
     <string name="tab_1_current_day">Current day</string>
     <string name="tab_2_daily_schedule">Daily Schedule</string>
     <string name="tab_3_planning">Planning</string>
-    <string name="tab_4_info">Info</string>
+    <string name="tab_4_weather">Weather</string>
 
     <string name="fragment_1_name">Tasks for today</string>
 
@@ -41,6 +41,16 @@
     <string name="showMap">To show on the map</string>
     <string name="google_android_map_api_key">AIzaSyDcd6upxUfS8B8M1eRUMAvVY9BRyAz7Deg</string>
     <string name="hide_map">Hide map</string>
+    <string name="ed_pressure"> mm Hg</string>
+
+    <string name="wind_ms_north"> m/s north</string>
+    <string name="wind_ms_north_east"> m/s north-east</string>
+    <string name="wind_ms_east"> m/s east</string>
+    <string name="wind_ms_southeast"> m/s southeast</string>
+    <string name="wind_ms_south"> m/s south</string>
+    <string name="wind_ms_southwest"> m/s southwest</string>
+    <string name="wind_ms_west"> m/s west</string>
+    <string name="wind_ms_northwest"> m/s northwest</string>
 
     <string-array name="importance">
         <item></item>
@@ -55,4 +65,7 @@
     <string name="selection_calendar">Select a calendar</string>
     <string name="to_edit">Edit</string>
     <string name="edit_task">Edit task</string>
+    <string name="location_request_explanation">Location permissions are needed to get the weather forecast for your location.</string>
+    <string name="grant">Grant</string>
+    <string name="deny">Deny</string>
 </resources>

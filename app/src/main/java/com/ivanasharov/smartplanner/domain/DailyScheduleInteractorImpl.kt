@@ -2,7 +2,7 @@ package com.ivanasharov.smartplanner.domain
 
 import android.util.Log
 import com.ivanasharov.smartplanner.data.NameTimeImportance
-import com.ivanasharov.smartplanner.data.TaskRepository
+import com.ivanasharov.smartplanner.data.repositories.database.TaskRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.*

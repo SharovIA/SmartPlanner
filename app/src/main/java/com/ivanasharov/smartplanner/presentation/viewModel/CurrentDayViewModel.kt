@@ -7,6 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ivanasharov.smartplanner.R
 import com.ivanasharov.smartplanner.Utils.ResourceProvider
+import com.ivanasharov.smartplanner.data.repositories.RemoteWeatherRepository
+import com.ivanasharov.smartplanner.data.repositories.RemoteWeatherRepositoryImpl
+import com.ivanasharov.smartplanner.data.server_dto.ServerWeather
 import com.ivanasharov.smartplanner.domain.CurrentTasksInteractor
 import com.ivanasharov.smartplanner.domain.DailyScheduleInteractor
 import com.ivanasharov.smartplanner.domain.DailyScheduleInteractorImpl

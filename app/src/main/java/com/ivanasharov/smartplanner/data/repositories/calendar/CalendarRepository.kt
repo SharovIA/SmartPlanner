@@ -1,4 +1,4 @@
-package com.ivanasharov.smartplanner.data
+package com.ivanasharov.smartplanner.data.repositories.calendar
 
 import android.content.ContentValues
 import kotlinx.coroutines.flow.Flow

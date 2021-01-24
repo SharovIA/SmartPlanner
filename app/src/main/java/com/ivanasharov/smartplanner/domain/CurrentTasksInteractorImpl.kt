@@ -1,6 +1,6 @@
 package com.ivanasharov.smartplanner.domain
 
-import com.ivanasharov.smartplanner.data.TaskRepository
+import com.ivanasharov.smartplanner.data.repositories.database.TaskRepository
 import kotlinx.coroutines.flow.*
 import java.util.*
 import javax.inject.Inject

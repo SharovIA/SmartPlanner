@@ -228,7 +228,7 @@ class AddTaskFragment : Fragment() {
                             ).show();
 
                         } else {
-                            showNoPermissionSnackbar(PERMISSIONS_REQUEST_READ_CONTACTS);
+                            showNoPermissionSnackbar(PERMISSIONS_REQUEST_READ_CONTACTS)
                         }
                     }
                 }

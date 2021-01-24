@@ -1,9 +1,9 @@
-package com.ivanasharov.smartplanner.data
+package com.ivanasharov.smartplanner.data.repositories.database
 
+import com.ivanasharov.smartplanner.data.NameTimeImportance
 import com.ivanasharov.smartplanner.domain.TaskDomain
 import kotlinx.coroutines.flow.Flow
 import java.util.*
-import kotlin.collections.ArrayList
 
 interface TaskRepository {
 

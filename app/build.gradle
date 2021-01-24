@@ -90,4 +90,14 @@ dependencies {
     implementation libs.navigationFragment
     implementation libs.navigationUI
 
+    //Retrofit
+    implementation libs.retrofit
+    implementation libs.converter
+    implementation libs.retrofitCoroutines
+
+    implementation libs.coroutines
+    implementation libs.coroutinesCore
+
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 }
