@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="android.view.View" />
         <variable
             name="viewModel" type="com.ivanasharov.smartplanner.presentation.viewModel.CurrentDayViewModel" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/fon_add_task"
     tools:context=".presentation.view.CurrentDayFragment">
 
 
@@ -18,7 +18,11 @@
         android:id="@+id/currentDateTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@{viewModel.date}"
+        android:textAlignment="center"
         android:textSize="@dimen/text_size_subtitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +32,12 @@
         android:id="@+id/countTasksTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:visibility="@{viewModel.hasTasks ? View.VISIBLE : View.GONE}"
         android:text="@{viewModel.statusOfTasks}"
+        android:textAlignment="center"
         android:textSize="@dimen/text_size_subtitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -43,19 +52,19 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/currentDayRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:visibility="@{viewModel.isLoading() ? View.GONE : View.VISIBLE}"
-        app:spanCount="1"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         android:layout_marginBottom="16dp"
         android:background="@color/primary_light"
+        android:visibility="@{viewModel.hasTasks ? View.VISIBLE : View.GONE}"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/countTasksTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/countTasksTextView"
+        app:spanCount="1" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addTaskForCurrentDayButton"
@@ -70,6 +79,19 @@
         app:layout_constraintHorizontal_bias="0.952"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:visibility="@{viewModel.hasTasks ? View.GONE : View.VISIBLE}"
+        android:text="@string/there_are_no_tasks_for_today"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/currentDateTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

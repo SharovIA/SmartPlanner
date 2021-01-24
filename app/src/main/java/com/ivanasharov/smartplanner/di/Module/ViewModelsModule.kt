@@ -25,4 +25,7 @@ abstract class ViewModelsModule {
     @Binds
     abstract fun bindDailyWeatherInteractor(weatherInteractorImpl: WeatherInteractorImpl): WeatherInteractor
 
+    @Binds
+    abstract fun bindPlanningInteractor(planningInteractorImpl: PlanningInteractorImpl): PlanningInteractor
+
 }

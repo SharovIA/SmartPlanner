@@ -28,11 +28,11 @@ class CurrentTasksInteractorImpl @Inject constructor(
                 "${calendar.get(Calendar.YEAR)}"
     }
 
-    override fun getCountTasksAll(): Int? {
+    override fun getCountTasksAll(): Int {
         return tasksOfCurrentDay.size
     }
 
-    override fun getCountFinishedTasks(): Int? {
+    override fun getCountFinishedTasks(): Int {
         var count = 0
         tasksOfCurrentDay.forEach {
             if (it.status)
@@ -41,10 +41,6 @@ class CurrentTasksInteractorImpl @Inject constructor(
         return count
     }
 
-/*    override fun getCurrentTasks(): Flow<ArrayList<TaskDomain>> = taskRepository.getListCurrentTasks(date).map {
-            this.tasksOfCurrentDay = it
-        it
-        }*/
 
     override fun getCurrentTasks(): Flow<List<TaskDomain>> = taskRepository.getListCurrentTasks(date).map {
         this.tasksOfCurrentDay = it

@@ -1,14 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.view.PlanningFragment">
-
-    <TextView
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewModel" type="com.ivanasharov.smartplanner.presentation.viewModel.PlanningViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Planning"
-        android:textSize="32sp"/>
+        android:background="@color/fon_add_task"
+        tools:context=".presentation.view.PlanningFragment">
 
-</FrameLayout>
+
+        <TextView
+            android:id="@+id/chooseDateTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/design_default_color_background"
+            android:hint="@string/add_task_date"
+            android:text="@{viewModel.date}"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_size_subtitle"
+            app:layout_constraintEnd_toStartOf="@+id/waiting"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/countTasksTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{viewModel.statusOfTasks}"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_size_subtitle"
+            android:visibility="@{viewModel.hasTasks ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chooseDateTextView" />
+
+        <include
+            android:visibility="@{viewModel.isLoading() ? View.VISIBLE : View.GONE}"
+            android:id="@+id/waiting"
+            layout="@layout/waiting_layout" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/currentDayRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/primary_light"
+            android:visibility="@{viewModel.hasTasks ? View.VISIBLE : View.GONE}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/countTasksTextView"
+            app:spanCount="1" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addTaskButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:src="@drawable/ic_add_white_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.952"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:visibility="@{viewModel.hasTasks ? View.GONE : View.VISIBLE}"
+            android:text="@{viewModel.isChooseDate() ? @string/no_tasks_for_the_selected_day : null}"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chooseDateTextView" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

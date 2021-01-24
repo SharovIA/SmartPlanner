@@ -19,5 +19,5 @@
         <color name="background_day">#FFDEAD</color>
         <color name="background_night">#191970</color>
         <color name="background_nan">#E0FFFF</color>
-
+        <color name="night_text">#FFFF00</color>
 </resources>

@@ -68,4 +68,6 @@
     <string name="location_request_explanation">Location permissions are needed to get the weather forecast for your location.</string>
     <string name="grant">Grant</string>
     <string name="deny">Deny</string>
+    <string name="no_tasks_for_the_selected_day">There are no tasks for the selected day</string>
+    <string name="there_are_no_tasks_for_today">There are no tasks for today</string>
 </resources>

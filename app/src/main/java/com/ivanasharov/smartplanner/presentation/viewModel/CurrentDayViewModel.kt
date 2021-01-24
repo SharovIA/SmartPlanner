@@ -33,6 +33,7 @@ class CurrentDayViewModel @ViewModelInject constructor(
     private val mStatusOfTasks = MutableLiveData<String>()
     private val mDate = MutableLiveData<String>()
     private val mIsLoading = MutableLiveData<Boolean>(true)
+    private val mHasTasks = MutableLiveData<Boolean>(false)
 
     //чтобы можно было получить данные
     val taskList: LiveData<List<TaskViewModel>>
@@ -43,6 +44,8 @@ class CurrentDayViewModel @ViewModelInject constructor(
         get() = mDate
     val isLoading: LiveData<Boolean>
         get() = mIsLoading
+    val hasTasks: LiveData<Boolean>
+        get() = mHasTasks
 
     init {
         getData()
@@ -80,6 +83,7 @@ class CurrentDayViewModel @ViewModelInject constructor(
     private fun getData() {
         viewModelScope.launch(Dispatchers.IO) {
             mIsLoading.postValue(true)
+            mHasTasks.postValue(false)
             currentTasksInteractor.getCurrentTasks().map { list ->
                 list.map {
                     it
@@ -99,9 +103,14 @@ class CurrentDayViewModel @ViewModelInject constructor(
     private fun getStatusOfTasks(): String = resources.string(R.string.completed) + " " +
             "${getCountFinishedTasks()}/${getCountTasks()} " + resources.string(R.string.completedTasks)
 
-    private fun getCountFinishedTasks(): Int? = currentTasksInteractor.getCountFinishedTasks()
+    private fun getCountFinishedTasks(): Int = currentTasksInteractor.getCountFinishedTasks()
 
-    private fun getCountTasks(): Int? = currentTasksInteractor.getCountTasksAll()
+    private fun getCountTasks(): Int {
+        val count = currentTasksInteractor.getCountTasksAll()
+        if (count > 0)
+            mHasTasks.postValue(true)
+        return count
+    }
 
 
     private fun getDate(): String {

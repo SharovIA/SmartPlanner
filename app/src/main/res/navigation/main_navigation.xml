@@ -37,7 +37,25 @@
         android:id="@+id/planningFragment"
         android:name="com.ivanasharov.smartplanner.presentation.view.PlanningFragment"
         android:label="@string/tab_3_planning"
-        tools:layout="@layout/planning_fragment" />
+        tools:layout="@layout/planning_fragment" >
+        <action
+            android:id="@+id/action_planningFragment_to_addTaskFragment"
+            app:destination="@id/addTaskFragment" >
+            <argument
+                android:name="idOfTask"
+                app:argType="long" />
+            <argument
+                android:name="title"
+                app:argType="string" />
+        </action>
+        <action
+            android:id="@+id/action_planningFragment_to_showTaskFragment"
+            app:destination="@id/showTaskFragment">
+            <argument
+                android:name="idOfTask"
+                app:argType="long" />
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/weatherFragment"
         android:name="com.ivanasharov.smartplanner.presentation.view.WeatherFragment"
