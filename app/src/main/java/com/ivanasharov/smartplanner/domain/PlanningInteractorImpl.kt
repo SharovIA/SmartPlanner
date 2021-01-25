@@ -1,5 +1,6 @@
 package com.ivanasharov.smartplanner.domain
 
+import com.ivanasharov.smartplanner.data.IdNameStatus
 import com.ivanasharov.smartplanner.data.repositories.database.TaskRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -10,7 +11,7 @@ class PlanningInteractorImpl @Inject constructor(
     private val mTaskRepository: TaskRepository
 ): PlanningInteractor {
 
-    private lateinit var mTasksOfCurrentDay :List<TaskDomain>
+    private lateinit var mTasksOfCurrentDay :List<IdNameStatus>
 
     override fun getCountTasksAll(): Int = mTasksOfCurrentDay.size
 
@@ -23,16 +24,20 @@ class PlanningInteractorImpl @Inject constructor(
         return count
     }
 
-    override fun getCurrentTasks(date: GregorianCalendar): Flow<List<TaskDomain>> = mTaskRepository.getListCurrentTasks(date).map {
+/*    override fun getCurrentTasks(date: GregorianCalendar): Flow<List<TaskDomain>> = mTaskRepository.getListCurrentTasks(date).map {
         this.mTasksOfCurrentDay = it
         it
-    }
+    }*/
+override fun getCurrentTasks(date: GregorianCalendar): Flow<List<IdNameStatus>> = mTaskRepository.getListCurrentTasks(date).map {
+    this.mTasksOfCurrentDay = it
+    it
+}
 
 
     override fun changeTask(index: Int) {
         val task = mTasksOfCurrentDay[index]
         task.status = !task.status
-        mTaskRepository.changeStatusTask(task)
+        mTaskRepository.changeTaskStatus(task)
     }
 
 }

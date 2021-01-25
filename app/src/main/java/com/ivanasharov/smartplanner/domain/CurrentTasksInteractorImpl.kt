@@ -1,5 +1,6 @@
 package com.ivanasharov.smartplanner.domain
 
+import com.ivanasharov.smartplanner.data.IdNameStatus
 import com.ivanasharov.smartplanner.data.repositories.database.TaskRepository
 import kotlinx.coroutines.flow.*
 import java.util.*
@@ -10,7 +11,8 @@ class CurrentTasksInteractorImpl @Inject constructor(
 ) : CurrentTasksInteractor {
 
     private val calendar = Calendar.getInstance()
-   private lateinit var tasksOfCurrentDay :List<TaskDomain>
+   //private lateinit var tasksOfCurrentDay :List<TaskDomain>
+   private lateinit var mTasksOfCurrentDay :List<IdNameStatus>
     private val date : GregorianCalendar
 
     init {
@@ -29,23 +31,27 @@ class CurrentTasksInteractorImpl @Inject constructor(
     }
 
     override fun getCountTasksAll(): Int {
-        return tasksOfCurrentDay.size
+        return mTasksOfCurrentDay.size
     }
 
     override fun getCountFinishedTasks(): Int {
         var count = 0
-        tasksOfCurrentDay.forEach {
+        mTasksOfCurrentDay.forEach {
             if (it.status)
                 count++
         }
         return count
     }
 
-
-    override fun getCurrentTasks(): Flow<List<TaskDomain>> = taskRepository.getListCurrentTasks(date).map {
-        this.tasksOfCurrentDay = it
+    override fun getCurrentTasks(): Flow<List<IdNameStatus>> = taskRepository.getListCurrentTasks(date).map {
+        this.mTasksOfCurrentDay = it
         it
     }
+
+/*    override fun getCurrentTasks(): Flow<List<TaskDomain>> = taskRepository.getListCurrentTasks(date).map {
+        this.tasksOfCurrentDay = it
+        it
+    }*/
 
 
     private fun getTextValue(number: Int): String {
@@ -56,9 +62,9 @@ class CurrentTasksInteractorImpl @Inject constructor(
     }
 
     override fun changeTask(index: Int) {
-        val task = tasksOfCurrentDay[index]
+        val task = mTasksOfCurrentDay[index]
         task.status = !task.status
-        taskRepository.changeStatusTask(task)
+        taskRepository.changeTaskStatus(task)
     }
 
 }

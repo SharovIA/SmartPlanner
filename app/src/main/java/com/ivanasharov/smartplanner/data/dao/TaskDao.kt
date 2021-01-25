@@ -1,6 +1,7 @@
 package com.ivanasharov.smartplanner.data.dao
 
 import androidx.room.*
+import com.ivanasharov.smartplanner.data.IdNameStatus
 import com.ivanasharov.smartplanner.data.NameTimeImportance
 import com.ivanasharov.smartplanner.data.entity.Task
 import kotlinx.coroutines.flow.Flow
@@ -12,8 +13,11 @@ interface TaskDao {
     @Query("SELECT * FROM task")
     fun getAll(): Flow<List<Task>>
 
-    @Query("SELECT * FROM task WHERE date = :calendar")
-    fun getByDate(calendar: GregorianCalendar): Flow<List<Task>>
+/*    @Query("SELECT * FROM task WHERE date = :calendar")
+    fun getByDate(calendar: GregorianCalendar): Flow<List<Task>>*/
+
+    @Query("SELECT id, name, status FROM task WHERE date = :calendar")
+    fun getByDate(calendar: GregorianCalendar): Flow<List<IdNameStatus>>
 
     @Query("SELECT name, timeFrom, timeTo, importance FROM task WHERE date = :calendar")
     fun getByDateForSchedule(calendar: GregorianCalendar): Flow<List<NameTimeImportance>>
@@ -26,6 +30,9 @@ interface TaskDao {
 
     @Query("UPDATE task SET status = :status WHERE (name = :name AND timeFrom = :timeFrom)")
     fun updateTask(name: String?, timeFrom: GregorianCalendar?, status : Boolean): Int
+
+    @Query("UPDATE task SET status=:status WHERE id = :id")
+    fun update(id: Long, status: Boolean)
 
     @Update()
     fun update(task: Task)

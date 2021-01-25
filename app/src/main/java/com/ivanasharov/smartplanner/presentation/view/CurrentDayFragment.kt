@@ -22,6 +22,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.findNavController
+import com.ivanasharov.smartplanner.data.IdNameStatus
 import com.ivanasharov.smartplanner.databinding.CurrentDayFragmentBinding
 import com.ivanasharov.smartplanner.databinding.TaskItemBinding
 import com.ivanasharov.smartplanner.presentation.model.TaskViewModel
@@ -40,22 +41,14 @@ class CurrentDayFragment : Fragment() {
         TaskDiffCallback()
     )
 
-    private fun bindHolder(taskViewModel: TaskViewModel, holder: Holder<TaskItemBinding>) {
-        holder.binding.viewModel = taskViewModel
+    private fun bindHolder(viewModel: IdNameStatus, holder: Holder<TaskItemBinding>) {
+        holder.binding.viewModel = viewModel
         holder.binding.mainViewModel = mCurrentDayViewModel
         holder.binding.currentDayCheckBoxItem.setOnClickListener {
             mCurrentDayViewModel.changeStatus(holder.adapterPosition)
         }
         holder.binding.titleTextViewItem.setOnClickListener{
-         //   val extras =
-          //      FragmentNavigator.Extras.Builder()
-            //        .addSharedElement(holder.binding.titleTextViewItem, "nameText")
-              //      .build()
-          //  val bundle = Bundle()
-            //bundle.putLong("id", taskViewModel.id as Long)
-            findNavController().navigate(CurrentDayFragmentDirections.actionCurrentDayFragmentToShowTaskFragment(taskViewModel.id as Long))
-          //  findNavController().navigate(R.id.showTaskFragment, bundle)
-            //findNavController().navigate(CurrentDayFragmentDirections.actionCurrentDayFragmentToShowTaskFragment(taskViewModel))
+            findNavController().navigate(CurrentDayFragmentDirections.actionCurrentDayFragmentToShowTaskFragment(viewModel.id))
         }
 
     }
@@ -78,27 +71,6 @@ class CurrentDayFragment : Fragment() {
         mBinding.lifecycleOwner = viewLifecycleOwner
         mBinding.currentDayRecyclerView.adapter = mAdapter
         return mBinding.root
-
-
-
-/*        val view : View? = inflater.inflate(R.layout.current_day_fragment, container, false)
-
-       val tasksRecyclerView : RecyclerView? = view?.findViewById(R.id.currentDayRecyclerView)
-        tasksRecyclerView?.layoutManager = LinearLayoutManager(activity)
-        tasksRecyclerView?.setHasFixedSize(true)
-        val arrayList = ArrayList<TaskUI>()
-
-        var adapter = CurrentTasksAdapter(arrayList, requireContext()) {
-            mCurrentDayViewModel.changeStatus(it)
-        }
-        tasksRecyclerView?.adapter = adapter
-
-        mCurrentDayViewModel.currentTasks.observe(viewLifecycleOwner,  Observer<ArrayList<TaskUI>> {
-            adapter.addTasksArrayList(it)
-        })
-
-        tasksRecyclerView?.adapter
-        return view*/
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

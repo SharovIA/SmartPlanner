@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ivanasharov.smartplanner.R
 import com.ivanasharov.smartplanner.Utils.ResourceProvider
+import com.ivanasharov.smartplanner.data.IdNameStatus
 import com.ivanasharov.smartplanner.data.repositories.RemoteWeatherRepository
 import com.ivanasharov.smartplanner.data.repositories.RemoteWeatherRepositoryImpl
 import com.ivanasharov.smartplanner.data.server_dto.ServerWeather
@@ -29,14 +30,17 @@ class CurrentDayViewModel @ViewModelInject constructor(
 ) : BaseViewModel() {
 
     //чтобы никто не мог изменить
-    private val mTaskList = MutableLiveData<List<TaskViewModel>>()
+//    private val mTaskList = MutableLiveData<List<TaskViewModel>>()
+    private val mTaskList = MutableLiveData<List<IdNameStatus>>()
     private val mStatusOfTasks = MutableLiveData<String>()
     private val mDate = MutableLiveData<String>()
     private val mIsLoading = MutableLiveData<Boolean>(true)
     private val mHasTasks = MutableLiveData<Boolean>(false)
 
     //чтобы можно было получить данные
-    val taskList: LiveData<List<TaskViewModel>>
+/*    val taskList: LiveData<List<TaskViewModel>>
+        get() = mTaskList*/
+    val taskList: LiveData<List<IdNameStatus>>
         get() = mTaskList
     val statusOfTasks: LiveData<String>
         get() = mStatusOfTasks
@@ -84,6 +88,20 @@ class CurrentDayViewModel @ViewModelInject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             mIsLoading.postValue(true)
             mHasTasks.postValue(false)
+            currentTasksInteractor.getCurrentTasks().collect {
+                mTaskList.postValue(it)
+                mStatusOfTasks.postValue(getStatusOfTasks())
+                mDate.postValue(getDate())
+                mIsLoading.postValue(false)
+            }
+        }
+    }
+
+
+    /* private fun getData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            mIsLoading.postValue(true)
+            mHasTasks.postValue(false)
             currentTasksInteractor.getCurrentTasks().map { list ->
                 list.map {
                     it
@@ -99,7 +117,7 @@ class CurrentDayViewModel @ViewModelInject constructor(
             }
         }
     }
-
+*/
     private fun getStatusOfTasks(): String = resources.string(R.string.completed) + " " +
             "${getCountFinishedTasks()}/${getCountTasks()} " + resources.string(R.string.completedTasks)
 

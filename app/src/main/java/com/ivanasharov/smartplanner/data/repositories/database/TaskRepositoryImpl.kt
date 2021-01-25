@@ -2,6 +2,7 @@ package com.ivanasharov.smartplanner.data.repositories.database
 
 import com.ivanasharov.smartplanner.data.ConvertTaskDataToTaskDomian
 import com.ivanasharov.smartplanner.data.ConvertTaskDomainToTaskData
+import com.ivanasharov.smartplanner.data.IdNameStatus
 import com.ivanasharov.smartplanner.data.NameTimeImportance
 import com.ivanasharov.smartplanner.data.dao.TaskDao
 import com.ivanasharov.smartplanner.data.entity.Task
@@ -14,15 +15,13 @@ class TaskRepositoryImpl @Inject constructor(
     private val taskDao : TaskDao
 ) : TaskRepository {
 
-/*    override fun getListCurrentTasks(date: GregorianCalendar): Flow<ArrayList<TaskDomain>> = taskDao.getByDate(date).map{
-        ConvertTaskDataToTaskDomian().convert(it)
-    }*/
-
-    override fun getListCurrentTasks(date: GregorianCalendar): Flow<List<TaskDomain>> = taskDao.getByDate(date).map{ list ->
+/*    override fun getListCurrentTasks(date: GregorianCalendar): Flow<List<TaskDomain>> = taskDao.getByDate(date).map{ list ->
         list.map{
             ConvertTaskDataToTaskDomian().convert(it)
         }
-    }
+    }*/
+
+    override fun getListCurrentTasks(date: GregorianCalendar): Flow<List<IdNameStatus>> = taskDao.getByDate(date)
 
     override fun getListCurrentTasksForSchedule(date: GregorianCalendar): Flow<List<NameTimeImportance>> = taskDao.getByDateForSchedule(date)
 
@@ -44,6 +43,10 @@ class TaskRepositoryImpl @Inject constructor(
         val task : Task = ConvertTaskDomainToTaskData()
             .convert(taskDomain)
         taskDao.update(task)
+    }
+
+    override fun changeTaskStatus(idNameStatus: IdNameStatus) {
+        taskDao.update(idNameStatus.id, idNameStatus.status)
     }
 
     override fun getTaskById(id: Long): Flow<TaskDomain> = taskDao.getById(id).map{

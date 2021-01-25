@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ivanasharov.smartplanner.R
 import com.ivanasharov.smartplanner.Utils.ResourceProvider
+import com.ivanasharov.smartplanner.data.IdNameStatus
 import com.ivanasharov.smartplanner.domain.PlanningInteractor
 import com.ivanasharov.smartplanner.presentation.ConvertDomainToUI
 import com.ivanasharov.smartplanner.presentation.model.TaskViewModel
@@ -23,7 +24,8 @@ class PlanningViewModel  @ViewModelInject constructor(
     private val mConvert: ConvertDomainToUI
 ) : BaseViewModel() {
 
-    private val mTaskList = MutableLiveData<List<TaskViewModel>>()
+    //private val mTaskList = MutableLiveData<List<TaskViewModel>>()
+    private val mTaskList = MutableLiveData<List<IdNameStatus>>()
     private val mStatusOfTasks = MutableLiveData<String>()
     private val mDate = MutableLiveData<String>()
     private val mIsLoading = MutableLiveData<Boolean>(false)
@@ -31,7 +33,9 @@ class PlanningViewModel  @ViewModelInject constructor(
     private val mIsChooseDate = MutableLiveData<Boolean>(false)
     private val mCalendar = Calendar.getInstance()
 
-    val taskList: LiveData<List<TaskViewModel>>
+   // val taskList: LiveData<List<TaskViewModel>>
+     //   get() = mTaskList
+    val taskList: LiveData<List<IdNameStatus>>
         get() = mTaskList
     val statusOfTasks: LiveData<String>
         get() = mStatusOfTasks
@@ -59,7 +63,7 @@ class PlanningViewModel  @ViewModelInject constructor(
         mDate.value= "$nameOfDay, ${getTextValue(day)}-${getTextValue(month+1)}-${getTextValue(year)}"
     }
 
-    private fun getData(date: GregorianCalendar) {
+/*    private fun getData(date: GregorianCalendar) {
         Log.d("WE", "CX")
         viewModelScope.launch(Dispatchers.IO) {
             mIsLoading.postValue(true)
@@ -72,6 +76,18 @@ class PlanningViewModel  @ViewModelInject constructor(
                 mTaskList.postValue(it.map { taskUILoad ->
                     TaskViewModel(taskUILoad)
                 })
+                mStatusOfTasks.postValue(getStatusOfTasks())
+                mIsLoading.postValue(false)
+            }
+        }
+    }*/
+
+    private fun getData(date: GregorianCalendar) {
+        Log.d("WE", "CX")
+        viewModelScope.launch(Dispatchers.IO) {
+            mIsLoading.postValue(true)
+            mPlanningInteractor.getCurrentTasks(date).collect {
+                mTaskList.postValue(it)
                 mStatusOfTasks.postValue(getStatusOfTasks())
                 mIsLoading.postValue(false)
             }

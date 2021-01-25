@@ -1,10 +1,11 @@
 package com.ivanasharov.smartplanner.presentation.view.adapters
 
 import androidx.recyclerview.widget.DiffUtil
+import com.ivanasharov.smartplanner.data.IdNameStatus
 import com.ivanasharov.smartplanner.presentation.model.TaskViewModel
 
 
-class TaskDiffCallback: DiffUtil.ItemCallback<TaskViewModel>() {
+/*class TaskDiffCallback: DiffUtil.ItemCallback<TaskViewModel>() {
     override fun areItemsTheSame(oldItem: TaskViewModel, newItem: TaskViewModel): Boolean {
         return oldItem.name == newItem.name
     }
@@ -14,6 +15,16 @@ class TaskDiffCallback: DiffUtil.ItemCallback<TaskViewModel>() {
                 oldItem.timeFrom == newItem.timeFrom && oldItem.timeTo == newItem.timeTo &&
                 oldItem.importance == newItem.importance && oldItem.address == newItem.address &&
                 oldItem.contact == newItem.contact && oldItem.status == newItem.status
+    }
+
+}*/
+class TaskDiffCallback: DiffUtil.ItemCallback<IdNameStatus>() {
+    override fun areItemsTheSame(oldItem: IdNameStatus, newItem: IdNameStatus): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: IdNameStatus, newItem: IdNameStatus): Boolean {
+        return oldItem.name == newItem.name && oldItem.status == newItem.status
     }
 
 }

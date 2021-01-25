@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 
 import com.ivanasharov.smartplanner.R
+import com.ivanasharov.smartplanner.data.IdNameStatus
 import com.ivanasharov.smartplanner.databinding.PlanningFragmentBinding
 import com.ivanasharov.smartplanner.databinding.TaskItemBinding
 import com.ivanasharov.smartplanner.presentation.model.TaskViewModel
@@ -29,13 +30,13 @@ class PlanningFragment : Fragment() {
         TaskDiffCallback()
     )
 
-    private fun bindHolder(taskViewModel: TaskViewModel, holder: Holder<TaskItemBinding>) {
-        holder.binding.viewModel = taskViewModel
+    private fun bindHolder(viewModel: IdNameStatus, holder: Holder<TaskItemBinding>) {
+        holder.binding.viewModel = viewModel
         holder.binding.currentDayCheckBoxItem.setOnClickListener {
             mPlanningViewModel.changeStatus(holder.adapterPosition)
         }
         holder.binding.titleTextViewItem.setOnClickListener{
-            findNavController().navigate(PlanningFragmentDirections.actionPlanningFragmentToShowTaskFragment(taskViewModel.id as Long))
+            findNavController().navigate(PlanningFragmentDirections.actionPlanningFragmentToShowTaskFragment(viewModel.id))
         }
 
     }
