@@ -3,6 +3,8 @@ package com.ivanasharov.smartplanner.presentation
 import android.annotation.SuppressLint
 import com.ivanasharov.smartplanner.R
 import com.ivanasharov.smartplanner.Utils.ResourceProvider
+import com.ivanasharov.smartplanner.Utils.statuscode.WeatherStatusCode
+import com.ivanasharov.smartplanner.WeatherWithStatus
 import com.ivanasharov.smartplanner.data.model.WeatherData
 import com.ivanasharov.smartplanner.domain.TaskDomain
 import com.ivanasharov.smartplanner.presentation.model.TaskUI
@@ -29,11 +31,16 @@ class ConvertDomainToUI @Inject constructor(
         return taskUI
     }*/
 
-    fun weatherDataToWeatherDataViewModel(weather: WeatherData): WeatherDataViewModel{
+/*    fun weatherDataToWeatherDataViewModel(weather: WeatherData): WeatherDataViewModel{
         return WeatherDataViewModel(weather.namePlace, weather.description, weather.icon, getTemp(weather.temp),
         getTemp(weather.tempFeels), getPressure(weather.pressure), getHumidity(weather.humidity), getWind(weather.speedWind, weather.degWind),
         getBackGround(weather.isNight), isNight(weather.isNight))
-    }
+    }*/
+fun weatherDataToWeatherDataViewModel(weather: WeatherData): WeatherDataViewModel{
+    return WeatherDataViewModel(weather.namePlace, weather.description, weather.icon, getTemp(weather.temp),
+        getTemp(weather.tempFeels), getPressure(weather.pressure), getHumidity(weather.humidity), getWind(weather.speedWind, weather.degWind),
+        getBackGround(weather.isNight), isNight(weather.isNight))
+}
 
     private fun isNight(night: Boolean?): Boolean {
         return night != null && night

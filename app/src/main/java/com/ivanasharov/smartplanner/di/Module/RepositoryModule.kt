@@ -1,6 +1,7 @@
 package com.ivanasharov.smartplanner.di.Module
 
 import android.content.ContentResolver
+import android.content.Context
 import android.location.LocationManager
 import com.ivanasharov.smartplanner.clients.interfaces.ServerClientImpl
 import com.ivanasharov.smartplanner.data.dao.TaskDao
@@ -16,6 +17,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Singleton
 
 
@@ -46,7 +48,7 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun providesRemoteWeatherRepository(serverClient: ServerClientImpl, locationManager: LocationManager): RemoteWeatherRepository = RemoteWeatherRepositoryImpl(serverClient, locationManager)
+    fun providesRemoteWeatherRepository(serverClient: ServerClientImpl, locationManager: LocationManager, @ApplicationContext context: Context): RemoteWeatherRepository = RemoteWeatherRepositoryImpl(serverClient, locationManager, context)
 
 
 

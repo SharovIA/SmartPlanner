@@ -45,7 +45,7 @@ class ShowTaskFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mBinding: ShowTaskFragmentBinding
     private val mArguments: ShowTaskFragmentArgs by navArgs()
     private var isCorrectAddress = false
-    private var mIsCallEditFragment = false
+   // private var mIsCorrectCoordinates : Boolean? = null
 
     private var  gmap : GoogleMap? = null
 
@@ -218,11 +218,13 @@ class ShowTaskFragment : Fragment(), OnMapReadyCallback {
                         lat = it[0].latitude
                         lon = it[0].longitude
                         val latLng = LatLng(lat, lon)
+                   //     mIsCorrectCoordinates = true
                         return latLng
                     }
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
+             //   mIsCorrectCoordinates = false
             }
         }
         return null

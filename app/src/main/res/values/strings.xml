@@ -70,4 +70,14 @@
     <string name="deny">Deny</string>
     <string name="no_tasks_for_the_selected_day">There are no tasks for the selected day</string>
     <string name="there_are_no_tasks_for_today">There are no tasks for today</string>
+    <string name="server_is_temporarily_unavailable">The server is temporarily unavailable. Check your network connection.</string>
+    <string name="no_internet_connection">No internet connection. Check your network connection.</string>
+    <string name="no_show_address">The current address cannot be shown on the map. Change it.</string>
+    <string name="result_saved">saved</string>
+    <string name="result_error_saved">save error</string>
+    <string name="result_saved_and_added">saved and added to the calendar</string>
+    <string name="result_saved_but_no_added">saved, but there was an error adding to the calendar</string>
+    <string name="is_empty">is empty. </string>
+    <string name="field">Field  </string>
+    <string name="result_default_city">Received weather for the default city because your location is undefined</string>
 </resources>

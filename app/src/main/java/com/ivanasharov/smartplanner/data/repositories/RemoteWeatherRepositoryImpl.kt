@@ -1,6 +1,7 @@
 package com.ivanasharov.smartplanner.data.repositories
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -10,6 +11,9 @@ import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.ivanasharov.smartplanner.Utils.NetworkManager
+import com.ivanasharov.smartplanner.Utils.statuscode.WeatherStatusCode
+import com.ivanasharov.smartplanner.WeatherWithStatus
 import com.ivanasharov.smartplanner.clients.interfaces.ServerClient
 import com.ivanasharov.smartplanner.data.ConvertWeatherDTOtoWeatherData
 import com.ivanasharov.smartplanner.data.model.Coordinates
@@ -22,7 +26,8 @@ import javax.inject.Inject
 
 class RemoteWeatherRepositoryImpl @Inject constructor(
     private val mServerClient: ServerClient,
-    private val mLocationManager: LocationManager
+    private val mLocationManager: LocationManager,
+    private val mContext: Context
 ) : RemoteWeatherRepository {
 
 
@@ -39,7 +44,7 @@ class RemoteWeatherRepositoryImpl @Inject constructor(
            return ConvertWeatherDTOtoWeatherData().convert(serverWeather)
        }*/
 
-    override fun loadWeather(coordinates: Coordinates): Flow<WeatherData> = flow {
+/*    override fun loadWeather(coordinates: Coordinates): Flow<WeatherData> = flow {
         val language = Locale.getDefault().language
         val serverWeather = mServerClient.getCurrentWeather(
             coordinates.latitude as Double,
@@ -47,12 +52,27 @@ class RemoteWeatherRepositoryImpl @Inject constructor(
             language
         )
         emit(ConvertWeatherDTOtoWeatherData().convert(serverWeather))
+    }*/
+
+    override fun loadWeather(coordinates: Coordinates): Flow<WeatherWithStatus> = flow {
+        val language = Locale.getDefault().language
+        if (NetworkManager().isNetworkAvailable(mContext)) {
+            val serverWeather = mServerClient.getCurrentWeather(coordinates.latitude as Double,
+                coordinates.longitude as Double, language)
+
+            if(serverWeather == null){
+                emit(WeatherWithStatus(null, WeatherStatusCode.SERVER_RESPONSE_IS_EMPTY_OR_CONNECTION_BROKEN, false))
+            } else {
+                val weatherData = ConvertWeatherDTOtoWeatherData().convert(serverWeather)
+                emit(WeatherWithStatus(weatherData, WeatherStatusCode.SUCCESS, false))
+            }
+        } else{
+            val weatherWithStatus = WeatherWithStatus(null, WeatherStatusCode.NO_INTERNET_CONNECTION, false)
+            emit(weatherWithStatus)
+        }
     }
 
-    /*    override fun getCoordinaties(): Flow<Coordinates> = flow{
-            getLocation()
-            emit(mCoordinates)
-        }*/
+
     override fun getCoordinaties(): Coordinates {
         getLocation()
         return mCoordinates

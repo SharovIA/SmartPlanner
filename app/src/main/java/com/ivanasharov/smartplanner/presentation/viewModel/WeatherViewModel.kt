@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivanasharov.smartplanner.R
 import com.ivanasharov.smartplanner.Utils.ResourceProvider
+import com.ivanasharov.smartplanner.Utils.statuscode.WeatherStatusCode
 import com.ivanasharov.smartplanner.data.model.WeatherData
 import com.ivanasharov.smartplanner.data.repositories.RemoteWeatherRepository
 import com.ivanasharov.smartplanner.data.server_dto.ServerWeather
@@ -23,6 +24,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class WeatherViewModel@ViewModelInject constructor(
+    private val resources: ResourceProvider,
     private val mWeatherInteractor: WeatherInteractor,
     private val mConvertDomainToUI: ConvertDomainToUI
 ) : BaseViewModel() {
@@ -30,6 +32,9 @@ class WeatherViewModel@ViewModelInject constructor(
     //чтобы никто не мог изменить
     private val mWeather = MutableLiveData<WeatherDataViewModel>()
     private val mIsLoading = MutableLiveData<Boolean>(true)
+    private val mIsErrorLoading = MutableLiveData<Boolean>(true)
+    private val mStatus = MutableLiveData<String>("")
+    private val mIsDefaultCity = MutableLiveData<Boolean>(false)
     //чтобы можно было получить данные
     val weather: LiveData<WeatherDataViewModel>
         get() = mWeather
@@ -37,32 +42,48 @@ class WeatherViewModel@ViewModelInject constructor(
     val isLoading: LiveData<Boolean>
         get() = mIsLoading
 
-  //  init {
-  //      getData()
-  //  }
+    val isErrorLoading: LiveData<Boolean>
+        get() = mIsErrorLoading
 
-/*    private fun getData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            mIsLoading.postValue(true)
-            mWeather.postValue(WeatherDataViewModel(mRemoteWeatherRepository.getWeatherData()))
-            Log.d("test", "gfdsa")
-            mIsLoading.postValue(false)
-        }
-    }*/
+    val statusError: LiveData<String>
+        get() = mStatus
+
+    val isDefaultCity: LiveData<Boolean>
+        get() = mIsDefaultCity
 
     fun getData(permission: Boolean) {
         Log.d("WE", "NNOO")
         viewModelScope.launch(Dispatchers.IO) {
             mIsLoading.postValue(true)
             mWeatherInteractor.loadWeather(permission).map {
-                mConvertDomainToUI.weatherDataToWeatherDataViewModel(it)
+                if(it.weatherStatusCode == WeatherStatusCode.SUCCESS) {
+                    mIsDefaultCity.postValue(it.isDefault)
+                    mConvertDomainToUI.weatherDataToWeatherDataViewModel(it.weatherData as WeatherData)
+
+                }
+                else {
+                    mStatus.postValue(getMessage(it.weatherStatusCode))
+                    mIsErrorLoading.postValue(true)
+                    null
+                }
             }.collect{
-                mWeather.postValue(it)
+                if (it!=null){
+                    mWeather.postValue(it)
+                    mIsErrorLoading.postValue(false)
+                }
             }
             Log.d("test", "gfdsa")
             mIsLoading.postValue(false)
         }
         Log.d("test", "gfdsa")
+    }
+
+    private fun getMessage(code: WeatherStatusCode): String {
+        when(code){
+            WeatherStatusCode.SERVER_RESPONSE_IS_EMPTY_OR_CONNECTION_BROKEN -> return resources.string(
+                            R.string.server_is_temporarily_unavailable)
+            else -> return resources.string(R.string.no_internet_connection)
+        }
     }
 
 

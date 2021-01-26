@@ -20,4 +20,5 @@
         <color name="background_night">#191970</color>
         <color name="background_nan">#E0FFFF</color>
         <color name="night_text">#FFFF00</color>
+        <color name="error">#FA8072</color>
 </resources>

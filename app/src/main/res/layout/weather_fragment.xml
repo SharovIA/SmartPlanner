@@ -11,7 +11,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fon_add_task"
-
     tools:context=".presentation.view.WeatherFragment">
 
     <ImageView
@@ -19,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:background="@{viewModel.weather.background}"
+        android:visibility="@{viewModel.isErrorLoading() ? View.GONE : View.VISIBLE}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,6 +27,7 @@
         android:id="@+id/placeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="@{viewModel.isErrorLoading() ? View.GONE : View.VISIBLE}"
         colorText="@{viewModel.weather.isNight()}"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
@@ -42,6 +43,7 @@
         android:id="@+id/linearLayout0"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:visibility="@{viewModel.isErrorLoading() ? View.GONE : View.VISIBLE}"
         android:layout_marginStart="60dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="60dp"
@@ -86,6 +88,7 @@
         android:layout_marginTop="42dp"
         android:textSize="@dimen/text_size_title"
         android:layout_marginEnd="16dp"
+        android:visibility="@{viewModel.isErrorLoading() ? View.GONE : View.VISIBLE}"
         colorText="@{viewModel.weather.isNight}"
         android:text="@{viewModel.weather.description}"
         app:layout_constraintEnd_toEndOf="parent"
@@ -103,6 +106,7 @@
         android:textSize="@dimen/text_size_title"
         colorText="@{viewModel.weather.isNight}"
         android:text="@{viewModel.weather.tempFeels}"
+        android:visibility="@{viewModel.isErrorLoading() ? View.GONE : View.VISIBLE}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
@@ -115,6 +119,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
+        android:visibility="@{viewModel.isErrorLoading() ? View.GONE : View.VISIBLE}"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -146,6 +151,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:orientation="horizontal"
+        android:visibility="@{viewModel.isErrorLoading() ? View.GONE : View.VISIBLE}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
@@ -174,6 +180,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:orientation="horizontal"
+        android:visibility="@{viewModel.isErrorLoading() ? View.GONE : View.VISIBLE}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
@@ -194,5 +201,17 @@
             android:textSize="@dimen/text_size_title"
             android:text="@{viewModel.weather.humidity}" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/errorLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@{viewModel.statusError}"
+        android:visibility="@{viewModel.isErrorLoading() ? View.VISIBLE : View.GONE}"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

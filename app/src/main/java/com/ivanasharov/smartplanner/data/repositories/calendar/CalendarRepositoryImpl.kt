@@ -63,14 +63,8 @@ class CalendarRepositoryImpl @Inject constructor(
 
 
     override fun insert(values: ContentValues): Boolean {
-
-
-        //val calID = CalendarContract.Calendars
-        val uri0 = CalendarContract.Calendars.CONTENT_URI
         val uri = mContentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
-        val eventID = uri?.lastPathSegment?.toLong()
-        Log.d("vcxz", "ga")
-        return false
+        return uri != null
     }
 
     override fun getMapOfCalendars(): HashMap<String, Long> = mNamesAndIndexsCalendars

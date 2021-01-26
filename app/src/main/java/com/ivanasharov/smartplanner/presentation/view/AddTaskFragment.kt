@@ -9,7 +9,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,7 +46,6 @@ class AddTaskFragment : Fragment() {
     private val mArguments: AddTaskFragmentArgs by navArgs()
     private lateinit var mBinding: FragmentAddTaskBinding
     private lateinit var spinnerAdapter: ArrayAdapter<CharSequence>
-
     private var mIsInitSpinnerFinished = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,13 +73,64 @@ class AddTaskFragment : Fragment() {
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mAddTaskViewModel.isSave.observe(viewLifecycleOwner, Observer {
-            if (it) {
+        mAddTaskViewModel.resultAdded.observe(viewLifecycleOwner, Observer {
+/*            if (it) {
                 findNavController().popBackStack()
             } else {
                 Toast.makeText(requireContext(), "ERROR", Toast.LENGTH_SHORT).show()
+            }*/
+            if (mAddTaskViewModel.resultAdded.value !="")
+                Toast.makeText(requireContext(), mAddTaskViewModel.resultAdded.value, Toast.LENGTH_LONG).show()
+            if (mAddTaskViewModel.isSave.value != null && mAddTaskViewModel.isSave.value as Boolean) {
+                findNavController().popBackStack()
             }
         })
+
+        mAddTaskViewModel.mapErrors.observe(viewLifecycleOwner, Observer {
+            setErrors(it)
+
+        })
+    }
+
+    private fun setErrors(errors: MutableMap<Int, String>) {
+        var message = ""
+
+        if (mAddTaskViewModel.isFirstAttempt) {
+            for (element in errors) {
+                setColorBackground(element.key)
+                message += element.value
+            }
+            Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+            mAddTaskViewModel.isFirstAttempt = false
+        } else{
+            for (i in 0..3){
+                if(errors.containsKey(i)){
+                    setColorBackground(i)
+                    message += errors[i]
+                } else {
+                    clearBackground(i)
+                }
+            }
+            Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun clearBackground(number: Int) {
+        when (number) {
+            0 -> mBinding.nameEditText.setBackgroundResource(R.color.design_default_color_on_primary)
+            1 -> mBinding.dateTextView.setBackgroundResource(R.color.design_default_color_on_primary)
+            2 -> mBinding.time1TextView.setBackgroundResource(R.color.design_default_color_on_primary)
+            3 -> mBinding.time2TextView.setBackgroundResource(R.color.design_default_color_on_primary)
+        }
+    }
+
+    private fun setColorBackground(number: Int) {
+            when (number) {
+                0 -> mBinding.nameEditText.setBackgroundResource(R.color.error)
+                1 -> mBinding.dateTextView.setBackgroundResource(R.color.error)
+                2 -> mBinding.time1TextView.setBackgroundResource(R.color.error)
+                3 -> mBinding.time2TextView.setBackgroundResource(R.color.error)
+            }
     }
 
     private fun initListeners() {

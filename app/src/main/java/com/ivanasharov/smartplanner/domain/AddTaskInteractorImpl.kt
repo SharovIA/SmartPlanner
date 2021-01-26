@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.provider.CalendarContract
 import android.util.Log
 import com.ivanasharov.smartplanner.Contact
+import com.ivanasharov.smartplanner.Utils.statuscode.TaskStatusCode
 import com.ivanasharov.smartplanner.data.repositories.calendar.CalendarRepository
 import com.ivanasharov.smartplanner.data.repositories.contacts.ContactRepository
 import com.ivanasharov.smartplanner.data.repositories.database.TaskRepository
@@ -26,7 +27,7 @@ class AddTaskInteractorImpl @Inject constructor(
     private val mContactRepository: ContactRepository
 ) : AddTaskInteractor {
 
-    override fun execute(task: TaskDomain) {
+/*    override fun execute(task: TaskDomain) {
         //validator 1
         Log.d("test", "execute")
         //saveTask and return id      //addCalendar
@@ -39,12 +40,42 @@ class AddTaskInteractorImpl @Inject constructor(
         if (task.isAddCalendar != null && task.isAddCalendar && isSaveTask != null) {
             val isAddCalendar: Boolean = addCalendar(task)
         }
-        //validator 2
+    }*/
+    private var mIsSave : Boolean = false
+    private var mIsAddToCalendar: Boolean = false
 
-        //saveAddress
-//        val isSaveAddress: Boolean = saveAddress(task)
+override fun execute(task: TaskDomain):TaskStatusCode {
+    //validator 1
+    Log.d("test", "execute")
+    //saveTask and return id      //addCalendar
+    var isSaveTask: Long? = null
+    if (task.id == null) {
+        isSaveTask = saveTask(task)
+        mIsSave = isSaveTask != null
+    }
+    else {
+        updateTask(task)
+        mIsSave = true
+    }
 
+    if (task.isAddCalendar && isSaveTask != null) {
+        mIsAddToCalendar = addCalendar(task)
+    }
+    return getStatusCode(task.isAddCalendar)
+}
 
+    private fun getStatusCode(addCalendar: Boolean?): TaskStatusCode {
+        if (addCalendar != null && !addCalendar){
+            if (mIsSave)
+                return TaskStatusCode.SAVED
+            else
+                return TaskStatusCode.SAVE_ERROR
+        } else{
+            if(mIsAddToCalendar && mIsSave)
+                return TaskStatusCode.SAVED_AND_ADDED_TO_THE_CALENDAR
+            else
+                return TaskStatusCode.SAVED_BUT_ERROR_ADD_TO_CALENDAR
+        }
     }
 
     private fun updateTask(task: TaskDomain) {
@@ -80,9 +111,7 @@ class AddTaskInteractorImpl @Inject constructor(
                     put(CalendarContract.Events.EVENT_LOCATION, task.address)
                 put(CalendarContract.Events.EVENT_TIMEZONE, date.timeZone.id)
             }
-        val st = mCalendarRepository.insert(dataForCalendar)
-        Log.d("run", "vcxz")
-        return false
+        return mCalendarRepository.insert(dataForCalendar)
     }
 
 

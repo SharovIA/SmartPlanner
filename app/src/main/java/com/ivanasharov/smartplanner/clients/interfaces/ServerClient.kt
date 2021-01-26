@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface ServerClient {
 
-    suspend fun getCurrentWeather(lat: Double, lon: Double, language: String):ServerWeather
+    suspend fun getCurrentWeather(lat: Double, lon: Double, language: String):ServerWeather?
 }

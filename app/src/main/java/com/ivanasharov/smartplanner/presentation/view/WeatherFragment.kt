@@ -25,6 +25,7 @@ import androidx.core.content.PermissionChecker
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 
 import com.ivanasharov.smartplanner.R
@@ -272,13 +273,14 @@ class WeatherFragment : Fragment() {
         //super.onActivityResult(requestCode, resultCode, data)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-
-
+        mWeatherViewModel.isDefaultCity.observe(viewLifecycleOwner, Observer {
+            if(it)
+                Toast.makeText(requireContext(), getString(R.string.result_default_city), Toast.LENGTH_LONG).show()
+        })
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -1,5 +1,6 @@
 package com.ivanasharov.smartplanner.clients.interfaces
 
+import android.util.Log
 import com.google.gson.GsonBuilder
 import com.ivanasharov.smartplanner.data.server_dto.ServerWeather
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -26,9 +27,18 @@ class ServerClientImpl @Inject constructor(): ServerClient {
         mService = retrofit.create(ApiDefinition::class.java)
     }
 
-    override suspend fun getCurrentWeather(lat: Double, lon: Double, language: String): ServerWeather {
+/*    override suspend fun getCurrentWeather(lat: Double, lon: Double, language: String): ServerWeather {
+        Log.d("TEST", "start")
         return mService.loadDataOfWeather(lat, lon, language).await()
-        //return mService.loadDataOfWeather(56.32867, 44.00205, language).await()
+    }*/
+override suspend fun getCurrentWeather(lat: Double, lon: Double, language: String): ServerWeather? {
+    try{
+        return mService.loadDataOfWeather(lat, lon, language).await()
+    }catch (e: Exception){
+        e.printStackTrace()
+        return null
     }
+
+}
 
 }
