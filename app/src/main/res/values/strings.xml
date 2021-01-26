@@ -3,6 +3,7 @@
 
     <string name="tab_1_current_day">Current day</string>
     <string name="tab_2_daily_schedule">Daily Schedule</string>
+    <string name="ic_daily_schedule">Schedule</string>
     <string name="tab_3_planning">Planning</string>
     <string name="tab_4_weather">Weather</string>
 
@@ -43,6 +44,7 @@
     <string name="hide_map">Hide map</string>
     <string name="ed_pressure"> mm Hg</string>
 
+    <string name="feels_like">feels Like:</string>
     <string name="wind_ms_north"> m/s north</string>
     <string name="wind_ms_north_east"> m/s north-east</string>
     <string name="wind_ms_east"> m/s east</string>
@@ -79,5 +81,5 @@
     <string name="result_saved_but_no_added">saved, but there was an error adding to the calendar</string>
     <string name="is_empty">is empty. </string>
     <string name="field">Field  </string>
-    <string name="result_default_city">Received weather for the default city because your location is undefined</string>
+    <string name="result_default_city">Weather received for the last saved city because your location is undefined</string>
 </resources>

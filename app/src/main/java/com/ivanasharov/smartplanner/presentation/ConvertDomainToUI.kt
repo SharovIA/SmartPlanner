@@ -37,14 +37,16 @@ class ConvertDomainToUI @Inject constructor(
         getBackGround(weather.isNight), isNight(weather.isNight))
     }*/
 fun weatherDataToWeatherDataViewModel(weather: WeatherData): WeatherDataViewModel{
-    return WeatherDataViewModel(weather.namePlace, weather.description, weather.icon, getTemp(weather.temp),
-        getTemp(weather.tempFeels), getPressure(weather.pressure), getHumidity(weather.humidity), getWind(weather.speedWind, weather.degWind),
+    return WeatherDataViewModel(weather.namePlace, weather.description, weather.icon, getTemp(weather.temp), getFeelsLike(weather.tempFeels),
+        getPressure(weather.pressure), getHumidity(weather.humidity), getWind(weather.speedWind, weather.degWind),
         getBackGround(weather.isNight), isNight(weather.isNight))
 }
 
     private fun isNight(night: Boolean?): Boolean {
         return night != null && night
     }
+
+    private fun getFeelsLike(temp: Int): String = resources.string(R.string.feels_like) +" " + getTemp(temp)
 
     @SuppressLint("ResourceType")
     private fun getBackGround(isNight: Boolean?): Int {

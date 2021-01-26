@@ -14,11 +14,11 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.PermissionChecker
@@ -26,6 +26,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 
 import com.ivanasharov.smartplanner.R
@@ -61,6 +62,8 @@ class WeatherFragment : Fragment() {
         mBinding.viewModel = mWeatherViewModel
         mBinding.lifecycleOwner = viewLifecycleOwner
         initWeather()
+        val toolbar : Toolbar = activity?.findViewById<Toolbar>(R.id.toolbar_actionbar) as Toolbar
+        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
         return mBinding.root
     }
 
@@ -74,6 +77,23 @@ class WeatherFragment : Fragment() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.weather_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.updateWeatherMenu) {
+            initWeather()
+        }
+        return super.onOptionsItemSelected(item)
+    }
 /*    @SuppressLint("MissingPermission")
     private fun loadWeather() {
         Log.d("WE", "ok")
