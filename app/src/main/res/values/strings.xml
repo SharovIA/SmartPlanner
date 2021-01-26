@@ -82,4 +82,5 @@
     <string name="is_empty">is empty. </string>
     <string name="field">Field  </string>
     <string name="result_default_city">Weather received for the last saved city because your location is undefined</string>
+    <string name="week_undefined">Day of the week is undefined</string>
 </resources>

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/currentDayFragment"
-        android:name="com.ivanasharov.smartplanner.presentation.view.CurrentDayFragment"
+        android:name="com.ivanasharov.smartplanner.presentation.view.fragments.CurrentDayFragment"
         android:label="@string/tab_1_current_day" >
 
         <action
@@ -30,12 +30,12 @@
     </fragment>
     <fragment
         android:id="@+id/dailyScheduleFragment"
-        android:name="com.ivanasharov.smartplanner.presentation.view.DailyScheduleFragment"
+        android:name="com.ivanasharov.smartplanner.presentation.view.fragments.DailyScheduleFragment"
         android:label="@string/tab_2_daily_schedule"
         tools:layout="@layout/daily_schedule_fragment" />
     <fragment
         android:id="@+id/planningFragment"
-        android:name="com.ivanasharov.smartplanner.presentation.view.PlanningFragment"
+        android:name="com.ivanasharov.smartplanner.presentation.view.fragments.PlanningFragment"
         android:label="@string/tab_3_planning"
         tools:layout="@layout/planning_fragment" >
         <action
@@ -58,12 +58,12 @@
     </fragment>
     <fragment
         android:id="@+id/weatherFragment"
-        android:name="com.ivanasharov.smartplanner.presentation.view.WeatherFragment"
+        android:name="com.ivanasharov.smartplanner.presentation.view.fragments.WeatherFragment"
         android:label="@string/tab_4_weather"
         tools:layout="@layout/weather_fragment" />
     <fragment
         android:id="@+id/addTaskFragment"
-        android:name="com.ivanasharov.smartplanner.presentation.view.AddTaskFragment"
+        android:name="com.ivanasharov.smartplanner.presentation.view.fragments.AddTaskFragment"
         android:label="{title}">
         <argument
             android:name="idOfTask"
@@ -75,7 +75,7 @@
 
     <fragment
         android:id="@+id/showTaskFragment"
-        android:name="com.ivanasharov.smartplanner.presentation.view.ShowTaskFragment"
+        android:name="com.ivanasharov.smartplanner.presentation.view.fragments.ShowTaskFragment"
         android:label="@string/show_task">
         <argument
             android:name="idOfTask"

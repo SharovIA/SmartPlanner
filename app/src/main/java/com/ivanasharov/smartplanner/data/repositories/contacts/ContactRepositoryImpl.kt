@@ -3,7 +3,7 @@ package com.ivanasharov.smartplanner.data.repositories.contacts
 import android.content.ContentResolver
 import android.net.Uri
 import android.provider.ContactsContract
-import com.ivanasharov.smartplanner.Contact
+import com.ivanasharov.smartplanner.shared.model.Contact
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -46,9 +46,14 @@ class ContactRepositoryImpl @Inject constructor(
 
                 var phone = ""
                 if (Integer.parseInt(hasPhone) > 0) {
-                    // extract phone number
                     phone = loadPhone(id)
-                    mListContacts.add(Contact(id, name, phone))
+                    mListContacts.add(
+                        Contact(
+                            id,
+                            name,
+                            phone
+                        )
+                    )
                 }
 
             }

@@ -1,22 +1,18 @@
 package com.ivanasharov.smartplanner.presentation.viewModel
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.ivanasharov.smartplanner.Contact
 import com.ivanasharov.smartplanner.R
-import com.ivanasharov.smartplanner.Utils.ResourceProvider
-import com.ivanasharov.smartplanner.Utils.statuscode.TaskStatusCode
-import com.ivanasharov.smartplanner.Utils.validators.InputTaskValidator
-import com.ivanasharov.smartplanner.domain.AddTaskInteractor
-import com.ivanasharov.smartplanner.domain.TaskDomain
-import com.ivanasharov.smartplanner.presentation.ConvertDomainToUI
-import com.ivanasharov.smartplanner.presentation.ConvertTaskUIToTaskDomain
+import com.ivanasharov.smartplanner.utils.resources.ResourceProvider
+import com.ivanasharov.smartplanner.utils.statuscode.TaskStatusCode
+import com.ivanasharov.smartplanner.utils.validators.InputTaskValidator
+import com.ivanasharov.smartplanner.domain.interactors.interfaces.AddTaskInteractor
+import com.ivanasharov.smartplanner.presentation.converters.ConvertDomainToUI
+import com.ivanasharov.smartplanner.presentation.converters.ConvertTaskUIToTaskDomain
 import com.ivanasharov.smartplanner.presentation.model.TaskUI
-import com.ivanasharov.smartplanner.presentation.model.TaskViewModel
 import com.ivanasharov.smartplanner.presentation.viewModel.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -26,7 +22,7 @@ import java.util.*
 
 
 class AddTaskViewModel @ViewModelInject constructor(
-    private val resource: ResourceProvider,
+    private val mResources: ResourceProvider,
     private val mAddTaskInteractor: AddTaskInteractor,
     private val mConvert: ConvertTaskUIToTaskDomain,
     private val mConvertDomainToUI: ConvertDomainToUI,
@@ -128,7 +124,6 @@ class AddTaskViewModel @ViewModelInject constructor(
             val listInputErrors = mInputTaskValidator.checkInput(taskUI.name.value, taskUI.date.value,
                                 taskUI.timeFrom.value, taskUI.timeTo.value)
             if (listInputErrors.isEmpty()) {
-                //-------------------------------------------
                 mIsSave.postValue(false)
                 mIsLoading.postValue(true)
                 val taskDomain = mConvert.convert(
@@ -143,20 +138,15 @@ class AddTaskViewModel @ViewModelInject constructor(
                 mIsSave.postValue(true)
                 submitResult(result)
             } else{
-                //в вводе ошибки
                 mMapErrors.postValue(listInputErrors)
             }
         }
-
-        Log.d("test", "vm")
     }
 
     private fun submitResult(code: TaskStatusCode) = when (code){
-        TaskStatusCode.SAVED -> mResultAdded.postValue(resource.string(R.string.result_saved))
-        TaskStatusCode.SAVE_ERROR -> mResultAdded.postValue(resource.string(R.string.result_error_saved))
-        TaskStatusCode.SAVED_AND_ADDED_TO_THE_CALENDAR -> mResultAdded.postValue(resource.string(R.string.result_saved_and_added))
-        TaskStatusCode.SAVED_BUT_ERROR_ADD_TO_CALENDAR -> mResultAdded.postValue(resource.string(R.string.result_saved_but_no_added))
-
+        TaskStatusCode.SAVED -> mResultAdded.postValue(mResources.string(R.string.result_saved))
+        TaskStatusCode.SAVE_ERROR -> mResultAdded.postValue(mResources.string(R.string.result_error_saved))
+        TaskStatusCode.SAVED_AND_ADDED_TO_THE_CALENDAR -> mResultAdded.postValue(mResources.string(R.string.result_saved_and_added))
+        TaskStatusCode.SAVED_BUT_ERROR_ADD_TO_CALENDAR -> mResultAdded.postValue(mResources.string(R.string.result_saved_but_no_added))
     }
-
 }

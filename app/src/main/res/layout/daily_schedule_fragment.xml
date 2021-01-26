@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/fon_add_task"
-        tools:context=".presentation.view.DailyScheduleFragment">
+        tools:context=".presentation.view.fragments.DailyScheduleFragment">
 
 
         <TextView

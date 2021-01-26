@@ -25,10 +25,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_android_map_api_key" />
 
-        <activity android:name=".presentation.view.ShowTaskActivity" />
-        <activity android:name=".presentation.view.AddTaskActivity" />
-
-        <activity android:name=".presentation.view.SplashScreen">
+        <activity android:name=".presentation.view.activites.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,7 +33,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".presentation.view.MainActivity">
+        <activity android:name=".presentation.view.activites.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

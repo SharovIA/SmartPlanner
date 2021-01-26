@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/fon_add_task"
-        tools:context=".presentation.view.AddTaskFragment">
+        tools:context=".presentation.view.fragments.AddTaskFragment">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

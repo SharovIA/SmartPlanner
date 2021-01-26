@@ -1,30 +1,24 @@
 package com.ivanasharov.smartplanner.presentation.viewModel
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ivanasharov.smartplanner.R
-import com.ivanasharov.smartplanner.Utils.ResourceProvider
-import com.ivanasharov.smartplanner.data.IdNameStatus
-import com.ivanasharov.smartplanner.domain.PlanningInteractor
-import com.ivanasharov.smartplanner.presentation.ConvertDomainToUI
-import com.ivanasharov.smartplanner.presentation.model.TaskViewModel
+import com.ivanasharov.smartplanner.utils.resources.ResourceProvider
+import com.ivanasharov.smartplanner.data.database.requests_model.IdNameStatus
+import com.ivanasharov.smartplanner.domain.interactors.interfaces.PlanningInteractor
 import com.ivanasharov.smartplanner.presentation.viewModel.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.util.*
 
 class PlanningViewModel  @ViewModelInject constructor(
     private val mResources: ResourceProvider,
-    private val mPlanningInteractor: PlanningInteractor,
-    private val mConvert: ConvertDomainToUI
+    private val mPlanningInteractor: PlanningInteractor
 ) : BaseViewModel() {
 
-    //private val mTaskList = MutableLiveData<List<TaskViewModel>>()
     private val mTaskList = MutableLiveData<List<IdNameStatus>>()
     private val mStatusOfTasks = MutableLiveData<String>()
     private val mDate = MutableLiveData<String>()
@@ -33,8 +27,6 @@ class PlanningViewModel  @ViewModelInject constructor(
     private val mIsChooseDate = MutableLiveData<Boolean>(false)
     private val mCalendar = Calendar.getInstance()
 
-   // val taskList: LiveData<List<TaskViewModel>>
-     //   get() = mTaskList
     val taskList: LiveData<List<IdNameStatus>>
         get() = mTaskList
     val statusOfTasks: LiveData<String>
@@ -63,27 +55,7 @@ class PlanningViewModel  @ViewModelInject constructor(
         mDate.value= "$nameOfDay, ${getTextValue(day)}-${getTextValue(month+1)}-${getTextValue(year)}"
     }
 
-/*    private fun getData(date: GregorianCalendar) {
-        Log.d("WE", "CX")
-        viewModelScope.launch(Dispatchers.IO) {
-            mIsLoading.postValue(true)
-            mPlanningInteractor.getCurrentTasks(date).map { list ->
-                list.map {
-                    it
-                    mConvert.taskDomainToTaskUILoad(it)
-                }
-            }.collect {
-                mTaskList.postValue(it.map { taskUILoad ->
-                    TaskViewModel(taskUILoad)
-                })
-                mStatusOfTasks.postValue(getStatusOfTasks())
-                mIsLoading.postValue(false)
-            }
-        }
-    }*/
-
     private fun getData(date: GregorianCalendar) {
-        Log.d("WE", "CX")
         viewModelScope.launch(Dispatchers.IO) {
             mIsLoading.postValue(true)
             mPlanningInteractor.getCurrentTasks(date).collect {
@@ -123,7 +95,7 @@ class PlanningViewModel  @ViewModelInject constructor(
             5 -> return mResources.string(R.string.thursday)
             6 -> return mResources.string(R.string.friday)
             7 -> return mResources.string(R.string.saturday)
-            else -> return "Day of the week is undefined"
+            else -> return mResources.string(R.string.week_undefined)
         }
     }
 

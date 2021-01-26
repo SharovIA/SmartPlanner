@@ -1,54 +1,50 @@
 package com.ivanasharov.smartplanner.data.repositories.database
 
-import com.ivanasharov.smartplanner.data.ConvertTaskDataToTaskDomian
-import com.ivanasharov.smartplanner.data.ConvertTaskDomainToTaskData
-import com.ivanasharov.smartplanner.data.IdNameStatus
-import com.ivanasharov.smartplanner.data.NameTimeImportance
-import com.ivanasharov.smartplanner.data.dao.TaskDao
-import com.ivanasharov.smartplanner.data.entity.Task
-import com.ivanasharov.smartplanner.domain.TaskDomain
+import com.ivanasharov.smartplanner.data.converters.ConvertTaskDataToTaskDomain
+import com.ivanasharov.smartplanner.data.converters.ConvertTaskDomainToTaskData
+import com.ivanasharov.smartplanner.data.database.requests_model.IdNameStatus
+import com.ivanasharov.smartplanner.data.database.requests_model.NameTimeImportance
+import com.ivanasharov.smartplanner.data.database.dao.TaskDao
+import com.ivanasharov.smartplanner.data.database.entity.Task
+import com.ivanasharov.smartplanner.domain.model.TaskDomain
 import kotlinx.coroutines.flow.*
 import java.util.*
 import javax.inject.Inject
 
 class TaskRepositoryImpl @Inject constructor(
-    private val taskDao : TaskDao
+    private val mTaskDao : TaskDao
 ) : TaskRepository {
 
-/*    override fun getListCurrentTasks(date: GregorianCalendar): Flow<List<TaskDomain>> = taskDao.getByDate(date).map{ list ->
-        list.map{
-            ConvertTaskDataToTaskDomian().convert(it)
-        }
-    }*/
+    override fun getListCurrentTasks(date: GregorianCalendar): Flow<List<IdNameStatus>> = mTaskDao.getByDate(date)
 
-    override fun getListCurrentTasks(date: GregorianCalendar): Flow<List<IdNameStatus>> = taskDao.getByDate(date)
-
-    override fun getListCurrentTasksForSchedule(date: GregorianCalendar): Flow<List<NameTimeImportance>> = taskDao.getByDateForSchedule(date)
+    override fun getListCurrentTasksForSchedule(date: GregorianCalendar): Flow<List<NameTimeImportance>> = mTaskDao.getByDateForSchedule(date)
 
 
     override fun save(taskDomain: TaskDomain): Long? {
 
-        val task : Task = ConvertTaskDomainToTaskData().convert(taskDomain)
-        return taskDao.insert(task)
+        val task : Task = ConvertTaskDomainToTaskData()
+            .convert(taskDomain)
+        return mTaskDao.insert(task)
     }
 
     override fun changeStatusTask(taskDomain: TaskDomain) {
         val task : Task = ConvertTaskDomainToTaskData()
             .convert(taskDomain)
-        taskDao.updateTask(task.name, task.timeFrom, task.status)
+        mTaskDao.updateTask(task.name, task.timeFrom, task.status)
     }
 
     override fun updateTask(taskDomain: TaskDomain) {
         val task : Task = ConvertTaskDomainToTaskData()
             .convert(taskDomain)
-        taskDao.update(task)
+        mTaskDao.update(task)
     }
 
     override fun changeTaskStatus(idNameStatus: IdNameStatus) {
-        taskDao.update(idNameStatus.id, idNameStatus.status)
+        mTaskDao.update(idNameStatus.id, idNameStatus.status)
     }
 
-    override fun getTaskById(id: Long): Flow<TaskDomain> = taskDao.getById(id).map{
-        ConvertTaskDataToTaskDomian().convert(it)
+    override fun getTaskById(id: Long): Flow<TaskDomain> = mTaskDao.getById(id).map{
+        ConvertTaskDataToTaskDomain()
+            .convert(it)
     }
 }

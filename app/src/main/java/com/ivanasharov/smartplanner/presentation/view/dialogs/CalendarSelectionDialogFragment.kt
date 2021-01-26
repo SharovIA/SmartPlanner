@@ -18,10 +18,9 @@ class CalendarSelectionDialogFragment(
             val builder = AlertDialog.Builder(it)
             val namesOfCalendaesArray = mAddTaskViewModel.namesCalendarsList.value?.toTypedArray() as Array
             builder.setTitle(getString(R.string.selection_calendar))
-                .setItems(namesOfCalendaesArray,
-                    DialogInterface.OnClickListener { dialog, which ->
-                        mAddTaskViewModel.nameOfCalendar.value = namesOfCalendaesArray[which]
-                    })
+                .setItems(namesOfCalendaesArray) { _, which ->
+                    mAddTaskViewModel.nameOfCalendar.value = namesOfCalendaesArray[which]
+                }
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }
